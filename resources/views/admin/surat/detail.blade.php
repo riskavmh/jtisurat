@@ -27,7 +27,7 @@
               <!-- <div class="card-header">
                 <h3 class="card-title">Detail Surat</h3>
               </div> -->
-              <form action="{{ route('form.store') }}" method="POST">
+              <form action="{{ route('update', $surat->id) }}" method="POST">
               @csrf
                 <div class="card-body table-responsive p-0">
                   <table class="table text-nowrap">
@@ -82,13 +82,14 @@
                         <td>Nomor Surat</td>
                         <td>
                           <div class="row">
-                            <div class="col-3">
-                              <input type="text" name="no_surat" class="form-control" placeholder="Nomor Surat" required></td>
+                            <div class="col-2">
+                              <input type="text" name="no_surat" class="form-control" placeholder="Nomor Surat">
                             </div>
                             <div class="col-9">
                               <label>{{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}</label>
                             </div>
                           </div>
+                        </td>
                       </tr>
                       @if($j == "MK" || $j == "TA")
                       <tr>
@@ -170,12 +171,13 @@
                   <a href="{{ route('print',$surat->id) }}" class="btn btn-success" style="padding-left: 2rem; padding-right: 2rem;">Print</a>
                   @endif
                   @if($s == 1)
-                  <button type="submit" class="btn btn-success">Konfirmasi</button><hr>
+                  <button type="submit" name="action" value="confirm" class="btn btn-success">Konfirmasi</button><hr>
 
                   <!-- <form action="" method="post" class="mt-4"> -->
                     <label><strong>Alasan Surat Ditolak :</strong></label>
-                    <input type="text" name="alasan" class="form-control mb-2" maxlength="250" title="Maksimal 250 karakter" required>
-                    <a href="#!" class="btn btn-danger">Tolak</a>
+                    <input type="text" name="alasan" class="form-control mb-2" maxlength="250" title="Maksimal 250 karakter">
+                    <!-- <a href="#!" class="btn btn-danger">Tolak</a> -->
+                    <button type="submit" name="action" value="reject" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin MENOLAK surat ini?');">Tolak</button><hr>
                   <!-- </form> -->
                   @endif
 

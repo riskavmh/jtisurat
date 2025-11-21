@@ -79,10 +79,33 @@ class SuratController extends Controller
     public function update(Request $request, string $id)
     {      
         $surat = surat::findOrFail($id);
-        $surat->update([
-            'no_surat'     => Str::upper($request->no_surat),
-        ]);
-        return redirect()->previous();
+        if($request->input('action') == 'confirm') {
+            // dd($request->no_surat);
+            $request->validate([
+                'no_surat'     => 'required'
+            ]);
+            $surat->update([
+                'no_surat'     => $request->no_surat,
+                'status'       => '2'
+            ]);
+        } else if($request->input('action') == 'reject') {
+            // dd($request->alasan);
+            $request->validate([
+                'alasan'     => 'required|min:2'
+            ]);
+            $surat->update([
+                'alasan'     => $request->alasan,
+                'status'     => '4'
+            ]);
+        }
+        // return redirect()->back();
+        return redirect()->route('/');
+
+        // $surat->update([
+        //     'no_surat'     => $request->no_surat,
+        // ]);
+        // return redirect()->previous();
+        // dd($request->no_surat);
     }
 
     public function print(string $id)

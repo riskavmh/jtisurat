@@ -49,6 +49,7 @@ Route::prefix('admin')->group(function () {
     // Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 
     Route::get('/detail/{id}', [SuratController::class, 'show'])->name('detail');
+    Route::post('/update/{id}', [SuratController::class, 'update'])->name('update');
     // Route::get('/print/{id}', [SuratController::class, 'show'])->name('print');
     
     // Route::get('/detailSrt', function () {
