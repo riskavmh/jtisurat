@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 
 class SuratController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function dtDiproses()
     {
         $surat = surat::get();
@@ -36,6 +33,21 @@ class SuratController extends Controller
         $surat = surat::get();
         return view('admin.surat.dtSrtDitolak', compact(['surat']));
     }
+
+    // public function index()
+    // {
+    //     $surat = surat::get();
+    //     $status = surat::findOrFail($surat->status);
+    //     if($status == '1') {
+    //         return view('admin.surat.dtSrtDiproses', compact(['surat']));
+    //     } else if($status == '2') {
+    //         return view('admin.surat.dtSrtDiterima', compact(['surat']));
+    //     } else if($status == '3') {
+    //         return view('admin.surat.dtSrtSelesai', compact(['surat']));
+    //     } else {
+    //         return view('admin.surat.dtSrtDitolak', compact(['surat']));
+    //     }
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -61,30 +73,31 @@ class SuratController extends Controller
         $surat = surat::findOrFail($id);
         $dosen = dosen::findOrFail($surat->id_dosen);
         return view('admin.surat.detail', compact(['surat','dosen']));
+        // dd($id);
+    }
+
+    public function update(Request $request, string $id)
+    {      
+        $surat = surat::findOrFail($id);
+        $surat->update([
+            'no_surat'     => Str::upper($request->no_surat),
+        ]);
+        return redirect()->previous();
     }
 
     public function print(string $id)
     {
         $surat = surat::findOrFail($id);
         $dosen = dosen::findOrFail($surat->id_dosen);
-        return view('template-surat.MK', compact(['surat','dosen']));
+        if($surat->jenis == 'MK') {
+            return view('template-surat.MK', compact(['surat','dosen']));
+        } else if($surat->jenis == 'PK') {
+            return view('template-surat.PK', compact(['surat','dosen']));
+        } else if($surat->jenis == 'TA') {
+            return view('template-surat.TA', compact(['surat','dosen']));
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

@@ -41,14 +41,19 @@ Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.index');
     })->name('admin');
+
     Route::get('/srtproses', [SuratController::class, 'dtDiproses'])->name('srtproses');
     Route::get('/srtterima', [SuratController::class, 'dtDiterima'])->name('srtterima');
     Route::get('/srtselesai', [SuratController::class, 'dtSelesai'])->name('srtselesai');
     Route::get('/srttolak', [SuratController::class, 'dtDitolak'])->name('srttolak');
+    // Route::get('/surat', [SuratController::class, 'index'])->name('surat');
+
+    Route::get('/detail/{id}', [SuratController::class, 'show'])->name('detail');
+    // Route::get('/print/{id}', [SuratController::class, 'show'])->name('print');
     
-    Route::get('/detailSrt', function () {
-        return view('admin.surat.detail');
-    })->name('detailSrt');
+    // Route::get('/detailSrt', function () {
+    //     return view('admin.surat.detail');
+    // })->name('detailSrt');
 
     Route::resource('jenis', JenisController::class);
     Route::get('/koordinator', [KoordinatorController::class, 'index'])->name('koordinator');

@@ -56,8 +56,8 @@
                   <td>{{ $s->mitra }}</td>
                   <td>{{ $s->created_at->locale('id')->translatedFormat('d F Y, H:i') }}</td>
                   <td>
-                    <a class="btn btn-info btn-sm" href="{{ route('/') }}">Detail</a>
-                    <a href="#!" class="btn btn-success btn-sm" onclick= "konfirmasi_modal('')"> Konfirmasi</a>
+                    <a class="btn btn-info btn-sm" href="{{ route('detail', $s->id) }}">Detail</a>
+                    <a href="{{ route('print',$s->id) }}" class="btn btn-success btn-sm" style="padding-left: 1rem; padding-right: 1rem;">Print</a>
                   </td>
                 </tr>
                 @endif

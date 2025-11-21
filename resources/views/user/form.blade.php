@@ -356,7 +356,7 @@
         $("#dosen").text("Koordinator");
         $("#start").text("Tanggal Pelaksanaan");
       }
-  }
+    }
   </script>
 
   <script></script>
