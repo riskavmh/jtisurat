@@ -81,6 +81,7 @@
                       <tr>
                         <td>Nomor Surat</td>
                         <td>
+                          @if($s == 1)
                           <div class="row">
                             <div class="col-2">
                               <input type="text" name="no_surat" class="form-control" placeholder="Nomor Surat">
@@ -89,6 +90,9 @@
                               <label>{{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}</label>
                             </div>
                           </div>
+                          @else($s == 2)
+                          {{ $surat->no_surat }} / {{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}
+                          @endif
                         </td>
                       </tr>
                       @if($j == "MK" || $j == "TA")
@@ -140,7 +144,7 @@
                       <tr>
                         <td>Status Surat</td>
                         <td><span class="bg-warning pt-1 pb-1 pl-2 pr-2 rounded"><strong>
-                          {{ ($s == 1 ? "Surat diproses" : ($s == 2 ? "Surat dapat dicetak" : ($s == 3 ? "Surat selesai" : "Surat ditolak") )) }}</strong></span></td>
+                          {{ ($s == 1 ? "Surat diproses" : ($s == 2 ? "Surat selesai" : "Surat ditolak") ) }}</strong></span></td>
                       </tr>
                     </tbody>
                   </table>

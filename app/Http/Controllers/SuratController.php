@@ -18,11 +18,11 @@ class SuratController extends Controller
         $surat = surat::get();
         return view('admin.surat.dtSrtDiproses', compact(['surat']));
     }
-    public function dtDiterima()
-    {
-        $surat = surat::get();
-        return view('admin.surat.dtSrtDiterima', compact(['surat']));
-    }
+    // public function dtDiterima()
+    // {
+    //     $surat = surat::get();
+    //     return view('admin.surat.dtSrtDiterima', compact(['surat']));
+    // }
     public function dtSelesai()
     {
         $surat = surat::get();
@@ -80,13 +80,13 @@ class SuratController extends Controller
     {      
         $surat = surat::findOrFail($id);
         if($request->input('action') == 'confirm') {
-            // dd($request->no_surat);
+            // dd($request->no_surat.' / '.($surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y'));
             $request->validate([
                 'no_surat'     => 'required'
             ]);
             $surat->update([
-                'no_surat'     => $request->no_surat,
-                'status'       => '2'
+                'no_surat'     => $request->no_surat.' / '.($surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y'),
+                'status'       => 2
             ]);
         } else if($request->input('action') == 'reject') {
             // dd($request->alasan);
@@ -95,11 +95,12 @@ class SuratController extends Controller
             ]);
             $surat->update([
                 'alasan'     => $request->alasan,
-                'status'     => '4'
+                'status'     => 3
             ]);
         }
+            dd($surat->update);
         // return redirect()->back();
-        return redirect()->route('/');
+        // return redirect()->route('/');
 
         // $surat->update([
         //     'no_surat'     => $request->no_surat,

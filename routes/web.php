@@ -43,7 +43,7 @@ Route::prefix('admin')->group(function () {
     })->name('admin');
 
     Route::get('/srtproses', [SuratController::class, 'dtDiproses'])->name('srtproses');
-    Route::get('/srtterima', [SuratController::class, 'dtDiterima'])->name('srtterima');
+    // Route::get('/srtterima', [SuratController::class, 'dtDiterima'])->name('srtterima');
     Route::get('/srtselesai', [SuratController::class, 'dtSelesai'])->name('srtselesai');
     Route::get('/srttolak', [SuratController::class, 'dtDitolak'])->name('srttolak');
     // Route::get('/surat', [SuratController::class, 'index'])->name('surat');

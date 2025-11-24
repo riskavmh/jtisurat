@@ -94,12 +94,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('srtterima') }}" class="nav-link {{ request()->routeIs('srtterima') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p>Diterima<span class="badge badge-info right">137</span></p>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="{{ route('srtselesai') }}" class="nav-link {{ request()->routeIs('srtselesai') ? 'active' : '' }}">
               <i class="nav-icon far fa-circle text-success"></i>
               <p>Selesai<span class="badge badge-success right">14</span></p>
