@@ -223,7 +223,7 @@
                 <div class="row gy-4 mb-5 align-items-center">
                   <label class="col-2 col-form-label">Keterangan</label>
                   <div class="col-10">
-                    <textarea class="form-control" name="keterangan" placeholder="Tambah keterangan untuk surat anda (kosongi jika tidak perlu)" rows="3" maxlength="255"></textarea>
+                    <textarea class="form-control" name="keterangan" placeholder="Keterangan untuk admin, tidak ditampilkan pada surat (kosongi jika tidak perlu)" rows="3" maxlength="255"></textarea>
                   </div>
                 </div>
                   

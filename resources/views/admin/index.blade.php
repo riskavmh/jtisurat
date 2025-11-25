@@ -29,42 +29,32 @@
         <div class="tab-content p-0">
           <div class="row">
 
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-6 col-12">
               <div class="info-box">
                 <span class="info-box-icon bg-warning"><i class="fa fa-envelope text-white"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Surat Baru Masuk</span>
-                  <span class="info-box-number">13</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-3 col-sm-6 col-12">
-              <div class="info-box">
-                <span class="info-box-icon bg-info"><i class="fa fa-envelope"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Surat Dapat Dicetak</span>
-                  <span class="info-box-number">410</span>
+                  <span class="info-box-number">{{ $suratCounts['dtSrtDiproses'] }}</span>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-6 col-12">
               <div class="info-box">
                 <span class="info-box-icon bg-success"><i class="fa fa-envelope"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Surat Selesai</span>
-                  <span class="info-box-number">763</span>
+                  <span class="info-box-number">{{ $suratCounts['dtSrtSelesai'] }}</span>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-6 col-12">
               <div class="info-box">
                 <span class="info-box-icon bg-danger"><i class="fa fa-envelope"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Surat Ditolak</span>
-                  <span class="info-box-number">98</span>
+                  <span class="info-box-number">{{ $suratCounts['dtSrtDitolak'] }}</span>
                 </div>
               </div>
             </div>

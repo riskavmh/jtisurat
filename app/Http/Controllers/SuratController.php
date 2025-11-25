@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\surat;
-use App\Models\jenis;
 use App\Models\dosen;
 use App\Models\mahasiswa;
 use Illuminate\View\View;
-use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SuratController extends Controller
 {
-    public function dtDiproses()
+    public static function getStatusCounts()
+    {
+        $counts = surat::select('status', DB::raw('count(*) as total'))
+                       ->groupBy('status')
+                       ->pluck('total', 'status')
+                       ->toArray();
+        return [
+            'dtSrtDiproses' => $counts[1] ?? null,
+            'dtSrtSelesai' => $counts[2] ?? null,
+            'dtSrtDitolak'  => $counts[3] ?? null,
+        ];
+    }
+
+    public function dtDiproses() :View
     {
         $surat = surat::get();
         return view('admin.surat.dtSrtDiproses', compact(['surat']));
@@ -76,37 +88,28 @@ class SuratController extends Controller
         // dd($id);
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id) :RedirectResponse
     {      
         $surat = surat::findOrFail($id);
         if($request->input('action') == 'confirm') {
-            // dd($request->no_surat.' / '.($surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y'));
             $request->validate([
-                'no_surat'     => 'required'
+                'no_surat'     => 'required',
             ]);
             $surat->update([
                 'no_surat'     => $request->no_surat.' / '.($surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y'),
-                'status'       => 2
+                'status'       => 2,
             ]);
-        } else if($request->input('action') == 'reject') {
-            // dd($request->alasan);
+        } else {
             $request->validate([
-                'alasan'     => 'required|min:2'
+                'alasan'     => 'required|min:2',
             ]);
             $surat->update([
                 'alasan'     => $request->alasan,
-                'status'     => 3
+                'status'     => 3,
             ]);
         }
-            dd($surat->update);
-        // return redirect()->back();
-        // return redirect()->route('/');
-
-        // $surat->update([
-        //     'no_surat'     => $request->no_surat,
-        // ]);
-        // return redirect()->previous();
-        // dd($request->no_surat);
+        
+        return redirect()->back();
     }
 
     public function print(string $id)

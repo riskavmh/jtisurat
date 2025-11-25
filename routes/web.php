@@ -14,18 +14,6 @@ use App\Http\Controllers\MahasiswaController;
 Route::get('/', function () {
     return view('index');
 })->name('/');
-// Route::get('/pk', function () {
-    //     return view('template-surat.PK');
-    // });
-    Route::get('/ta', function () {
-        return view('template-surat.TA');
-    });
-    Route::get('/mk', function () {
-        return view('template-surat.MK');
-    });
-    Route::get('/ff', function () {
-        return view('template-surat.FF');
-    });
     
 Route::prefix('auth')->group(function () {
     Route::get('/login', [OAuthController::class, 'redirect'])->name('auth.login');
@@ -49,12 +37,8 @@ Route::prefix('admin')->group(function () {
     // Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 
     Route::get('/detail/{id}', [SuratController::class, 'show'])->name('detail');
-    Route::post('/update/{id}', [SuratController::class, 'update'])->name('update');
+    Route::patch('/update/{id}', [SuratController::class, 'update'])->name('update');
     // Route::get('/print/{id}', [SuratController::class, 'show'])->name('print');
-    
-    // Route::get('/detailSrt', function () {
-    //     return view('admin.surat.detail');
-    // })->name('detailSrt');
 
     Route::resource('jenis', JenisController::class);
     Route::get('/koordinator', [KoordinatorController::class, 'index'])->name('koordinator');

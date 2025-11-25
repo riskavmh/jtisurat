@@ -11,9 +11,10 @@ class surat extends Model
     use HasFactory, HasUuids;
     protected $table = 'surat';
     protected $fillable = [
-        'nim', 'jenis', 'dosen', 'judul',
-        'kepada', 'mitra', 'alamat',
+        'no_surat', 'nim', 'jenis', 'dosen', 'judul',
+        'mata_kuliah', 'kepada', 'mitra', 'alamat',
         'kecamatan', 'kabupaten', 'provinsi',
         'start', 'end', 'kebutuhan', 'keterangan',
+        'status', 'alasan',
     ];
 }

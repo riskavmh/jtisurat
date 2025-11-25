@@ -90,19 +90,19 @@
           <li class="nav-item">
             <a href="{{ route('srtproses') }}" class="nav-link {{ request()->routeIs('srtproses') ? 'active' : '' }}">
               <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Diproses<span class="badge badge-warning right">20</span></p>
+              <p>Diproses<span class="badge badge-warning right">{{ $suratCounts['dtSrtDiproses'] }}</span></p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('srtselesai') }}" class="nav-link {{ request()->routeIs('srtselesai') ? 'active' : '' }}">
               <i class="nav-icon far fa-circle text-success"></i>
-              <p>Selesai<span class="badge badge-success right">14</span></p>
+              <p>Selesai<span class="badge badge-success right">{{ $suratCounts['dtSrtSelesai'] }}</span></p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('srttolak') }}" class="nav-link {{ request()->routeIs('srttolak') ? 'active' : '' }}">
               <i class="nav-icon far fa-circle text-danger"></i>
-              <p>Ditolak<span class="badge badge-danger right">48</span></p>
+              <p>Ditolak<span class="badge badge-danger right">{{ $suratCounts['dtSrtDitolak'] }}</span></p>
             </a>
           </li>
         </ul>

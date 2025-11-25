@@ -37,12 +37,12 @@ class JenisController extends Controller
             'jenis'     => 'required|max:10|min:2',
             'ket'       => 'required|max:50|min:5'
         ]);
-        // jenis::create([
-        //     'jenis'     => Str::upper($request->nama),
-        //     'ket'       => Str::title($request->ket)
-        // ]);
-        // return redirect()->route('jenis.index')->with(['success' => 'Data Berhasil Ditambahkan!']);
-        var_dump(Str::upper($request->jenis),Str::title($request->ket));
+        jenis::create([
+            'jenis'     => Str::upper($request->nama),
+            'ket'       => Str::title($request->ket)
+        ]);
+        return redirect()->route('jenis.index')->with(['success' => 'Data Berhasil Ditambahkan!']);
+        // var_dump(Str::upper($request->jenis),Str::title($request->ket));
 
     }
 
@@ -74,12 +74,12 @@ class JenisController extends Controller
         ]);
         
         $jenis = jenis::findOrFail($id);
-        // jenis->update([
-            // 'nama'     => Str::upper($request->nama),
-            // 'ket'       => Str::title($request->ket)
-        // ]);
-        // return redirect()->route('jenis.index')->with('Data Berhasil Diubah!');
-        dd(Str::upper($request->nama),Str::title($request->ket));
+        $jenis->update([
+            'nama'     => Str::upper($request->nama),
+            'ket'       => Str::title($request->ket)
+        ]);
+        return redirect()->route('jenis.index')->with('Data Berhasil Diubah!');
+        // dd(Str::upper($request->nama),Str::title($request->ket));
 
     }
 
@@ -88,8 +88,8 @@ class JenisController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        // jenis::findOrFail($id)->delete();
-        // return redirect()->route('jenis.index')->with(['success' => 'Data Berhasil Dihapus']);
-        dd(jenis::findOrFail($id));
+        jenis::findOrFail($id)->delete();
+        return redirect()->route('jenis.index')->with(['success' => 'Data Berhasil Dihapus']);
+        // dd(jenis::findOrFail($id));
     }
 }

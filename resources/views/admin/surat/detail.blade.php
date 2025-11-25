@@ -28,7 +28,8 @@
                 <h3 class="card-title">Detail Surat</h3>
               </div> -->
               <form action="{{ route('update', $surat->id) }}" method="POST">
-              @csrf
+                @csrf
+                @method('PATCH')
                 <div class="card-body table-responsive p-0">
                   <table class="table text-nowrap">
                     <thead class="bg-primary">
@@ -91,7 +92,7 @@
                             </div>
                           </div>
                           @else($s == 2)
-                          {{ $surat->no_surat }} / {{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}
+                          {{ $surat->no_surat }}
                           @endif
                         </td>
                       </tr>
@@ -143,9 +144,18 @@
                       </tr>
                       <tr>
                         <td>Status Surat</td>
-                        <td><span class="bg-warning pt-1 pb-1 pl-2 pr-2 rounded"><strong>
-                          {{ ($s == 1 ? "Surat diproses" : ($s == 2 ? "Surat selesai" : "Surat ditolak") ) }}</strong></span></td>
+                        <td>
+                          <span class="{{ ($s == 1 ? 'bg-warning' : ($s == 2 ? 'bg-success' : 'bg-danger') ) }} pt-1 pb-1 pl-2 pr-2 rounded">
+                            <strong>{{ ($s == 1 ? "Surat Diproses" : ($s == 2 ? "Surat Selesai" : "Surat Ditolak") ) }}</strong>
+                          </span>
+                        </td>
                       </tr>
+                      @if($s == 3)
+                      <tr class="bg-danger">
+                        <td>Alasan Surat Ditolak</td>
+                        <td>{{ $surat->alasan }}</td>
+                      </tr>
+                      @endif
                     </tbody>
                   </table>
 

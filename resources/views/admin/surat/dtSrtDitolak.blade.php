@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title', 'Surat Masuk')
+@section('title', 'Surat Ditolak')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -12,7 +12,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Surat Diproses</h1>
+        <h1>Surat Ditolak</h1>
       </div>
       <!-- <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -31,7 +31,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Surat Masuk</h3>
+            <h3 class="card-title">Surat Ditolak</h3>
           </div>
           <div class="card-body">
             <table id="srtdiproses" class="table table-bordered">
@@ -48,7 +48,7 @@
               <tbody>
                 @php $no = 1; @endphp
                 @foreach($surat as $s)
-                @if($s->status == 1)
+                @if($s->status == 3)
                 <tr>
                   <td>{{ $no++ }}</td>
                   <td>{{ $s->nim }}</td>
