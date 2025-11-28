@@ -30,12 +30,15 @@ Route::prefix('admin')->group(function () {
         return view('admin.index');
     })->name('admin');
 
-    Route::get('/srtproses', [SuratController::class, 'dtDiproses'])->name('srtproses');
-    // Route::get('/srtterima', [SuratController::class, 'dtDiterima'])->name('srtterima');
-    Route::get('/srtselesai', [SuratController::class, 'dtSelesai'])->name('srtselesai');
-    Route::get('/srttolak', [SuratController::class, 'dtDitolak'])->name('srttolak');
-    // Route::get('/surat', [SuratController::class, 'index'])->name('surat');
-
+    Route::get('/srtproses', function () {
+        return (new SuratController())->index(1, 'dtSrtDiproses');
+    })->name('srtproses');
+    Route::get('/srtselesai', function () {
+        return (new SuratController())->index(2, 'dtSrtSelesai');
+    })->name('srtselesai');
+    Route::get('/srttolak', function () {
+        return (new SuratController())->index(3, 'dtSrtDitolak');
+    })->name('srttolak');
     Route::get('/detail/{id}', [SuratController::class, 'show'])->name('detail');
     Route::patch('/update/{id}', [SuratController::class, 'update'])->name('update');
     // Route::get('/print/{id}', [SuratController::class, 'show'])->name('print');

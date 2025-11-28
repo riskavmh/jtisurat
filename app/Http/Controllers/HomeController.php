@@ -19,8 +19,18 @@ class HomeController extends Controller
     {
         $surat = surat::get();
         $jenis = jenis::get();
-        // dd($surat);
-        return view('user.track', compact(['surat', 'jenis']));
+
+        $diproses = $surat->where('status', 1);
+        $selesai  = $surat->where('status', 2);
+        $ditolak  = $surat->where('status', 3);
+
+        return view('user.track', [
+            'surat'    => $surat,
+            'srtDiproses' => $diproses,
+            'srtSelesai'  => $selesai,
+            'srtDitolak'  => $ditolak,
+            'jenis'    => $jenis,
+        ]);
     }
 
     /**
@@ -39,32 +49,26 @@ class HomeController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'nim'       => 'required|max:9',
-            'jenis'     => 'required|max:10',
+        surat::create([
+            'nim'       => $request->nim,
+            'jenis'     => $request->jenis,
+            'dosen'     => $request->dosen,
+            'kepada'    => $request->kepada,
+            'mata_kuliah' => Str::upper($request->matkul),
+            'judul'     => $request->judul,
+            'mitra'     => $request->mitra,
+            'alamat'    => $request->alamat,
+            'kecamatan' => Str::upper($request->kecamatan),
+            'kabupaten' => Str::upper($request->kabupaten),
+            'provinsi'  => Str::upper($request->provinsi),
+            'start'     => $request->start,
+            'end'       => $request->end,
+            'kebutuhan' => $request->kebutuhan,
+            'keterangan'=> $request->keterangan,
+            'status'    => '1',
         ]);
-
-        // surat::create([
-        //     'nim'       => $request->nim,
-        //     'jenis'     => $request->jenis,
-        //     'dosen'     => $request->dosen,
-        //     'kepada'    => $request->kepada,
-        //     'mata_kuliah'=> $request->matkul,
-        //     'judul'     => $request->judul,
-        //     'mitra'     => $request->mitra,
-        //     'alamat'    => $request->alamat,
-        //     'kecamatan' => $request->kecamatan,
-        //     'kabupaten' => $request->kabupaten,
-        //     'provinsi'  => $request->provinsi,
-        //     'start'     => $request->start,
-        //     'end'       => $request->end,
-        //     'kebutuhan' => $request->kebutuhan,
-        //     'keterangan'=> $request->keterangan,
-        //     'status'    => '1',
-        // ]);
-        // return redirect()->route('track')->with(['success' => 'Surat Berhasil Diajukan!']);
-        // dd($request->form);
-        dd($request->nama);
+        return redirect()->route('track')->with(['success' => 'Surat Berhasil Diajukan!']);
+        dd($request->form);
     }
 
     /**
@@ -75,7 +79,6 @@ class HomeController extends Controller
         $surat = surat::findOrFail($id);
         $dosen = dosen::findOrFail($surat->id_dosen);
         return view('template-surat.MK', compact(['surat','dosen']));
-        // dd($id);
     }
 
     /**

@@ -25,41 +25,11 @@ class SuratController extends Controller
         ];
     }
 
-    public function dtDiproses() :View
+    public function index(int $statusId, string $viewName): View
     {
-        $surat = surat::get();
-        return view('admin.surat.dtSrtDiproses', compact(['surat']));
+        $surat = Surat::where('status', $statusId)->get();
+        return view('admin.surat.' . $viewName, compact('surat'));
     }
-    // public function dtDiterima()
-    // {
-    //     $surat = surat::get();
-    //     return view('admin.surat.dtSrtDiterima', compact(['surat']));
-    // }
-    public function dtSelesai()
-    {
-        $surat = surat::get();
-        return view('admin.surat.dtSrtSelesai', compact(['surat']));
-    }
-    public function dtDitolak()
-    {
-        $surat = surat::get();
-        return view('admin.surat.dtSrtDitolak', compact(['surat']));
-    }
-
-    // public function index()
-    // {
-    //     $surat = surat::get();
-    //     $status = surat::findOrFail($surat->status);
-    //     if($status == '1') {
-    //         return view('admin.surat.dtSrtDiproses', compact(['surat']));
-    //     } else if($status == '2') {
-    //         return view('admin.surat.dtSrtDiterima', compact(['surat']));
-    //     } else if($status == '3') {
-    //         return view('admin.surat.dtSrtSelesai', compact(['surat']));
-    //     } else {
-    //         return view('admin.surat.dtSrtDitolak', compact(['surat']));
-    //     }
-    // }
 
     /**
      * Show the form for creating a new resource.
@@ -85,7 +55,6 @@ class SuratController extends Controller
         $surat = surat::findOrFail($id);
         $dosen = dosen::findOrFail($surat->id_dosen);
         return view('admin.surat.detail', compact(['surat','dosen']));
-        // dd($id);
     }
 
     public function update(Request $request, string $id) :RedirectResponse

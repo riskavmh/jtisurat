@@ -171,7 +171,7 @@
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Nama Mitra</label>
                   <div class="col-10">
-                    <input type="text" name="mitra" class="form-control" placeholder="Cth: Pimpinan PT Mitra Keluarga (sesuaikan dengan jabatan mitra yang dituju)" maxlength="100" title="Maksimal 100 karakter" required>
+                    <input type="text" name="mitra" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="100" title="Maksimal 100 karakter" required>
                   </div>
                 </div>
 

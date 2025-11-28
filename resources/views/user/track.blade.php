@@ -99,11 +99,6 @@
 
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" data-bs-target="#diterima">
-                <h4>Diterima</h4>
-              </a>
-            </li><!-- End tab nav item -->
-            <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" data-bs-target="#selesai">
                 <h4>Selesai</h4>
               </a>
@@ -121,19 +116,21 @@
         <div class="row mb-1">
           @php use Illuminate\Support\Carbon; @endphp
           
-          @foreach ($surat as $s)
           <div class="col-lg-12 mt-5" data-aos="fade-up" data-aos-delay="100">
-            <div class="track-card">
-              <div class="tab-content">
 
-                <div class="tab-pane fade active show" id="semua">
-                  <div class="popular-badge">{{ ($s->status == 1) ? 'Surat sedang dalam tinjauan' :
-                    (($s->status == 2) ? 'Surat dapat dicetak' : (($s->status == 3) ? 'Surat selesai' : 'Surat ditolak')) }}
+            <!-- SEMUA -->
+            <div class="tab-content">
+              <div class="tab-pane fade active show" id="semua">
+              @forelse ($surat as $s)
+                <div class="track-card mb-5">
+                  <div class="popular-badge">
+                    {{ ($s->status == 1) ? 'Surat sedang ditinjau' : (($s->status == 2) ? 'Surat selesai' : 'Surat ditolak') }}
                   </div>
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        <div class="col-6 currency"><em>@foreach ($jenis as $j){{ $s->jenis == $j->nama ? $j->ket : '' }}@endforeach</em></div>
+                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
@@ -175,128 +172,12 @@
                           <td>Kebutuhan</td>
                           <td>{{ $s->kebutuhan }}</td>
                         </tr>
-                      </table>
-                      <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
-                        <div class="col-lg-8"></div>
-                        <div class="col-lg-2">@if($s->status == '2')<a href="{{ route('cetak',$s->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i> Cetak Surat</a>@endif</div>
-                        <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="tab-pane fade" id="diproses">
-                  <div class="popular-badge">{{ ($s->status == 1) ? 'Surat sedang dalam tinjauan' :
-                    (($s->status == 2) ? 'Surat dapat dicetak' : (($s->status == 3) ? 'Surat selesai' : 'Surat ditolak')) }}
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                      <div class="row price">
-                        <div class="col-6 currency"><em>@foreach ($jenis as $j){{ $s->jenis == $j->nama ? $j->ket : '' }}@endforeach</em></div>
-                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
-                      </div>
-                      <table class="table table-bordered" style="text-align: left">
-                        @if(!is_null($s->judul))
+                        @if(!is_null($s->alasan))
                         <tr>
-                          <td width="250">Judul Penelitian</td>
-                          <td>{{ $s->judul }}</td>
+                          <td style="color:red;">Alasan Ditolak</td>
+                          <td style="color:red;">{{ $s->alasan }}</td>
                         </tr>
                         @endif
-                        <tr>
-                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ $s->dosen }}</td>
-                        </tr>
-                        @if(!is_null($s->kepada))
-                        <tr>
-                          <td>Kepada</td>
-                          <td>{{ $s->kepada }}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                          <td width="250">Nama Mitra</td>
-                          <td>{{ $s->mitra }}</td>
-                        </tr>
-                        <tr>
-                          <td>Alamat Mitra</td>
-                          <td>{{ $s->alamat }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ (!is_null($s->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
-                          <td>{{ Carbon::parse($s->start)->locale('id')->translatedFormat('d F Y') }}</td>
-                        </tr>
-                        @if(!is_null($s->end))
-                        <tr>
-                          <td>Tanggal Selesai</td>
-                          <td>{{ Carbon::parse($s->end)->locale('id')->translatedFormat('d F Y') }}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                          <td>Kebutuhan</td>
-                          <td>{{ $s->kebutuhan }}</td>
-                        </tr>
-                      </table>
-                      <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
-                        <div class="col-lg-8"></div>
-                        <div class="col-lg-2">@if($s->status == '2')<a href="{{ route('cetak',$s->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i> Cetak Surat</a>@endif</div>
-                        <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="tab-pane fade" id="ditolak">
-                  <div class="popular-badge">{{ ($s->status == 1) ? 'Surat sedang dalam tinjauan' :
-                    (($s->status == 2) ? 'Surat dapat dicetak' : (($s->status == 3) ? 'Surat selesai' : 'Surat ditolak')) }}
-                  </div>
-                  <div class="row">
-                    @if(($s->status == 4)->isEmpty)
-                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                    </div>
-                    @else
-                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                      <div class="row price">
-                        <div class="col-6 currency"><em>@foreach ($jenis as $j){{ $s->jenis == $j->nama ? $j->ket : '' }}@endforeach</em></div>
-                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
-                      </div>
-                      <table class="table table-bordered" style="text-align: left">
-                        @if(!is_null($s->judul))
-                        <tr>
-                          <td width="250">Judul Penelitian</td>
-                          <td>{{ $s->judul }}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ $s->dosen }}</td>
-                        </tr>
-                        @if(!is_null($s->kepada))
-                        <tr>
-                          <td>Kepada</td>
-                          <td>{{ $s->kepada }}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                          <td width="250">Nama Mitra</td>
-                          <td>{{ $s->mitra }}</td>
-                        </tr>
-                        <tr>
-                          <td>Alamat Mitra</td>
-                          <td>{{ $s->alamat }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ (!is_null($s->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
-                          <td>{{ Carbon::parse($s->start)->locale('id')->translatedFormat('d F Y') }}</td>
-                        </tr>
-                        @if(!is_null($s->end))
-                        <tr>
-                          <td>Tanggal Selesai</td>
-                          <td>{{ Carbon::parse($s->end)->locale('id')->translatedFormat('d F Y') }}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                          <td>Kebutuhan</td>
-                          <td>{{ $s->kebutuhan }}</td>
-                        </tr>
                       </table>
                       <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
                         <div class="col-lg-8"></div>
@@ -304,14 +185,252 @@
                         <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
                       </div>
                     </div>
-                    @endif
                   </div>
                 </div>
 
+                @empty
+                <div class="track-card">
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <p><em><em>Tidak ada data surat yang ditemukan.</em></em></p>
+                    </div>
+                  </div>
+                </div>
+                @endforelse
               </div>
+
+
+              <!-- DIPROSES -->
+              <div class="tab-pane fade" id="diproses">
+                @forelse ($srtDiproses as $s)
+                <div class="track-card mb-5">
+                  <div class="popular-badge">Surat sedang ditinjau</div>
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <div class="row price">
+                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
+                      </div>
+                      <table class="table table-bordered" style="text-align: left">
+                        @if(!is_null($s->judul))
+                        <tr>
+                          <td width="250">Judul Penelitian</td>
+                          <td>{{ $s->judul }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ $s->dosen }}</td>
+                        </tr>
+                        @if(!is_null($s->kepada))
+                        <tr>
+                          <td>Kepada</td>
+                          <td>{{ $s->kepada }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td width="250">Nama Mitra</td>
+                          <td>{{ $s->mitra }}</td>
+                        </tr>
+                        <tr>
+                          <td>Alamat Mitra</td>
+                          <td>{{ $s->alamat }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ (!is_null($s->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($s->start)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @if(!is_null($s->end))
+                        <tr>
+                          <td>Tanggal Selesai</td>
+                          <td>{{ Carbon::parse($s->end)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>Kebutuhan</td>
+                          <td>{{ $s->kebutuhan }}</td>
+                        </tr>
+                      </table>
+                      <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
+                        <div class="col-lg-8"></div>
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                @empty
+                <div class="track-card">
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <p><em>Tidak ada data surat yang ditemukan.</em></p>
+                    </div>
+                  </div>
+                </div>
+                @endforelse
+              </div>
+
+
+              <!-- SELESAI -->
+              <div class="tab-pane fade" id="selesai">
+                @forelse ($srtSelesai as $s)
+                <div class="track-card mb-5">
+                  <div class="popular-badge">Surat selesai</div>
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <div class="row price">
+                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
+                      </div>
+                      <table class="table table-bordered" style="text-align: left">
+                        @if(!is_null($s->judul))
+                        <tr>
+                          <td width="250">Judul Penelitian</td>
+                          <td>{{ $s->judul }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ $s->dosen }}</td>
+                        </tr>
+                        @if(!is_null($s->kepada))
+                        <tr>
+                          <td>Kepada</td>
+                          <td>{{ $s->kepada }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td width="250">Nama Mitra</td>
+                          <td>{{ $s->mitra }}</td>
+                        </tr>
+                        <tr>
+                          <td>Alamat Mitra</td>
+                          <td>{{ $s->alamat }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ (!is_null($s->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($s->start)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @if(!is_null($s->end))
+                        <tr>
+                          <td>Tanggal Selesai</td>
+                          <td>{{ Carbon::parse($s->end)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>Kebutuhan</td>
+                          <td>{{ $s->kebutuhan }}</td>
+                        </tr>
+                      </table>
+                      <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
+                        <div class="col-lg-8"></div>
+                        <div class="col-lg-2"><a href="{{ route('print',$s->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i> Cetak Surat</a></div>
+                        <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                @empty
+                <div class="track-card">
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <p><em>Tidak ada data surat yang ditemukan.</em></p>
+                    </div>
+                  </div>
+                </div>
+                @endforelse
+              </div>
+
+
+              <!-- DITOLAK -->
+              <div class="tab-pane fade" id="ditolak">
+                @forelse ($srtDitolak as $s)
+                <div class="track-card mb-5">
+                  <div class="popular-badge">Surat ditolak</div>
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <div class="row price">
+                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
+                      </div>
+                      <table class="table table-bordered" style="text-align: left">
+                        @if(!is_null($s->judul))
+                        <tr>
+                          <td width="250">Judul Penelitian</td>
+                          <td>{{ $s->judul }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ $s->dosen }}</td>
+                        </tr>
+                        @if(!is_null($s->kepada))
+                        <tr>
+                          <td>Kepada</td>
+                          <td>{{ $s->kepada }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td width="250">Nama Mitra</td>
+                          <td>{{ $s->mitra }}</td>
+                        </tr>
+                        <tr>
+                          <td>Alamat Mitra</td>
+                          <td>{{ $s->alamat }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ (!is_null($s->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($s->start)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @if(!is_null($s->end))
+                        <tr>
+                          <td>Tanggal Selesai</td>
+                          <td>{{ Carbon::parse($s->end)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>Kebutuhan</td>
+                          <td>{{ $s->kebutuhan }}</td>
+                        </tr>
+                        <tr>
+                          <td style="color:red;">Alasan Ditolak</td>
+                          <td style="color:red;">{{ $s->alasan }}</td>
+                        </tr>
+                      </table>
+                      <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
+                        <div class="col-lg-8"></div>
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                @empty
+                <div class="track-card">
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <p><em>Tidak ada data surat yang ditemukan.</em></p>
+                    </div>
+                  </div>
+                </div>
+                @endforelse
+              </div>
+
+
+
+
+
+
+
             </div>
+
           </div>
-          @endforeach
 
         </div>
 
