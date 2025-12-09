@@ -78,6 +78,7 @@
     <section id="hero" class="hero section">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row mb-4 mt-4"></div>
 
         <div class="row align-items-center">
           <div class="col-lg-6">
@@ -110,18 +111,6 @@
           <div class="col-lg-6">
             <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
                <lottie-player class="md:w-[100%] md:h-[100%] z-0" src="assets/landing/js/Mail.json" background="transaparent" speed="0.65" loop autoplay></lottie-player>
-
-              <!-- <div class="customers-badge">
-                <div class="customer-avatars">
-                  <img src="assets/landing/img/avatar-1.webp" alt="Customer 1" class="avatar">
-                  <img src="assets/landing/img/avatar-2.webp" alt="Customer 2" class="avatar">
-                  <img src="assets/landing/img/avatar-3.webp" alt="Customer 3" class="avatar">
-                  <img src="assets/landing/img/avatar-4.webp" alt="Customer 4" class="avatar">
-                  <img src="assets/landing/img/avatar-5.webp" alt="Customer 5" class="avatar">
-                  <span class="avatar more">12+</span>
-                </div>
-                <p class="mb-0 mt-2">12,000+ lorem ipsum dolor sit amet consectetur adipiscing elit</p>
-              </div> -->
             </div>
           </div>
         </div>
@@ -140,13 +129,43 @@
 
         <div class="row content justify-content-center align-items-center position-relative">
           <div class="col-lg-8 mx-auto text-center">
-            <h2 class="display-4 mb-4">Maecenas tempus tellus eget condimentum</h2>
-            <p class="mb-4">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel</p>
-            <a href="#" class="btn btn-cta">
-            <!-- <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="btn btn-link mt-2 mt-sm-0 glightbox"> -->
-                  <i class="bi bi-play-circle me-1"></i>
-                  Play Video Tutorial
+            <h2 class="display-5 mb-4">Tutorial Penggunaan Aplikasi JTI Surat</h2>
+            <!-- <div class="row mb-4 mt-5">
+              <div class="col-lg-4">
+                <h4 class="mb-4 text-white">Ajukan Surat</h4>
+                <a href="#" class="btn btn-cta col-8">
+                  <i class="bi bi-journal-album me-1"></i> Manual Book
                 </a>
+                <a href="#" class="btn btn-cta col-8">
+                  <i class="bi bi-play-circle me-1"></i> Video Tutorial
+                </a>
+              </div>
+              <div class="col-lg-4">
+                <h4 class="mb-4 text-white">Lacak Surat</h4>
+                <a href="#" class="btn btn-cta col-8">
+                  <i class="bi bi-journal-album me-1"></i> Manual Book
+                </a>
+                <a href="#" class="btn btn-cta col-8">
+                  <i class="bi bi-play-circle me-1"></i> Video Tutorial
+                </a>
+              </div>
+              <div class="col-lg-4">
+                <h4 class="mb-4 text-white">Cetak Surat</h4>
+                <a href="#" class="btn btn-cta col-8">
+                  <i class="bi bi-journal-album me-1"></i> Manual Book
+                </a>
+                <a href="#" class="btn btn-cta col-8">
+                  <i class="bi bi-play-circle me-1"></i> Video Tutorial
+                </a>
+              </div>
+            </div> -->
+            <!-- <p class="mb-4">Berikut adalah panduan cara menggunakan aplikasi:</p> -->
+              <a href="#" class="btn btn-cta col-4 me-3 mt-4">
+                <i class="bi bi-journal-album me-1"></i> Manual Book
+              </a>
+              <a href="#" class="btn btn-cta col-4 mt-4">
+                <i class="bi bi-play-circle me-1"></i> Video Tutorial
+              </a>            
           </div>
 
           <!-- Abstract Background Elements -->
