@@ -115,14 +115,38 @@
           </div>
         </div>
 
-        <div class="row mb-4 mt-4"></div>
         <div class="row mb-5 mt-5"></div>
 
-      </div>
+        <!-- <div class="row stats-row gy-4 mt-5" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-8 col-md-6">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="bi bi-graph-up"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Tutorial Penggunaan Aplikasi JTI Surat</h3>
+                <p class="mb-0">JTI Surat Application </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="bi bi-award"></i>
+              </div>
+              <div class="stat-content">
+                <h4>6x Phasellus</h4>
+                <p class="mb-0">Vestibulum ante ipsum</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="row mb-4 mt-4"></div>
 
     </section><!-- /Hero Section -->
 
-    <!-- Call To Action Section -->
     <section id="call-to-action" class="call-to-action section">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -130,36 +154,6 @@
         <div class="row content justify-content-center align-items-center position-relative">
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="display-5 mb-4">Tutorial Penggunaan Aplikasi JTI Surat</h2>
-            <!-- <div class="row mb-4 mt-5">
-              <div class="col-lg-4">
-                <h4 class="mb-4 text-white">Ajukan Surat</h4>
-                <a href="#" class="btn btn-cta col-8">
-                  <i class="bi bi-journal-album me-1"></i> Manual Book
-                </a>
-                <a href="#" class="btn btn-cta col-8">
-                  <i class="bi bi-play-circle me-1"></i> Video Tutorial
-                </a>
-              </div>
-              <div class="col-lg-4">
-                <h4 class="mb-4 text-white">Lacak Surat</h4>
-                <a href="#" class="btn btn-cta col-8">
-                  <i class="bi bi-journal-album me-1"></i> Manual Book
-                </a>
-                <a href="#" class="btn btn-cta col-8">
-                  <i class="bi bi-play-circle me-1"></i> Video Tutorial
-                </a>
-              </div>
-              <div class="col-lg-4">
-                <h4 class="mb-4 text-white">Cetak Surat</h4>
-                <a href="#" class="btn btn-cta col-8">
-                  <i class="bi bi-journal-album me-1"></i> Manual Book
-                </a>
-                <a href="#" class="btn btn-cta col-8">
-                  <i class="bi bi-play-circle me-1"></i> Video Tutorial
-                </a>
-              </div>
-            </div> -->
-            <!-- <p class="mb-4">Berikut adalah panduan cara menggunakan aplikasi:</p> -->
               <a href="#" class="btn btn-cta col-4 me-3 mt-4">
                 <i class="bi bi-journal-album me-1"></i> Manual Book
               </a>
@@ -209,8 +203,8 @@
 
       </div>
 
-    </section><!-- /Call To Action Section -->
-
+    </section>
+    
   </main>
 
   <footer id="footer" class="footer">

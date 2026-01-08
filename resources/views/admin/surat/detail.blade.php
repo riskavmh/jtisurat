@@ -82,13 +82,19 @@
                       <tr>
                         <td>Nomor Surat</td>
                         <td>
-                          @if($s == 1)
+                          @if(($s == 1) && ($surat->kebutuhan == 'Internal'))
                           <div class="row">
                             <div class="col-2">
                               <input type="text" name="no_surat" class="form-control" placeholder="Nomor Surat">
                             </div>
                             <div class="col-9">
-                              <label>{{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}</label>
+                              <label>PL17.3.5 / PP / {{ date('Y') }}</label>
+                            </div>
+                          </div>
+                          @elseif(($s == 1) && ($surat->kebutuhan == 'Eksternal'))
+                          <div class="row">
+                            <div class="col-9">
+                              <label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; / PL17 / PP / {{ date('Y') }}</label>
                             </div>
                           </div>
                           @else($s == 2)
@@ -114,7 +120,7 @@
                       </tr>
                       <tr>
                         <td>Kepada</td>
-                        <td>{{ $surat->kepada }}</td>
+                        <td>{{ $surat->kepada ?? '-' }}</td>
                       </tr>
                       <tr>
                         <td>Nama Mitra</td>
@@ -140,7 +146,7 @@
                       </tr>
                       <tr>
                         <td>Keterangan</td>
-                        <td>{{ $surat->keterangan }}</td>
+                        <td>{{ $surat->keterangan ?? '-' }}</td>
                       </tr>
                       <tr>
                         <td>Status Surat</td>
