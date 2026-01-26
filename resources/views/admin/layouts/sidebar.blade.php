@@ -41,43 +41,13 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('jenis.index') }}" class="nav-link {{ request()->routeIs('jenis.*') ? 'active' : '' }}">
+            <a href="{{ route('type.index') }}" class="nav-link {{ request()->routeIs('type.*') ? 'active' : '' }}">
               <i class="nav-icon far fa-circle"></i>
               <p>Jenis Surat</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{ route('koordinator') }}" class="nav-link {{ request()->routeIs('koordinator') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle"></i>
-              <p>Koordinator</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('dosen') }}" class="nav-link {{ request()->routeIs('dosen') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle"></i>
-              <p>Dosen</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('adminps') }}" class="nav-link {{ request()->routeIs('adminps') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle"></i>
-              <p>Admin</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('mahasiswa') }}" class="nav-link {{ request()->routeIs('mahasiswa') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle"></i>
-              <p>Mahasiswa</p>
-            </a>
-          </li>
         </ul>
       </li>
-      <!-- <li class="nav-item">
-        <a href="{{ route('mahasiswa') }}" class="nav-link {{ request()->routeIs('mahasiswa') ? 'active' : '' }}">
-          <i class="nav-icon fas fa-users"></i>
-          <p>Mahasiswa</p>
-        </a>
-      </li> -->
       <li class="nav-item menu-open">
         <a href="#" class="nav-link">
           <i class="nav-icon fas fa-book"></i>

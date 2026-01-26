@@ -96,7 +96,7 @@
           <li><div style="height: 55px"></div></li>
         </ul>
       </nav>
-      <a class="btn-getstarted" href="{{ route('auth.login') }}">Login</a>
+      <a class="btn-getstart_dateed" href="{{ route('auth.login') }}">Login</a>
       @endauth
       
 
@@ -126,7 +126,7 @@
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                   <label class="col-2 col-form-label">Jenis Surat</label>
                   <div class="col-10">
-                    <select class="form-select select2bs4" id="jenis" name="jenis" onchange="showInput()" required>
+                    <select class="form-select select2bs4" id="type" name="type" onchange="showInput()" required>
                       <option value="">-</option>
                       @foreach ($jenis as $j)
                       <option value="{{ $j->nama }}">{{ $j->ket }}</option>
@@ -136,84 +136,84 @@
                 </div>
                 
                 <div class="row gy-4 mb-3 align-items-center">
-                  <label id="dosen" class="col-2 col-form-label">Koordinator</label>
+                  <label id="lecturer" class="col-2 col-form-label">Koordinator</label>
                   <div class="col-10">
-                  <select class="form-select select2bs4" name="dosen" required>
+                  <select class="form-select select2bs4" name="lecturer" required>
                     <option value="">-</option>
-                    @foreach ($dosen as $d)
-                    <option value="">{{ $d->NAMA_DOSEN }}</option>
+                    @foreach ($lecturers as $lecturer)
+                    <option value="{{ $lecturer['value'] }}">{{ $lecturer['label'] }}</option>
                     @endforeach
                   </select>
                   </div>
                 </div>
 
-                <div id="matkul" class="row gy-4 mb-3 align-items-center">
+                <div id="course" class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Mata Kuliah</label>
                   <div class="col-10">
-                    <input type="text" name="matkul" class="form-control" placeholder="cth: Workshop Pengembangan Aplikasi">
+                    <input type="text" name="course" class="form-control" placeholder="cth: Workshop Pengembangan Aplikasi">
                   </div>
                 </div>
 
-                <div id="judul" class="row gy-4 mb-3 align-items-center">
+                <div id="research_title" class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Judul Penelitian</label>
                   <div class="col-10">
-                    <input type="text" name="judul" class="form-control" placeholder="Judul Penelitian">
+                    <input type="text" name="research_title" class="form-control" placeholder="Judul Penelitian">
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
-                  <label for="kepada" class="col-2 col-form-label">Kepada</label>
+                  <label for="to" class="col-2 col-form-label">Kepada</label>
                   <div class="col-10">
-                    <input type="text" name="kepada" class="form-control" placeholder="Cth: Bpk. Mohammad Hatta (kosongi jika tidak perlu)" maxlength="50" title="Maksimal 50 karakter">
+                    <input type="text" name="to" class="form-control" placeholder="Cth: Bpk. Mohammad Hatta (kosongi jika tidak perlu)" maxlength="50" title="Maksimal 50 karakter">
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Nama Mitra</label>
                   <div class="col-10">
-                    <input type="text" name="mitra" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="100" title="Maksimal 100 karakter" required>
+                    <input type="text" name="company" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="100" title="Maksimal 100 karakter" required>
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Alamat</label>
                   <div class="col-10">
-                    <input type="text" name="alamat" class="form-control" placeholder="Alamat Instansi" maxlength="100" title="Maksimal 100 karakter" required>
+                    <input type="text" name="address" class="form-control" placeholder="Alamat Instansi" maxlength="100" title="Maksimal 100 karakter" required>
                   </div>
                 </div>
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label"></label>
                   <div class="row gy-2 col-10">
                     <div class="col-4">
-                      <input type="text" name="kec" class="form-control" placeholder="Kecamatan" maxlength="50" title="Maksimal 50 karakter" required>
+                      <input type="text" name="subdistrict" class="form-control" placeholder="Kecamatan" maxlength="50" title="Maksimal 50 karakter" required>
                     </div>
                     <div class="col-4">
-                      <input type="text" name="kab" class="form-control" placeholder="Kabupaten" maxlength="50" title="Maksimal 50 karakter" required>
+                      <input type="text" name="regency" class="form-control" placeholder="Kabupaten" maxlength="50" title="Maksimal 50 karakter" required>
                     </div>
                     <div class="col-4">
-                      <input type="text" name="prov" class="form-control" placeholder="Provinsi" maxlength="50" title="Maksimal 50 karakter" required>
+                      <input type="text" name="province" class="form-control" placeholder="Provinsi" maxlength="50" title="Maksimal 50 karakter" required>
                     </div>
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
-                  <label id="start" class="col-2 col-form-label">Tanggal Mulai</label>
+                  <label id="start_date" class="col-2 col-form-label">Tanggal Mulai</label>
                   <div class="col-10">
-                    <input type="date" name="start" class="form-control text-placeholder set-min-date" onchange="this.className = this.value ? 'form-control' : 'form-control text-placeholder'">
+                    <input type="date" name="start_date" class="form-control text-placeholder set-min-date" onchange="this.className = this.value ? 'form-control' : 'form-control text-placeholder'">
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center" id="end_date">
-                  <label id="end" class="col-2 col-form-label">Tanggal Selesai</label>
+                  <label class="col-2 col-form-label">Tanggal Selesai</label>
                   <div class="col-10">
-                    <input type="date" name="end" class="form-control text-placeholder set-min-date" onchange="this.className = this.value ? 'form-control' : 'form-control text-placeholder'">
+                    <input type="date" name="end_date" class="form-control text-placeholder set-min-date" onchange="this.className = this.value ? 'form-control' : 'form-control text-placeholder'">
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Kebutuhan</label>
                   <div class="col-10">
-                    <select class="form-select" name="kebutuhan" required>
+                    <select class="form-select" name="necessity" required>
                         <option value="Eksternal">Eksternal (Dilaksanakan di luar kampus)</option>
                         <option value="Internal">Internal (Dilaksanakan di dalam kampus)</option>
                     </select>
@@ -223,37 +223,37 @@
                 <div class="row gy-4 mb-5 align-items-center">
                   <label class="col-2 col-form-label">Keterangan</label>
                   <div class="col-10">
-                    <textarea class="form-control" name="keterangan" placeholder="Keterangan untuk admin, tidak ditampilkan pada surat (kosongi jika tidak perlu)" rows="3" maxlength="255"></textarea>
+                    <textarea class="form-control" name="note" placeholder="Keterangan untuk admin, tidak ditampilkan pada surat (kosongi jika tidak perlu)" rows="3" maxlength="255"></textarea>
                   </div>
                 </div>
                   
                   <h6 class="mb-3"><strong>Data Anggota Kelompok</strong></h6>
-
+                  
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">NIM</label>
                     <div class="col-10">
-                      <input type="text" value="E31192024" name="nim" class="form-control" readonly>
+                      <input type="text" value="{{ $students['nim'] }}" name="nim" class="form-control" readonly>
                     </div>
                   </div>
 
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">Nama Lengkap</label>
                     <div class="col-10">
-                      <input type="text" value="" name="nama" class="form-control" readonly>
+                      <input type="text" value="{{ $students['name'] }}" name="name" class="form-control" readonly>
                     </div>
                   </div>
 
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">Program Studi</label>
                     <div class="col-10">
-                      <input type="text" value="Manajemen Informatika" name="prodi" class="form-control" readonly>
+                      <input type="text" value="{{ $students['study_program']['name'] }}" name="study_program" class="form-control" readonly>
                     </div>
                   </div>
 
                   <div class="row gy-4 mb-5 d-flex align-items-center">
                     <label class="col-2 col-form-label">No. Telp</label>
                     <div class="col-10">
-                      <input type="text" value="082335344634" name="telp" class="form-control" readonly>
+                      <input type="text" value="-" name="phone_number" class="form-control" readonly>
                     </div>
                   </div>
 
@@ -265,7 +265,6 @@
                   <div class="col-12 text-center mt-5 mb-0">
                     <button type="submit" class="btn">Ajukan Surat</button>
                   </div>
-                
                 
               </form>
 
@@ -327,34 +326,34 @@
 
   <script>
     function showInput() {
-      const jenis = document.getElementById('jenis').value;
+      const type = document.getElementById('type').value;
 
-      const judul = document.getElementById('judul');
+      const research_title = document.getElementById('research_title');
       const endDate = document.getElementById('end_date');
 
-      const dosen = document.getElementById('dosen');
-      const start = document.getElementById('start');
+      const lecturer = document.getElementById('lecturer');
+      const start_date = document.getElementById('start_date');
 
-      if(jenis == "MK"){
-        $("#judul").show();
-        $("#matkul").show();
+      if(type == "MK"){
+        $("#research_title").show();
+        $("#course").show();
         $("#end_date").hide();
-        $("#dosen").text("Dosen");
-        $("#start").text("Tanggal Pelaksanaan");
+        $("#lecturer").text("Dosen");
+        $("#start_date").text("Tanggal Pelaksanaan");
       }
-      else if (jenis == "PK") {
-        $("#judul").hide();
-        $("#matkul").hide();
+      else if (type == "PK") {
+        $("#research_title").hide();
+        $("#course").hide();
         $("#end_date").show();
-        $("#dosen").text("Koordinator");
-        $("#start").text("Tanggal Mulai");
+        $("#lecturer").text("Koordinator");
+        $("#start_date").text("Tanggal Mulai");
       }
-      else if (jenis == "TA") {
-        $("#judul").show();
-        $("#matkul").hide();
+      else if (type == "TA") {
+        $("#research_title").show();
+        $("#course").hide();
         $("#end_date").hide();
-        $("#dosen").text("Koordinator");
-        $("#start").text("Tanggal Pelaksanaan");
+        $("#lecturer").text("Koordinator");
+        $("#start_date").text("Tanggal Pelaksanaan");
       }
     }
   </script>

@@ -2,42 +2,40 @@
 
 namespace Database\Seeders;
 
-use App\Models\jenis;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-class JenisSeeder extends Seeder
+class LetterTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('jenis')->insert([
+        DB::table('letter_type')->insert([
             [
                 'id' => Str::uuid(),
-                'nama' => 'TA',
-                'ket' => 'Survey Tugas Akhir',
+                'abbr' => 'TA',
+                'expan' => 'Survey Tugas Akhir',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => Str::uuid(),
-                'nama' => 'PK',
-                'ket' => 'Praktek Kerja Lapang',
+                'abbr' => 'PK',
+                'expan' => 'Praktek Kerja Lapang',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => Str::uuid(),
-                'nama' => 'MK',
-                'ket' => 'Mata Kuliah',
+                'abbr' => 'MK',
+                'expan' => 'Mata Kuliah',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
-
     }
 }

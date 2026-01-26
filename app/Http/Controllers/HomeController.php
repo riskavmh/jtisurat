@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\surat;
 use App\Models\jenis;
 use App\Models\dosen;
-use Illuminate\View\View;
+use App\Helpers\AuthHelper;
+use App\Helpers\LecturerHelper;
+use App\Helpers\StudentHelper;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,11 +39,27 @@ class HomeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(Request $request)
     {
-        $jenis = jenis::get();
-        $dosen = dosen::get();
-        return view('user.form', compact('jenis', 'dosen'));
+        $authID     = Auth::user()->external_id;
+        $token      = $request->user()->token;
+        $majorId    = '019a4723-1d2f-733b-b9ff-25c2e27440c2';
+        $position   = 'DOSEN';
+
+        $responseLecturers  = LecturerHelper::getLecturer($token, $position, $majorId);
+        $data['lecturers']  = $responseLecturers['data'] ?? [];
+        $lecturers   = collect($data['lecturers'])->sort()->toArray();
+        
+        $responseStudents   = StudentHelper::getStudents($token, $majorId);
+        $data['students']   = $responseStudents['data'] ?? [];
+        $students   = collect($data['students'])->firstWhere('user_id', $authID);
+
+        dd($lecturers);
+        // dd($students);
+
+        $jenis      = jenis::get();
+        // $dosen      = dosen::get();
+        return view('user.form', compact('jenis', 'lecturers', 'students'));
         // return view('user.free-form', compact('jenis', 'dosen'));
     }
 

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class jenis extends Model
+class LetterType extends Model
 {
     use HasFactory, HasUuids;
-    protected $table = 'jenis';
+    protected $table = 'letter_type';
     protected $fillable = [
-        'nama', 'ket',
+        'abbr', 'expan',
     ];
 }

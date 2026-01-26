@@ -19,7 +19,7 @@ class OAuthController extends Controller
 
   public function callback(Request $request)
   {
-    $response = Http::asForm()->post(config('app.super_app_url') . '/oauth/token', [
+    $response = Http::asForm()->post(config('app.super_app_url_internal') . '/oauth/token', [
       'grant_type' => 'authorization_code',
       'client_id' => env('OAUTH_CLIENT_ID'),
       'client_secret' => env('OAUTH_CLIENT_SECRET'),
@@ -57,7 +57,14 @@ class OAuthController extends Controller
 
     Auth::login($user);
 
-    return redirect()->route('/');
+    $roles = implode($data['data']['user']['roles']);
+    // dd($data['data']['user']['roles']);
+
+    if($roles == 'student'){
+        return redirect()->route('/');
+    } else if($roles == 'admin'){
+        return redirect()->route('admin');
+    }
   }
 
   public function logout(Request $request)

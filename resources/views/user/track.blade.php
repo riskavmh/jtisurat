@@ -129,7 +129,7 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        @php $j = $type->firstWhere('nama', $s->type); @endphp
                         <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
                       </div>
@@ -141,7 +141,7 @@
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ ($s->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
                           <td>{{ $s->dosen }}</td>
                         </tr>
                         @if(!is_null($s->kepada))
@@ -208,7 +208,7 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        @php $j = $type->firstWhere('nama', $s->type); @endphp
                         <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
                       </div>
@@ -220,7 +220,7 @@
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ ($s->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
                           <td>{{ $s->dosen }}</td>
                         </tr>
                         @if(!is_null($s->kepada))
@@ -281,7 +281,7 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        @php $j = $type->firstWhere('nama', $s->type); @endphp
                         <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
                       </div>
@@ -293,7 +293,7 @@
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ ($s->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
                           <td>{{ $s->dosen }}</td>
                         </tr>
                         @if(!is_null($s->kepada))
@@ -354,7 +354,7 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $j = $jenis->firstWhere('nama', $s->jenis); @endphp
+                        @php $j = $type->firstWhere('nama', $s->type); @endphp
                         <div class="col-6 currency"><em>{{ $j ? $j->ket : '' }}</em></div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $s->created_at }}</div>
                       </div>
@@ -366,7 +366,7 @@
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($s->jenis == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ ($s->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
                           <td>{{ $s->dosen }}</td>
                         </tr>
                         @if(!is_null($s->kepada))

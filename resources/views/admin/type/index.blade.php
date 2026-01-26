@@ -50,14 +50,14 @@
               </thead>
               <tbody>
                 @php $no = 1; @endphp
-                @foreach($jenis as $j)
+                @foreach($type as $t)
                 <tr>
                   <td>{{ $no++ }}</td>
-                  <td>{{ $j->nama }}</td>
-                  <td>{{ $j->ket }}</td>
+                  <td>{{ $t->abbr }}</td>
+                  <td>{{ $t->expan }}</td>
                   <td>
-                    <a href="{{ route('jenis.edit', $j->id) }}" class="btn btn-warning btn-sm mr-1">Edit</a>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-delete" data-id="{{ $j->id }}">Hapus</button>
+                    <a href="{{ route('type.edit', $t->id) }}" class="btn btn-warning btn-sm mr-1">Edit</a>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-delete" data-id="{{ $t->id }}">Hapus</button>
                   </td>
                 </tr>
                 @endforeach
@@ -112,7 +112,7 @@ $(function () {
             var headerWrapper = $('#dt_wrapper').find('.row').first();
             var filterDiv = $('#dt_filter').detach();
             var buttonsDiv = $('<div class="dt-buttons"></div>').prependTo(headerWrapper.children('.col-md-6').first());
-            buttonsDiv.append(`<a href="{{ route('jenis.create') }}" class="btn btn-primary">Tambah Data</a>`);
+            buttonsDiv.append(`<a href="{{ route('type.create') }}" class="btn btn-primary">Tambah Data</a>`);
             headerWrapper.addClass('d-flex justify-content-between align-items-center');
             headerWrapper.children('.col-md-6').last().append(filterDiv);
         }
@@ -125,7 +125,7 @@ $(function () {
         var button = $(event.relatedTarget);
         var id = button.data('id');
         var form = $(this).find('#form-delete');
-        var action = `{{ route('jenis.destroy', ':id') }}`;
+        var action = `{{ route('type.destroy', ':id') }}`;
         action = action.replace(':id', id);
         form.attr('action', action);
     });

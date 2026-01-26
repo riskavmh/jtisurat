@@ -27,18 +27,18 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <form action="{{ route('jenis.update', $jenis->id) }}" method="POST">
+        <form action="{{ route('type.update', $type->id) }}" method="POST">
           @csrf
           @method('PUT')
           <div class="form-group">
-            <label for="jenis">Jenis Surat</label>
-            <input type="text" name="nama" class="form-control form-control-border border-width-2" minlength="2" maxlength="10" value="{{ old('jenis', $jenis->nama) }}" required>
+            <label for="type">Jenis Surat</label>
+            <input type="text" name="abbr" class="form-control form-control-border border-width-2" minlength="2" maxlength="5" value="{{ old('abbr', $type->abbr) }}" required>
           </div>
           <div class="form-group mb-5">
             <label for="ket">Keterangan</label>
-            <input type="text" name="ket" class="form-control form-control-border border-width-2" minlength="5" maxlength="50" value="{{ old('ket', $jenis->ket) }}" required>
+            <input type="text" name="expan" class="form-control form-control-border border-width-2" minlength="5" maxlength="100" value="{{ old('expan', $type->expan) }}" required>
           </div>
-          <a class="btn btn-info mr-2" href="{{ route('jenis.index') }}">Kembali</a>
+          <a class="btn btn-info mr-2" href="{{ route('type.index') }}">Kembali</a>
           <button type="reset" class="btn btn-warning text-white mr-2">Reset</button>
           <button type="submit" class="btn btn-success">Simpan</button>
         </form>

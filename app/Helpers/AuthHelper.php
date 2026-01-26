@@ -4,6 +4,8 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class AuthHelper
 {
@@ -26,9 +28,8 @@ class AuthHelper
             if($response->status() === 401) {
                 Redis::del($cacheKey);
                 Auth::logout();
-                session()->invalidate();
+                Session::invalidate();
             }
-
             return null;
         }
 
