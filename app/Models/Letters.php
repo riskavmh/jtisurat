@@ -11,9 +11,10 @@ class Letters extends Model
     use HasFactory, HasUuids;
     protected $table = 'letters';
     protected $fillable = [
-            'user_id',
+            'ref_no',
+            'nim',
             'type',
-            'lecturer',
+            'lecturer_id',
             'course',
             'research_title',
             'to',
@@ -26,6 +27,12 @@ class Letters extends Model
             'end_date',
             'necessity',
             'note',
+            'excuses',
             'status',
     ];
+
+    public function members()
+    {
+        return $this->hasMany(LetterMembers::class);
+    }
 }

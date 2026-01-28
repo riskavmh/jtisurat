@@ -33,10 +33,12 @@ class AuthHelper
             return null;
         }
 
-        $data = $response->json()['data'] ?? null;
+        $data = $response->json() ?? null;
         if($data) {
             Redis::setex($cacheKey, $ttl, json_encode($data));
         }
+
+        // dd($data);
 
         return $data;
     }

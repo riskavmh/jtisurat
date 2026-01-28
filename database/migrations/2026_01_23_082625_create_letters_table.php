@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('ref_no')->nullable();
             $table->string('nim', 9);
             $table->string('type', 10);
-            $table->string('lecturer');
+            $table->string('lecturer_id');
             $table->string('course', 255)->nullable();
             $table->string('research_title', 200)->nullable();
             $table->string('to', 100)->nullable();
@@ -29,8 +29,14 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->string('necessity', 10);
             $table->string('note')->nullable();
+            $table->string('excuses')->nullable();
             $table->integer('status', 1);
             $table->timestamps();
+
+            $table->foreign('lecturer_id')
+                ->references('id')
+                ->on('lecturers')
+                ->onDelete('cascade');
         });
     }
 

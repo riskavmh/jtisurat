@@ -58,7 +58,7 @@ class OAuthController extends Controller
     Auth::login($user);
 
     $roles = implode($data['data']['user']['roles']);
-    // dd($data['data']['user']['roles']);
+    // dd($data);
 
     if($roles == 'student'){
         return redirect()->route('/');

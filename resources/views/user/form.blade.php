@@ -128,8 +128,8 @@
                   <div class="col-10">
                     <select class="form-select select2bs4" id="type" name="type" onchange="showInput()" required>
                       <option value="">-</option>
-                      @foreach ($jenis as $j)
-                      <option value="{{ $j->nama }}">{{ $j->ket }}</option>
+                      @foreach ($type as $t)
+                      <option value="{{ $t->abbr }}">{{ $t->expan }}</option>
                       @endforeach
                     </select>
                   </div>
@@ -232,28 +232,28 @@
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">NIM</label>
                     <div class="col-10">
-                      <input type="text" value="{{ $students['nim'] }}" name="nim" class="form-control" readonly>
+                      <input type="text" value="{{ $get_me['student_detail']['nim'] }}" name="nim" class="form-control" readonly>
                     </div>
                   </div>
 
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">Nama Lengkap</label>
                     <div class="col-10">
-                      <input type="text" value="{{ $students['name'] }}" name="name" class="form-control" readonly>
+                      <input type="text" value="{{ $get_me['name'] }}" name="name" class="form-control" readonly>
                     </div>
                   </div>
 
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">Program Studi</label>
                     <div class="col-10">
-                      <input type="text" value="{{ $students['study_program']['name'] }}" name="study_program" class="form-control" readonly>
+                      <input type="text" value="{{ $get_me['student_detail']['study_program_name'] }}" name="study_program" class="form-control" readonly>
                     </div>
                   </div>
 
                   <div class="row gy-4 mb-5 d-flex align-items-center">
                     <label class="col-2 col-form-label">No. Telp</label>
                     <div class="col-10">
-                      <input type="text" value="-" name="phone_number" class="form-control" readonly>
+                      <input type="text" value="{{ $get_me['phone_number'] }}" name="phone_number" class="form-control" readonly>
                     </div>
                   </div>
 
