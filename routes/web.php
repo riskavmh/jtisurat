@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LettersController;
+use App\Http\Controllers\LetterController;
 use App\Http\Controllers\LetterTypeController;
 use App\Http\Controllers\Auth\OAuthController;
 
@@ -23,10 +22,10 @@ Route::get('/login', function () {
 })->name('login')->middleware('guest');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/form', [LettersController::class, 'create'])->name('form');
-    Route::get('/track', [LettersController::class, 'track'])->name('track');
-    Route::post('/form/store', [LettersController::class, 'store'])->name('form.store');
-    Route::get('/print/{id}', [LettersController::class, 'show'])->name('print');
+    Route::get('/form', [LetterController::class, 'create'])->name('form');
+    Route::get('/track', [LetterController::class, 'track'])->name('track');
+    Route::post('/form/store', [LetterController::class, 'store'])->name('form.store');
+    Route::get('/print/{id}', [LetterController::class, 'show'])->name('print');
 
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
@@ -34,17 +33,17 @@ Route::middleware('auth')->group(function () {
         })->name('admin');
     
         Route::get('/srtproses', function () {
-            return (new LettersController())->index(1, 'dtSrtDiproses');
+            return (new LetterController())->index(1, 'dtSrtDiproses');
         })->name('srtproses');
         Route::get('/srtselesai', function () {
-            return (new LettersController())->index(2, 'dtSrtSelesai');
+            return (new LetterController())->index(2, 'dtSrtSelesai');
         })->name('srtselesai');
         Route::get('/srttolak', function () {
-            return (new LettersController())->index(3, 'dtSrtDitolak');
+            return (new LetterController())->index(3, 'dtSrtDitolak');
         })->name('srttolak');
-        Route::get('/detail/{id}', [LettersController::class, 'show'])->name('detail');
-        Route::patch('/update/{id}', [LettersController::class, 'update'])->name('update');
-        // Route::get('/print/{id}', [LettersController::class, 'show'])->name('print');
+        Route::get('/detail/{id}', [LetterController::class, 'show'])->name('detail');
+        Route::patch('/update/{id}', [LetterController::class, 'update'])->name('update');
+        // Route::get('/print/{id}', [LetterController::class, 'show'])->name('print');
     
         Route::resource('type', LetterTypeController::class);
     });

@@ -232,7 +232,7 @@
                   <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">NIM</label>
                     <div class="col-10">
-                      <input type="text" value="{{ $get_me['student_detail']['nim'] }}" name="nim" class="form-control" readonly>
+                      <input type="text" value="{{ $get_me['user_id'] }}" name="user_id" class="form-control" readonly>
                     </div>
                   </div>
 

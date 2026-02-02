@@ -142,7 +142,7 @@
                         @endif
                         <tr>
                           <td>{{ ($l->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer); }}</td>
+                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id); }}</td>
                         </tr>
                         @if(!is_null($l->to))
                         <tr>

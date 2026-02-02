@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Letters extends Model
+class Letter extends Model
 {
     use HasFactory, HasUuids;
     protected $table = 'letters';
     protected $fillable = [
             'ref_no',
-            'nim',
+            'user_id',
             'type',
             'lecturer_id',
             'course',
@@ -33,6 +33,6 @@ class Letters extends Model
 
     public function members()
     {
-        return $this->hasMany(LetterMembers::class);
+        return $this->hasMany(LetterMember::class);
     }
 }

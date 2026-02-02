@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Letters;
+use App\Models\Letter;
 use App\Models\dosen;
 use App\Models\LetterType;
 use App\Helpers\LecturerHelper;
@@ -15,7 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class LettersController extends Controller
+class LetterController extends Controller
 {
 
     private function getBaseData(Request $request)
@@ -26,7 +26,7 @@ class LettersController extends Controller
 
         return [
             'authID'    => Auth::user()->external_id,
-            'letters'   => Letters::get(),
+            'letters'   => Letter::get(),
             'type'      => LetterType::get(),
             'get_me'    => AuthHelper::getMe($token) ?? [],
             'lecturers' => collect(LecturerHelper::getLecturer($token, $position, $majorId))->sortBy('label')->values()->all() ?? []
@@ -35,7 +35,7 @@ class LettersController extends Controller
 
     public static function getStatusCounts()
     {
-        $counts = Letters::select('status', DB::raw('count(*) as total'))
+        $counts = Letter::select('status', DB::raw('count(*) as total'))
                        ->groupBy('status')
                        ->pluck('total', 'status')
                        ->toArray();
@@ -48,13 +48,13 @@ class LettersController extends Controller
 
     public function index(int $statusId, string $viewName): View
     {
-        $letters = Letters::where('status', $statusId)->get();
+        $letters = Letter::where('status', $statusId)->get();
         return view('admin.surat.' . $viewName, compact('surat'));
     }
 
     public function track(Request $request)
     {
-        // $letters = Letters::get();
+        // $letters = Letter::get();
         // $type = LetterType::get();
 
         $data = $this->getBaseData($request);
@@ -105,11 +105,11 @@ class LettersController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        Letters::create([
+        Letter::create([
             'ref_no'    => null,
-            'nim'       => $request->nim,
+            'user_id'   => $request->user_id,
             'type'      => $request->type,
-            'lecturer'  => $request->lecturer,
+            'lecturer'  => $request->lecturer_id,
             'research_title'=> $request->research_title ?? null,
             'to'        => $request->to ?? null,
             'course'    => Str::upper($request->course) ?? null,
@@ -125,7 +125,7 @@ class LettersController extends Controller
             'excuses'   => null,
             'status'    => '1',
         ]);
-        // dd($request->nim,
+        // dd($request->user_id,
         // $request->type,
         // $request->lecturer,
         // $request->research_title ?? null,
@@ -149,14 +149,14 @@ class LettersController extends Controller
      */
     public function show(string $id)
     {
-        $letters = Letters::findOrFail($id);
+        $letters = Letter::findOrFail($id);
         $dosen = dosen::findOrFail($letters->id_dosen);
         return view('admin.surat.detail', compact(['surat','dosen']));
     }
 
     public function update(Request $request, string $id) :RedirectResponse
     {      
-        $letters = Letters::findOrFail($id);
+        $letters = Letter::findOrFail($id);
         if($request->input('action') == 'confirm') {
             $request->validate([
                 'no_surat'     => 'required',
@@ -180,7 +180,7 @@ class LettersController extends Controller
 
     public function print(string $id)
     {
-        $letters = Letters::findOrFail($id);
+        $letters = Letter::findOrFail($id);
         $dosen = dosen::findOrFail($letters->id_dosen);
         if($letters->type == 'MK') {
             return view('template-surat.MK', compact(['surat','dosen']));

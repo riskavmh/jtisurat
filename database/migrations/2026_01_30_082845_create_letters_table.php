@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('letters', function (Blueprint $table) {
-            $table->uuid('id')->primary;
+            $table->uuid('id')->primary();
             $table->integer('ref_no')->nullable();
-            $table->string('nim', 9);
-            $table->string('type', 10);
+            $table->string('user_id');
+            $table->uuid('type_id');
             $table->string('lecturer_id');
             $table->string('course', 255)->nullable();
             $table->string('research_title', 200)->nullable();
@@ -30,13 +30,11 @@ return new class extends Migration
             $table->string('necessity', 10);
             $table->string('note')->nullable();
             $table->string('excuses')->nullable();
-            $table->integer('status', 1);
+            $table->char('status', 1);
             $table->timestamps();
 
-            $table->foreign('lecturer_id')
-                ->references('id')
-                ->on('lecturers')
-                ->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('letter_type')->onDelete('cascade');
+            
         });
     }
 

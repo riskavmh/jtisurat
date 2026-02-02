@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LetterMembers extends Model
+class LetterMember extends Model
 {
 
     use HasFactory, HasUuids;
     protected $table = 'letter_members';
     protected $fillable = [
             'letter_id',
-            'nim',
+            'user_id',
+            'position'
     ];
 
-    public function letters()
+    public function letter()
     {
-        return $this->belongsTo(Letters::class);
+        return $this->belongsTo(Letter::class);
     }
 
 }
