@@ -13,7 +13,7 @@ class Letter extends Model
     protected $fillable = [
             'ref_no',
             'user_id',
-            'type',
+            'type_id',
             'lecturer_id',
             'course',
             'research_title',

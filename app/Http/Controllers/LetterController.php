@@ -26,7 +26,8 @@ class LetterController extends Controller
 
         return [
             'authID'    => Auth::user()->external_id,
-            'letters'   => Letter::get(),
+            // 'letters'   => Letter::get(),
+            'letters'   => Letter::where('user_id', Auth::user()->external_id)->get(),
             'type'      => LetterType::get(),
             'get_me'    => AuthHelper::getMe($token) ?? [],
             'lecturers' => collect(LecturerHelper::getLecturer($token, $position, $majorId))->sortBy('label')->values()->all() ?? []
@@ -58,13 +59,16 @@ class LetterController extends Controller
         // $type = LetterType::get();
 
         $data = $this->getBaseData($request);
-        // dd($data);
 
         $diproses = $data['letters']->where('status', 1);
         $selesai  = $data['letters']->where('status', 2);
         $ditolak  = $data['letters']->where('status', 3);
 
         return view('user.track', [
+            // 'letters'     => collect($data['letters'])->firstWhere('user_id', $data['authID']),
+            // 'types'       => $data['type'],
+            // 'lecturers'   => $data['lecturer'],
+            // 'get_me'      => $data['get_me'],
             'data'        => $data,
             'srtDiproses' => $diproses,
             'srtSelesai'  => $selesai,
@@ -105,19 +109,22 @@ class LetterController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        Letter::create([
+        $data = $this->getBaseData($request);
+        // dd($data['type']->firstWhere('abbr', $request->type)?->id);
+
+        $letter = Letter::create([
             'ref_no'    => null,
-            'user_id'   => $request->user_id,
-            'type'      => $request->type,
-            'lecturer'  => $request->lecturer_id,
+            'user_id'   => $data['authID'],
+            'type_id'   => $data['type']->firstWhere('abbr', $request->type)?->id,
+            'lecturer_id'  => $request->lecturer,
             'research_title'=> $request->research_title ?? null,
             'to'        => $request->to ?? null,
-            'course'    => Str::upper($request->course) ?? null,
+            'course'    => Str::title($request->course) ?? null,
             'company'   => $request->company,
             'address'   => $request->address,
-            'subdistrict'=> Str::upper($request->subdistrict),
-            'regency'   => Str::upper($request->regency),
-            'province'  => Str::upper($request->province),
+            'subdistrict'=> Str::title($request->subdistrict),
+            'regency'   => Str::title($request->regency),
+            'province'  => $request->province,
             'start_date'=> $request->start_date,
             'end_date'  => $request->end_date ?? null,
             'necessity' => $request->necessity,
@@ -125,17 +132,17 @@ class LetterController extends Controller
             'excuses'   => null,
             'status'    => '1',
         ]);
-        // dd($request->user_id,
+        // dd($data['authID'],
         // $request->type,
-        // $request->lecturer,
+        // $request->lecturer_id,
         // $request->research_title ?? null,
         // $request->to ?? null,
-        // Str::upper($request->course) ?? null,
+        // Str::title($request->course) ?? null,
         // $request->company,
         // $request->address,
-        // Str::upper($request->subdistrict),
-        // Str::upper($request->regency),
-        // Str::upper($request->province),
+        // Str::title($request->subdistrict),
+        // Str::title($request->regency),
+        // Str::title($request->province),
         // $request->start_date,
         // $request->end_date ?? null,
         // $request->necessity,

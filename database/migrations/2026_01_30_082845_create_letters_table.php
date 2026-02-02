@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('letters', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->integer('ref_no')->nullable();
-            $table->string('user_id');
+            $table->uuid('user_id');
             $table->uuid('type_id');
             $table->string('lecturer_id');
             $table->string('course', 255)->nullable();
@@ -33,6 +33,7 @@ return new class extends Migration
             $table->char('status', 1);
             $table->timestamps();
 
+            $table->foreign('user_id')->references('external_id')->on('users')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('letter_type')->onDelete('cascade');
             
         });

@@ -129,20 +129,21 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $t = $data['type']->firstWhere('abbr', $l->type); @endphp
-                        <div class="col-6 currency"><em>{{ $t ? $t->expan : '' }}</em></div>
+                        <div class="col-6 currency">
+                          <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
+                        </div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
-                        @if(!is_null($l->judul))
+                        @if(!is_null($l->research_title))
                         <tr>
                           <td width="250">Judul Penelitian</td>
                           <td>{{ $l->research_title }}</td>
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($l->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id); }}</td>
+                          <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
                         </tr>
                         @if(!is_null($l->to))
                         <tr>
@@ -208,48 +209,49 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $t = $data['type']->firstWhere('nama', $l->type); @endphp
-                        <div class="col-6 currency"><em>{{ $t ? $t->expan : '' }}</em></div>
+                        <div class="col-6 currency">
+                          <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
+                        </div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
-                        @if(!is_null($l->judul))
+                        @if(!is_null($l->research_title))
                         <tr>
                           <td width="250">Judul Penelitian</td>
-                          <td>{{ $l->judul }}</td>
+                          <td>{{ $l->research_title }}</td>
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($l->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ $l->dosen }}</td>
+                          <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
                         </tr>
-                        @if(!is_null($l->kepada))
+                        @if(!is_null($l->to))
                         <tr>
                           <td>Kepada</td>
-                          <td>{{ $l->kepada }}</td>
+                          <td>{{ $l->to }}</td>
                         </tr>
                         @endif
                         <tr>
                           <td width="250">Nama Mitra</td>
-                          <td>{{ $l->mitra }}</td>
+                          <td>{{ $l->company }}</td>
                         </tr>
                         <tr>
                           <td>Alamat Mitra</td>
-                          <td>{{ $l->alamat }}</td>
+                          <td>{{ $l->address }}</td>
                         </tr>
                         <tr>
-                          <td>{{ (!is_null($l->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
-                          <td>{{ Carbon::parse($l->start)->locale('id')->translatedFormat('d F Y') }}</td>
+                          <td>{{ (!is_null($l->end_date)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($l->start_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         </tr>
-                        @if(!is_null($l->end))
+                        @if(!is_null($l->end_date))
                         <tr>
                           <td>Tanggal Selesai</td>
-                          <td>{{ Carbon::parse($l->end)->locale('id')->translatedFormat('d F Y') }}</td>
+                          <td>{{ Carbon::parse($l->end_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         </tr>
                         @endif
                         <tr>
                           <td>Kebutuhan</td>
-                          <td>{{ $l->kebutuhan }}</td>
+                          <td>{{ $l->necessity }}</td>
                         </tr>
                       </table>
                       <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
@@ -281,48 +283,49 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $t = $data['type']->firstWhere('nama', $l->type); @endphp
-                        <div class="col-6 currency"><em>{{ $t ? $t->expan : '' }}</em></div>
+                        <div class="col-6 currency">
+                          <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
+                        </div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
-                        @if(!is_null($l->judul))
+                        @if(!is_null($l->research_title))
                         <tr>
                           <td width="250">Judul Penelitian</td>
-                          <td>{{ $l->judul }}</td>
+                          <td>{{ $l->research_title }}</td>
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($l->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ $l->dosen }}</td>
+                          <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
                         </tr>
-                        @if(!is_null($l->kepada))
+                        @if(!is_null($l->to))
                         <tr>
                           <td>Kepada</td>
-                          <td>{{ $l->kepada }}</td>
+                          <td>{{ $l->to }}</td>
                         </tr>
                         @endif
                         <tr>
                           <td width="250">Nama Mitra</td>
-                          <td>{{ $l->mitra }}</td>
+                          <td>{{ $l->company }}</td>
                         </tr>
                         <tr>
                           <td>Alamat Mitra</td>
-                          <td>{{ $l->alamat }}</td>
+                          <td>{{ $l->address }}</td>
                         </tr>
                         <tr>
-                          <td>{{ (!is_null($l->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
-                          <td>{{ Carbon::parse($l->start)->locale('id')->translatedFormat('d F Y') }}</td>
+                          <td>{{ (!is_null($l->end_date)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($l->start_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         </tr>
-                        @if(!is_null($l->end))
+                        @if(!is_null($l->end_date))
                         <tr>
                           <td>Tanggal Selesai</td>
-                          <td>{{ Carbon::parse($l->end)->locale('id')->translatedFormat('d F Y') }}</td>
+                          <td>{{ Carbon::parse($l->end_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         </tr>
                         @endif
                         <tr>
                           <td>Kebutuhan</td>
-                          <td>{{ $l->kebutuhan }}</td>
+                          <td>{{ $l->necessity }}</td>
                         </tr>
                       </table>
                       <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
@@ -354,48 +357,49 @@
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                       <div class="row price">
-                        @php $t = $data['type']->firstWhere('nama', $l->type); @endphp
-                        <div class="col-6 currency"><em>{{ $t ? $t->expan : '' }}</em></div>
+                        <div class="col-6 currency">
+                          <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
+                        </div>
                         <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
-                        @if(!is_null($l->judul))
+                        @if(!is_null($l->research_title))
                         <tr>
                           <td width="250">Judul Penelitian</td>
-                          <td>{{ $l->judul }}</td>
+                          <td>{{ $l->research_title }}</td>
                         </tr>
                         @endif
                         <tr>
-                          <td>{{ ($l->type == 'MK') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ $l->dosen }}</td>
+                          <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
                         </tr>
-                        @if(!is_null($l->kepada))
+                        @if(!is_null($l->to))
                         <tr>
                           <td>Kepada</td>
-                          <td>{{ $l->kepada }}</td>
+                          <td>{{ $l->to }}</td>
                         </tr>
                         @endif
                         <tr>
                           <td width="250">Nama Mitra</td>
-                          <td>{{ $l->mitra }}</td>
+                          <td>{{ $l->company }}</td>
                         </tr>
                         <tr>
                           <td>Alamat Mitra</td>
-                          <td>{{ $l->alamat }}</td>
+                          <td>{{ $l->address }}</td>
                         </tr>
                         <tr>
-                          <td>{{ (!is_null($l->end)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
-                          <td>{{ Carbon::parse($l->start)->locale('id')->translatedFormat('d F Y') }}</td>
+                          <td>{{ (!is_null($l->end_date)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($l->start_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         </tr>
-                        @if(!is_null($l->end))
+                        @if(!is_null($l->end_date))
                         <tr>
                           <td>Tanggal Selesai</td>
-                          <td>{{ Carbon::parse($l->end)->locale('id')->translatedFormat('d F Y') }}</td>
+                          <td>{{ Carbon::parse($l->end_date)->locale('id')->translatedFormat('d F Y') }}</td>
                         </tr>
                         @endif
                         <tr>
                           <td>Kebutuhan</td>
-                          <td>{{ $l->kebutuhan }}</td>
+                          <td>{{ $l->necessity }}</td>
                         </tr>
                         <tr>
                           <td style="color:red;">Alasan Ditolak</td>
