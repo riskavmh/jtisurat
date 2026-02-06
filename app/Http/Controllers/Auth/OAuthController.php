@@ -57,14 +57,19 @@ class OAuthController extends Controller
 
     Auth::login($user);
 
-    $roles = implode($data['data']['user']['roles']);
-    // dd($data);
+    $roles = collect($data['data']['user']['roles']);
+    $targetRoles = ['student', 'lecturer', 'technician'];
+    // return redirect()->route('/');
 
-    if($roles == 'student'){
-        return redirect()->route('/');
-    } else if($roles == 'admin'){
-        return redirect()->route('admin');
+    if($roles->intersect($targetRoles)->isNotEmpty()){
+        return redirect('/');
     }
+    
+    if ($roles->contains('admin')) {
+        return redirect('admin');
+    }
+
+    return redirect('/');
   }
 
   public function logout(Request $request)

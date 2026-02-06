@@ -62,52 +62,51 @@
   </header>
 
   <main class="main">
-    <!-- track section -->
     <section id="track" class="track features section light-background">
-
-      <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up" data-aos-delay="100">
        <h1 class="mb-2">
         <br>
-        <!-- Consectetur Led <br> -->
         <span class="accent-text"></span>
       </h1>
       </div>
 
-      <!-- Section Title -->
       <div class="section-title mb-0" data-aos="fade-up">
         <h2>Surat Saya</h2>
       </div>
-      <!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-
         <div class="d-flex justify-content-center">
-
           <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
 
             <li class="nav-item">
               <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#semua">
                 <h4>Semua</h4>
               </a>
-            </li><!-- End tab nav item -->
+            </li>
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" data-bs-target="#diproses">
                 <h4>Diproses</h4>
-              </a><!-- End tab nav item -->
-
+              </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dicetak">
+                <h4>Dicetak</h4>
+              </a>
+            </li>
+
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" data-bs-target="#selesai">
                 <h4>Selesai</h4>
               </a>
-            </li><!-- End tab nav item -->
+            </li>
+
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" data-bs-target="#ditolak">
                 <h4>Ditolak</h4>
               </a>
-            </li><!-- End tab nav item -->
+            </li>
 
           </ul>
 
@@ -115,7 +114,6 @@
 
         <div class="row mb-1">
           @php use Illuminate\Support\Carbon; @endphp
-          
           <div class="col-lg-12 mt-5" data-aos="fade-up" data-aos-delay="100">
 
             <!-- SEMUA -->
@@ -124,7 +122,7 @@
               @forelse ($data['letters'] as $l)
                 <div class="track-card mb-5">
                   <div class="popular-badge">
-                    {{ ($l->status == 1) ? 'Surat sedang ditinjau' : (($l->status == 2) ? 'Surat selesai' : 'Surat ditolak') }}
+                    {{ ($l->status == 'diproses') ? 'Surat sedang ditinjau' : (($l->status == 'dicetak') ? 'Surat dicetak' : (($l->status == 'selesai') ? 'Surat selesai' : 'Surat ditolak')) }}
                   </div>
                   <div class="row">
                     <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
@@ -132,7 +130,7 @@
                         <div class="col-6 currency">
                           <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
                         </div>
-                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at->format('Y-m-d, H:i') }} WIB</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
                         @if(!is_null($l->research_title))
@@ -143,7 +141,7 @@
                         @endif
                         <tr>
                           <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
+                          <td>{{ $l->lecturer_name }}</td>
                         </tr>
                         @if(!is_null($l->to))
                         <tr>
@@ -212,7 +210,7 @@
                         <div class="col-6 currency">
                           <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
                         </div>
-                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at->format('Y-m-d H:i') }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
                         @if(!is_null($l->research_title))
@@ -223,7 +221,81 @@
                         @endif
                         <tr>
                           <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
+                          <td>{{ $l->lecturer_name }}</td>
+                        </tr>
+                        @if(!is_null($l->to))
+                        <tr>
+                          <td>Kepada</td>
+                          <td>{{ $l->to }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td width="250">Nama Mitra</td>
+                          <td>{{ $l->company }}</td>
+                        </tr>
+                        <tr>
+                          <td>Alamat Mitra</td>
+                          <td>{{ $l->address }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ (!is_null($l->end_date)) ? 'Tanggal Mulai' : 'Tanggal Pelaksanaan' }}</td>
+                          <td>{{ Carbon::parse($l->start_date)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @if(!is_null($l->end_date))
+                        <tr>
+                          <td>Tanggal Selesai</td>
+                          <td>{{ Carbon::parse($l->end_date)->locale('id')->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>Kebutuhan</td>
+                          <td>{{ $l->necessity }}</td>
+                        </tr>
+                      </table>
+                      <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">
+                        <div class="col-lg-8"></div>
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-2"><a href="#">Lihat Detail...</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                @empty
+                <div class="track-card">
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <p><em>Tidak ada data surat yang ditemukan.</em></p>
+                    </div>
+                  </div>
+                </div>
+                @endforelse
+              </div>
+
+
+              <!-- DICETAK -->
+              <div class="tab-pane fade" id="dicetak">
+                @forelse ($srtDicetak as $l)
+                <div class="track-card mb-5">
+                  <div class="popular-badge">Surat dicetak</div>
+                  <div class="row">
+                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                      <div class="row price">
+                        <div class="col-6 currency">
+                          <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
+                        </div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at->format('Y-m-d H:i') }}</div>
+                      </div>
+                      <table class="table table-bordered" style="text-align: left">
+                        @if(!is_null($l->research_title))
+                        <tr>
+                          <td width="250">Judul Penelitian</td>
+                          <td>{{ $l->research_title }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
+                          <td>{{ $l->lecturer_name }}</td>
                         </tr>
                         @if(!is_null($l->to))
                         <tr>
@@ -286,7 +358,7 @@
                         <div class="col-6 currency">
                           <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
                         </div>
-                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at->format('Y-m-d H:i') }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
                         @if(!is_null($l->research_title))
@@ -297,7 +369,7 @@
                         @endif
                         <tr>
                           <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
+                          <td>{{ $l->lecturer_name }}</td>
                         </tr>
                         @if(!is_null($l->to))
                         <tr>
@@ -360,7 +432,7 @@
                         <div class="col-6 currency">
                           <em>{{ collect($data['type'])->firstWhere('id', $l->type_id)->expan ?? null }}</em>
                         </div>
-                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at }}</div>
+                        <div class="col-6 period" style="text-align: right">Dibuat : {{ $l->created_at->format('Y-m-d H:i') }}</div>
                       </div>
                       <table class="table table-bordered" style="text-align: left">
                         @if(!is_null($l->research_title))
@@ -371,7 +443,7 @@
                         @endif
                         <tr>
                           <td>{{ ($l->type_id == '72abf5ba-a1a3-4ba6-8a37-c0c89f6e5527') ? 'Dosen' : 'Koordinator' }}</td>
-                          <td>{{ collect($data['lecturers'])->firstWhere('value', $l->lecturer_id)['label'] }}</td>
+                          <td>{{ $l->lecturer_name }}</td>
                         </tr>
                         @if(!is_null($l->to))
                         <tr>
@@ -425,26 +497,12 @@
                 </div>
                 @endforelse
               </div>
-
-
-
-
-
-
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
-    </section><!-- /track section -->
-
-
+    </section>
   </main>
-
   <footer id="footer" class="footer">
     <div class="container copyright text-center">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">JTI Surat</strong> <span>All Rights Reserved</span></p>
@@ -454,14 +512,10 @@
     </div>
   </footer>
 
-  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
   <script src="assets/landing/vendor/aos/aos.js"></script>
   <script src="assets/landing/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Main JS File -->
   <script src="assets/landing/js/main.js"></script>
 
 </body>

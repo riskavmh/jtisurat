@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('letter_members', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('letter_id');
-            $table->string('user_id');
+            $table->uuid('user_id');
             $table->string('position');
             $table->timestamps();
-
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('letter_id')->references('id')->on('letters')->onDelete('cascade');
         });
     }

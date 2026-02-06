@@ -61,6 +61,16 @@
     .d-none {
       display: none;
     }
+
+    .form-floating > .form-control {
+      height: calc(3.5rem + 2px);
+      line-height: 1.25;
+    }
+
+    .form-floating > label {
+      padding: 1rem 0.75rem;
+      color: rgba(0, 0, 0, 0.5);
+    }
   </style>
 </head>
 
@@ -71,7 +81,6 @@
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="{{ route('/') }}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="{{ asset('assets/img/logo2.png') }}" alt="Logo JTI Surat" style="height:25px;width:25px;">&nbsp;&nbsp;
         <h1 class="sitename">JTI Surat</h1>
       </a>
@@ -157,7 +166,7 @@
                 <div id="research_title" class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Judul Penelitian</label>
                   <div class="col-10">
-                    <input type="text" name="research_title" class="form-control" placeholder="Judul Penelitian">
+                    <input type="text" name="research_title" class="form-control" placeholder="Judul Penelitian" maxlength="150" title="Maksimal 150 karakter">
                   </div>
                 </div>
 
@@ -171,27 +180,27 @@
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Nama Mitra</label>
                   <div class="col-10">
-                    <input type="text" name="company" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="100" title="Maksimal 100 karakter" required>
+                    <input type="text" name="company" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="50" title="Maksimal 50 karakter" required>
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Alamat</label>
                   <div class="col-10">
-                    <input type="text" name="address" class="form-control" placeholder="Alamat Instansi" maxlength="100" title="Maksimal 100 karakter" required>
+                    <input type="text" name="address" class="form-control" placeholder="Alamat Instansi" maxlength="75" required>
                   </div>
                 </div>
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label"></label>
                   <div class="row gy-2 col-10">
                     <div class="col-4">
-                      <input type="text" name="subdistrict" class="form-control" placeholder="Kecamatan" maxlength="50" title="Maksimal 50 karakter" required>
+                      <input type="text" name="subdistrict" class="form-control" placeholder="Kecamatan" maxlength="25" required>
                     </div>
                     <div class="col-4">
-                      <input type="text" name="regency" class="form-control" placeholder="Kabupaten" maxlength="50" title="Maksimal 50 karakter" required>
+                      <input type="text" name="regency" class="form-control" placeholder="Kabupaten" maxlength="25" required>
                     </div>
                     <div class="col-4">
-                      <input type="text" name="province" class="form-control" placeholder="Provinsi" maxlength="50" title="Maksimal 50 karakter" required>
+                      <input type="text" name="province" class="form-control" placeholder="Provinsi" maxlength="25" required>
                     </div>
                   </div>
                 </div>
@@ -220,46 +229,55 @@
                   </div>
                 </div>
 
-                <div class="row gy-4 mb-5 align-items-center">
+                <!-- <div class="row gy-4 mb-5 align-items-center">
                   <label class="col-2 col-form-label">Keterangan</label>
                   <div class="col-10">
                     <textarea class="form-control" name="note" placeholder="Keterangan untuk admin, tidak ditampilkan pada surat (kosongi jika tidak perlu)" rows="3" maxlength="255"></textarea>
                   </div>
-                </div>
-                  
+                </div> -->
+
                   <h6 class="mb-3"><strong>Data Anggota Kelompok</strong></h6>
-                  
-                  <div class="row gy-4 mb-3 d-flex align-items-center">
-                    <label class="col-2 col-form-label">NIM</label>
-                    <div class="col-10">
-                      <input type="text" value="{{ $get_me['student_detail']['nim'] }}" class="form-control" readonly>
-                    </div>
+
+                  <div id="member-container">
+                      <div class="anggota-item mb-5">
+                          <div class="row gy-4 mb-3 d-flex align-items-center">
+                              <label class="col-2 col-form-label">NIM</label>
+                              <div class="col-10">
+                                  <input type="text" value="{{ $get_me['student_detail']['nim'] }}" class="form-control" readonly>
+                                  <input type="hidden" name="members[]" value="{{ $get_me['student_detail']['nim'] }}">
+                              </div>
+                          </div>
+
+                          <div class="row gy-4 mb-3 d-flex align-items-center">
+                              <label class="col-2 col-form-label">Nama Lengkap</label>
+                              <div class="col-10">
+                                  <input type="text" class="form-control" value="{{ $get_me['name'] }}" readonly>
+                              </div>
+                          </div>
+
+                          <div class="row gy-4 mb-3 d-flex align-items-center">
+                              <label class="col-2 col-form-label">Program Studi</label>
+                              <div class="col-10">
+                                  <input type="text" class="form-control" value="{{ $get_me['student_detail']['study_program_name'] }}" readonly>
+                              </div>
+                          </div>
+
+                          <div class="row gy-4 mb-5 d-flex align-items-center">
+                              <label class="col-2 col-form-label">No. Telp</label>
+                              <div class="col-10">
+                                  <input type="text" class="form-control" value="{{ $get_me['phone_number'] }}" readonly>
+                              </div>
+                          </div>
+                      </div>
                   </div>
 
-                  <div class="row gy-4 mb-3 d-flex align-items-center">
-                    <label class="col-2 col-form-label">Nama Lengkap</label>
-                    <div class="col-10">
-                      <input type="text" value="{{ $get_me['name'] }}" name="name" class="form-control" readonly>
-                    </div>
-                  </div>
-
-                  <div class="row gy-4 mb-3 d-flex align-items-center">
-                    <label class="col-2 col-form-label">Program Studi</label>
-                    <div class="col-10">
-                      <input type="text" value="{{ $get_me['student_detail']['study_program_name'] }}" name="study_program" class="form-control" readonly>
-                    </div>
-                  </div>
-
-                  <div class="row gy-4 mb-5 d-flex align-items-center">
-                    <label class="col-2 col-form-label">No. Telp</label>
-                    <div class="col-10">
-                      <input type="text" value="{{ $get_me['phone_number'] }}" name="phone_number" class="form-control" readonly>
-                    </div>
-                  </div>
-
-                  <div class="mt-5 mb-0">
-                    <button class="btn-del-anggota"><strong>X</strong></button>
-                    <button class="btn-anggota">Tambah Anggota</button>
+                  <div class="mt-5 mb-0 d-flex gap-2">
+                    <button type="button" id="btn-add-members" class="btn-anggota">
+                      <i class="bi bi-plus-circle"></i>&nbsp;Tambah Anggota
+                    </button>
+                    <button type="button" id="btn-removelast" class="btn-del-anggota d-none">
+                        <i class="bi bi-x-circle"></i>&nbsp;Hapus Anggota
+                    </button>
                   </div>
 
                   <div class="col-12 text-center mt-5 mb-0">
@@ -358,7 +376,87 @@
     }
   </script>
 
-  <script></script>
+  <script>
+    $(document).ready(function() {
+    // Memastikan kontainer pembungkus tersedia
+    const $container = $('#member-container');
+
+    function checkMemberCount() {
+        const count = $('.additional-member').length;
+        if (count > 0) {
+            $('#btn-removelast').removeClass('d-none');
+        } else {
+            $('#btn-removelast').addClass('d-none');
+        }
+    }
+
+    $('#btn-add-members').on('click', function() {
+        const memberHtml = `
+            <div class="anggota-item additional-member border-top pt-4 mt-4">
+                <div class="row gy-4 mb-3 d-flex align-items-center">
+                    <label class="col-2 col-form-label text-danger fw-bold">NIM Anggota</label>
+                    <div class="col-10">
+                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM Mahasiswa">
+                    </div>
+                </div>
+                <div class="row gy-4 mb-3 d-flex align-items-center">
+                    <label class="col-2 col-form-label">Nama Lengkap</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control member-name" readonly placeholder="Otomatis...">
+                    </div>
+                </div>
+                <div class="row gy-4 mb-3 d-flex align-items-center">
+                    <label class="col-2 col-form-label">Program Studi</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control member-studyprogram" readonly placeholder="Otomatis...">
+                    </div>
+                </div>
+                <div class="row gy-4 mb-5 d-flex align-items-center">
+                    <label class="col-2 col-form-label">No. Telp</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control member-phonenumber" readonly placeholder="Otomatis...">
+                    </div>
+                </div>
+            </div>`;
+        $container.append(memberHtml);
+        checkMemberCount();
+    });
+
+    $('#btn-removelast').on('click', function() {
+        $('.additional-member').last().remove();
+        checkMemberCount();
+    });
+
+    $(document).on('change', '.input-nim', function() {
+        const nim = $(this).val();
+        const $parent = $(this).closest('.additional-member');
+
+        if (nim.length >= 8) {
+            $.ajax({
+                url: '/get-student/' + nim, // Sesuai dengan route yang Anda buat
+                method: 'GET',
+                dataType: 'json',
+                // add csrf token
+                headers: {
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update field dengan data dari Helper
+                        $parent.find('.member-name').val(response.data.name);
+                        $parent.find('.member-studyprogram').val(response.data.studyprogram);
+                        $parent.find('.member-phonenumber').val(response.data.phonenumber);
+                    }
+                },
+                error: function() {
+                    alert('NIM tidak ditemukan.');
+                    $parent.find('.input-nim').val('');
+                }
+            });
+        }
+    });
+});
+  </script>
 </body>
 
 </html>

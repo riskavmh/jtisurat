@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('letter_type', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('abbr', 10);
-            $table->string('expan', 100);
+            $table->string('abbr');
+            $table->string('expan');
             $table->timestamps();
         });
     }

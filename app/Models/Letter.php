@@ -12,7 +12,6 @@ class Letter extends Model
     protected $table = 'letters';
     protected $fillable = [
             'ref_no',
-            'user_id',
             'type_id',
             'lecturer_id',
             'course',
@@ -26,13 +25,12 @@ class Letter extends Model
             'start_date',
             'end_date',
             'necessity',
-            'note',
             'excuses',
             'status',
     ];
 
     public function members()
     {
-        return $this->hasMany(LetterMember::class);
-    }
+        return $this->hasMany(LetterMember::class, 'letter_id');
+    }   
 }

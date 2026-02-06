@@ -1,91 +1,57 @@
-<a href="{{ route('/') }}" class="brand-link">
-  <img src="{{ asset('assets/img/admin_logo.png') }}" class="brand-image img-circle elevation-3" style="opacity: .6">
-  <span class="brand-text">JTI Surat</span>
-</a>
-
-<div class="sidebar">
-  <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex text-center">
-    <div class="info">
-        <h3 class="d-block text-light border pl-3 pr-3 pt-2 pb-2">SUPER ADMIN</h3>
-        <span class="d-block text-white">Jurusan Teknologi Informasi</span>
-        <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="mt-2 btn btn-danger text-light"><i class="fa fa-sign-out-alt"></i></a>
+<div class="navbar-wrapper">
+    <div class="m-header">
+        <a href="index.html" class="b-brand">
+            <!-- <img src="{{ asset('assets/img/admin_logo.png') }}" alt="" class="logo logo-lg"> -->
+            <!-- <img src="{{ asset('assets/img/admin_logo.png') }}" alt="" class="logo logo-sm"> -->
+            <img src="{{ asset('assets/img/admin_logo.png') }}" alt="" class="logo logo-sm">
+        </a>
     </div>
-  </div> -->
-
-  <div class="user-panel mt-3 pb-3 mb-3 d-flex text-center">
-    <div class="info">
-      <span class="d-block text-white border pl-2 pr-2 pt-1 pb-1 mb-2">{{ implode(Auth::user()->roles) }}</span>
-        <span class="d-block text-white text-wrap text-sm">{{ Auth::user()->name }}</span>
-        <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="mt-2 btn btn-danger text-light text-sm pl-2 pr-2 pt-1 pb-1">Logout &nbsp;<i class="fa fa-sign-out-alt"></i></a>
-      </div>
-  </div>
-
-  <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      <li class="nav-item">
-        <a href="{{ route('/') }}" class="nav-link">
-          <i class="nav-icon fas fa-layer-group"></i>
-          <p>Landing Page</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{ route('admin') }}" class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
-          <i class="nav-icon fas fa-tachometer-alt"></i>
-          <p>Dashboard</p>
-        </a>
-      </li>
-      <li class="nav-item menu-open">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-columns"></i>
-          <p>
-            Data Master
-            <i class="fas fa-angle-left right"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="{{ route('type.index') }}" class="nav-link {{ request()->routeIs('type.*') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle"></i>
-              <p>Jenis Surat</p>
-            </a>
-          </li>
+    <div class="navbar-content">
+        <ul class="nxl-navbar">
+            <li class="nxl-item nxl-caption">
+                <label>Menu</label>
+            </li>
+            <li class="nxl-item nxl-hasmenu">
+                <a href="{{ route('/') }}" class="nxl-link">
+                    <span class="nxl-micon"><i class="feather-airplay"></i></span>
+                    <span class="nxl-mtext">Landing Page</span></span>
+                </a>
+            </li>
+            <li class="nxl-item nxl-hasmenu {{ request()->routeIs('admin') ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="nxl-link">
+                    <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
+                    <span class="nxl-mtext">Dashboard</span></span>
+                </a>
+            </li>
+            <li class="nxl-item nxl-hasmenu">
+                <a href="javascript:void(0);" class="nxl-link">
+                    <span class="nxl-micon"><i class="feather-server"></i></span>
+                    <span class="nxl-mtext">Data Master</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                </a>
+                <ul class="nxl-submenu">
+                    <li class="nxl-item {{ request()->routeIs('type.*') ? 'active' : '' }}"><a class="nxl-link" href="{{ route('type.index') }}">Jenis Surat</a></li>
+                    <li class="nxl-item"><a class="nxl-link" href="">Koordinator</a></li>
+                    <li class="nxl-item"><a class="nxl-link" href="">Program Studi</a></li>
+                </ul>
+            </li>
+            <li class="nxl-item nxl-hasmenu nxl-trigger">
+                <a href="javascript:void(0);" class="nxl-link">
+                    <span class="nxl-micon"><i class="feather-book-open"></i></span>
+                    <span class="nxl-mtext">Pengajuan Surat</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                </a>
+                <ul class="nxl-submenu">
+                    <!-- <li class="nxl-item"><a class="nxl-link" href="">Semua Surat</a></li> -->
+                    <li class="nxl-item {{ request()->routeIs('pending') ? 'active' : '' }}">
+                      <a class="nxl-link" href="{{ route('pending') }}">Diproses<span class="badge badge-warning right">{{ $letterCounts['dtSrtDiproses'] }}</span></a>
+                    </li>
+                    <li class="nxl-item {{ request()->routeIs('approved') ? 'active' : '' }}">
+                      <a class="nxl-link" href="{{ route('approved') }}">Selesai<span class="badge badge-success right">{{ $letterCounts['dtSrtSelesai'] }}</span></a>
+                    </li>
+                    <li class="nxl-item {{ request()->routeIs('rejected') ? 'active' : '' }}">
+                      <a class="nxl-link" href="{{ route('rejected') }}">Ditolak<span class="badge badge-danger right">{{ $letterCounts['dtSrtDitolak'] }}</span></a>
+                    </li>
+                </ul>
+            </li>
         </ul>
-      </li>
-      <li class="nav-item menu-open">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-book"></i>
-          <p>
-            Pengajuan Surat
-            <i class="fas fa-angle-left right"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="{{ route('srtproses') }}" class="nav-link {{ request()->routeIs('srtproses') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Diproses<span class="badge badge-warning right">{{ $suratCounts['dtSrtDiproses'] }}</span></p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('srtselesai') }}" class="nav-link {{ request()->routeIs('srtselesai') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle text-success"></i>
-              <p>Selesai<span class="badge badge-success right">{{ $suratCounts['dtSrtSelesai'] }}</span></p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('srttolak') }}" class="nav-link {{ request()->routeIs('srttolak') ? 'active' : '' }}">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p>Ditolak<span class="badge badge-danger right">{{ $suratCounts['dtSrtDitolak'] }}</span></p>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+    </div>
 </div>

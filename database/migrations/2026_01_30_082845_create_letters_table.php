@@ -14,26 +14,23 @@ return new class extends Migration
         Schema::create('letters', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->integer('ref_no')->nullable();
-            $table->uuid('user_id');
             $table->uuid('type_id');
-            $table->string('lecturer_id');
-            $table->string('course', 255)->nullable();
-            $table->string('research_title', 200)->nullable();
-            $table->string('to', 100)->nullable();
-            $table->string('company', 100);
+            $table->string('lecturer_id')->nullable();
+            $table->string('course')->nullable();
+            $table->string('research_title')->nullable();
+            $table->string('to')->nullable();
+            $table->string('company');
             $table->string('address');
             $table->string('subdistrict');
             $table->string('regency');
             $table->string('province');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->string('necessity', 10);
-            $table->string('note')->nullable();
+            $table->enum('necessity', ['eksternal', 'internal']);
             $table->string('excuses')->nullable();
-            $table->char('status', 1);
+            $table->enum('status', ['diproses', 'dicetak', 'selesai', 'ditolak'])->default('diproses');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('external_id')->on('users')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('letter_type')->onDelete('cascade');
             
         });

@@ -1,68 +1,62 @@
 @extends('admin.layouts.layout')
 @section('title', 'Dashboard')
 @section('content')
-<section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0">JTI Surat</h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-          <!-- <li class="breadcrumb-item active">Dashboard</li> -->
-        </ol>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="content">
-  <div class="container-fluid">
-    <div class="card col-lg-12 col-md-12">
-      <div class="card-header">
-        <h3 class="card-title">
-          Dashboard
-        </h3>
-      </div>
-      <div class="card-body">
-        <div class="tab-content p-0">
-          <div class="row">
-
-            <div class="col-md-4 col-sm-6 col-12">
-              <div class="info-box">
-                <span class="info-box-icon bg-warning"><i class="fa fa-envelope text-white"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Surat Baru Masuk</span>
-                  <span class="info-box-number">{{ $suratCounts['dtSrtDiproses'] }}</span>
+<div class="nxl-content d-flex flex-column min-vh-100">
+    <div class="main-content">
+        <div class="row">
+            <!-- [Mini Card] start -->
+            <div class="col-12">
+                <div class="card stretch stretch-full">
+                    <div class="card-body">
+                        <div class="hstack justify-content-between mb-4 pb-">
+                            <div>
+                                <h5 class="mb-1">Surat</h5>
+                                <!-- <span class="fs-12 text-muted">Rekap Surat</span> -->
+                            </div>
+                            <!-- <a href="javascript:void(0);" class="btn btn-light-brand">View Alls</a> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-xxl-3 col-lg-6 col-md-6">
+                                <div class="card stretch stretch-full border border-dashed border-gray-5">
+                                    <div class="card-body rounded-3 text-center">
+                                        <i class="bi bi-envelope fs-3 text-primary"></i>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ array_sum($letterCounts) }}</div>
+                                        <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Total Surat</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-lg-6 col-md-6">
+                                <div class="card stretch stretch-full border border-dashed border-gray-5">
+                                    <div class="card-body rounded-3 text-center">
+                                        <i class="bi bi-envelope-heart fs-3 text-teal"></i>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtSrtDiproses'] }}</div>
+                                        <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Masuk</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-lg-6 col-md-6">
+                                <div class="card stretch stretch-full border border-dashed border-gray-5">
+                                    <div class="card-body rounded-3 text-center">
+                                        <i class="bi bi-envelope-check fs-3 text-success"></i>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtSrtSelesai'] }}</div>
+                                        <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Selesai</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-lg-6 col-md-6">
+                                <div class="card stretch stretch-full border border-dashed border-gray-5">
+                                    <div class="card-body rounded-3 text-center">
+                                        <i class="bi bi-envelope-slash fs-3 text-danger"></i>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtSrtDitolak'] }}</div>
+                                        <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Ditolak</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-
-            <div class="col-md-4 col-sm-6 col-12">
-              <div class="info-box">
-                <span class="info-box-icon bg-success"><i class="fa fa-envelope"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Surat Selesai</span>
-                  <span class="info-box-number">{{ $suratCounts['dtSrtSelesai'] }}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6 col-12">
-              <div class="info-box">
-                <span class="info-box-icon bg-danger"><i class="fa fa-envelope"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Surat Ditolak</span>
-                  <span class="info-box-number">{{ $suratCounts['dtSrtDitolak'] }}</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-</section>
+</div>
 @endsection

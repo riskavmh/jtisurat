@@ -1,17 +1,12 @@
-<link href="{{ asset('assets/img/fav2.png') }}" rel="icon">
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/fontawesome-free/css/all.min.css') }}">
-<!-- Ionicons -->
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
-<!-- Tempusdominus Bootstrap 4 -->
-<link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-<!-- iCheck -->
-<link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ asset('assets/dashboard/dist/css/adminlte.min.css') }}">
-<!-- overlayScrollbars -->
-<link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-<!-- Daterange picker -->
-<link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/daterangepicker/daterangepicker.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/fav2.png') }} ">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/vendors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/daterangepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/jquery-jvectormap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/select2-theme.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/jquery.time-to.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/css/theme.min.css') }}">

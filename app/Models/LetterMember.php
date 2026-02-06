@@ -17,7 +17,7 @@ class LetterMember extends Model
             'position'
     ];
 
-    public function letter()
+    public function letters()
     {
         return $this->belongsTo(Letter::class);
     }

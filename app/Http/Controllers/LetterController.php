@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Letter;
 use App\Models\dosen;
 use App\Models\LetterType;
+use App\Models\LetterMember;
+use App\Helpers\AuthHelper;
 use App\Helpers\LecturerHelper;
 use App\Helpers\StudentHelper;
-use App\Helpers\AuthHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -24,14 +26,47 @@ class LetterController extends Controller
         $majorId  = '019a4723-1d2f-733b-b9ff-25c2e27440c2';
         $position = 'DOSEN';
 
+        $authID   = Auth::user()->id;
+        $letters = Letter::whereHas('members', function($query) use ($authID) {
+            $query->where('user_id', $authID);
+        })->get();
+        $lecturers = collect(LecturerHelper::getLecturer($token, $position, $majorId));
+
+        $letters->map(function ($letter) use ($lecturers) {
+            $dosen = $lecturers->firstWhere('value', $letter->lecturer_id);
+            $letter->lecturer_name = $dosen['label'];
+            return $letter;
+        });
+
         return [
-            'authID'    => Auth::user()->external_id,
-            // 'letters'   => Letter::get(),
-            'letters'   => Letter::where('user_id', Auth::user()->external_id)->get(),
+            'token'     => $token,
+            'authID'    => $authID,
+            'users'     => User::get()->toArray(),
             'type'      => LetterType::get(),
+            'letters'   => $letters,
+            'lecturers' => $lecturers,
             'get_me'    => AuthHelper::getMe($token) ?? [],
-            'lecturers' => collect(LecturerHelper::getLecturer($token, $position, $majorId))->sortBy('label')->values()->all() ?? []
+            // 'lecturers' => collect(LecturerHelper::getLecturer($token, $position, $majorId))->sortBy('label')->values()->all() ?? []
         ];
+    }
+
+
+    public function getStudentData($nim)
+    {
+        $token = Auth::user()->token;
+        $studentData = StudentHelper::getStudents($token, $nim);
+
+        if ($studentData) {
+            return response()->json([
+                'success' => true,
+                'data'    => $studentData
+            ]);
+        }
+
+        return response()->json([
+            'success' => false, 
+            'message' => 'Mahasiswa tidak ditemukan'
+        ], 404);
     }
 
     public static function getStatusCounts()
@@ -41,36 +76,32 @@ class LetterController extends Controller
                        ->pluck('total', 'status')
                        ->toArray();
         return [
-            'dtSrtDiproses' => $counts[1] ?? null,
-            'dtSrtSelesai' => $counts[2] ?? null,
-            'dtSrtDitolak'  => $counts[3] ?? null,
+            'dtSrtDiproses' => $counts['diproses'] ?? 0,
+            'dtSrtDicetak' => $counts['dicetak'] ?? 0,
+            'dtSrtSelesai' => $counts['selesai'] ?? 0,
+            'dtSrtDitolak'  => $counts['ditolak'] ?? 0,
         ];
     }
 
     public function index(int $statusId, string $viewName): View
     {
         $letters = Letter::where('status', $statusId)->get();
-        return view('admin.surat.' . $viewName, compact('surat'));
+        return view('admin.process.' . $viewName, compact('letters'));
     }
 
     public function track(Request $request)
     {
-        // $letters = Letter::get();
-        // $type = LetterType::get();
-
         $data = $this->getBaseData($request);
 
-        $diproses = $data['letters']->where('status', 1);
-        $selesai  = $data['letters']->where('status', 2);
-        $ditolak  = $data['letters']->where('status', 3);
+        $diproses = $data['letters']->where('status', 'diproses');
+        $dicetak  = $data['letters']->where('status', 'dicetak');
+        $selesai  = $data['letters']->where('status', 'selesai');
+        $ditolak  = $data['letters']->where('status', 'ditolak');
 
         return view('user.track', [
-            // 'letters'     => collect($data['letters'])->firstWhere('user_id', $data['authID']),
-            // 'types'       => $data['type'],
-            // 'lecturers'   => $data['lecturer'],
-            // 'get_me'      => $data['get_me'],
             'data'        => $data,
             'srtDiproses' => $diproses,
+            'srtDicetak'  => $dicetak,
             'srtSelesai'  => $selesai,
             'srtDitolak'  => $ditolak,
         ]);
@@ -81,26 +112,19 @@ class LetterController extends Controller
      */
     public function create(Request $request)
     {
-        $authID     = Auth::user()->external_id;
+        $data = $this->getBaseData($request);
+
+        $authID     = $data['authID'];
+        $type       = $data['type'];
+        $get_me     = $data['get_me']['data'];
+        $users      = $data['users'];
+
         $token      = $request->user()->token;
         $majorId    = '019a4723-1d2f-733b-b9ff-25c2e27440c2';
         $position   = 'DOSEN';
-        
-        $get_me     = AuthHelper::getMe($token)['data'] ?? [];
         $lecturers  = collect(LecturerHelper::getLecturer($token, $position, $majorId))->sortBy('label')->values()->all() ?? [];
-        // $lecturers   = collect($responseLecturers)->sort()->toArray();
-        
-        // $responseStudents   = StudentHelper::getStudents($token, $majorId)['data'] ?? [];
-        // $students   = collect($responseStudents)->firstWhere('user_id', $authID);
 
-        // $responseAuth   = AuthHelper::getMe($token);
-
-        // dd($lecturers);
-        // dd($get_me);
-
-        $type       = LetterType::get();
-        // $dosen      = dosen::get();
-        return view('user.form', compact('type', 'lecturers', 'get_me'));
+        return view('user.form', compact('type', 'lecturers', 'get_me', 'users'));
         // return view('user.free-form', compact('type', 'dosen'));
     }
 
@@ -110,11 +134,24 @@ class LetterController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->getBaseData($request);
-        // dd($data['type']->firstWhere('abbr', $request->type)?->id);
+
+        $members = [];
+        $members[Auth::user()->id] = 'Ketua';
+        $inputNims = is_array($request->members) ? $request->members : [$request->members];
+
+        foreach ($inputNims as $nim) {
+            $studentData = StudentHelper::getStudents($data['token'], $nim);
+            if ($studentData && isset($studentData['id'])) {
+                $localUser = User::where('external_id', $studentData['id'])->first();
+                if ($localUser && $localUser->id !== Auth::user()->id) {
+                    $members[$localUser->id] = 'Anggota';
+                }
+            }
+        }
+        $members = array_unique($members);
 
         $letter = Letter::create([
             'ref_no'    => null,
-            'user_id'   => $data['authID'],
             'type_id'   => $data['type']->firstWhere('abbr', $request->type)?->id,
             'lecturer_id'  => $request->lecturer,
             'research_title'=> $request->research_title ?? null,
@@ -130,24 +167,15 @@ class LetterController extends Controller
             'necessity' => $request->necessity,
             'note'      => $request->note ?? null,
             'excuses'   => null,
-            'status'    => '1',
         ]);
-        // dd($data['authID'],
-        // $request->type,
-        // $request->lecturer_id,
-        // $request->research_title ?? null,
-        // $request->to ?? null,
-        // Str::title($request->course) ?? null,
-        // $request->company,
-        // $request->address,
-        // Str::title($request->subdistrict),
-        // Str::title($request->regency),
-        // Str::title($request->province),
-        // $request->start_date,
-        // $request->end_date ?? null,
-        // $request->necessity,
-        // $request->note ?? null,
-        // '1',);
+
+        foreach ($members as $usersId => $position) {
+            LetterMember::create([
+                'letter_id' => $letter->id,
+                'user_id'   => $usersId,
+                'position'  => $position,
+            ]);
+        }
         return redirect()->route('track')->with(['success' => 'Surat Berhasil Diajukan!']);
     }
 

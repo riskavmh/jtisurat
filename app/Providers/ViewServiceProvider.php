@@ -3,7 +3,7 @@
 namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use App\Http\Controllers\LettersController;
+use App\Http\Controllers\LetterController;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -21,8 +21,8 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer(['admin.layouts.sidebar', 'admin.index'], function ($view) {
-            $counts = LettersController::getStatusCounts();
-            $view->with('suratCounts', $counts); 
+            $counts = LetterController::getStatusCounts();
+            $view->with('letterCounts', $counts); 
         });
     }
 }
