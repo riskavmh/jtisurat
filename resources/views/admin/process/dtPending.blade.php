@@ -22,15 +22,15 @@
                                 <tbody>
                                     @php $no = 1; @endphp
                                     @foreach($letters as $l)
-                                    @if($s->status == 1)
+                                    @if($l->status == 'diproses')
                                     <tr class="single-item">
                                         <td>{{ $no++ }}</td>
-                                        <td></td>
-                                        <td>{{ $l->type }}</td>
+                                        <td>{{ $l->leader_nim }}</td>
+                                        <td>{{ collect($data['type'])->firstWhere('id', $l->type_id)->abbr ?? null }}</td>
                                         <td>{{ $l->company }}</td>
                                         <td>{{ $l->created_at->locale('id')->translatedFormat('d F Y, H:i') }}</td>
                                         <!-- <td>
-                                            <a class="btn btn-info btn-sm" href="{{ route('detail', $s->id) }}">Detail</a>
+                                            <a class="btn btn-info btn-sm" href="{{ route('detail', $l->id) }}">Detail</a>
                                         </td> -->
                                         <td>
                                             <div class="hstack gap-2 justify-content-end">
@@ -88,7 +88,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endif
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>

@@ -42,8 +42,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/approved', function () {
             return (new LetterController())->index(2, 'dtApproved');
         })->name('approved');
+        Route::get('/done', function () {
+            return (new LetterController())->index(3, 'dtDone');
+        })->name('done');
         Route::get('/rejected', function () {
-            return (new LetterController())->index(3, 'dtRejected');
+            return (new LetterController())->index(4, 'dtRejected');
         })->name('rejected');
         Route::get('/detail/{id}', [LetterController::class, 'show'])->name('detail');
         Route::patch('/update/{id}', [LetterController::class, 'update'])->name('update');

@@ -10,6 +10,8 @@ class Letter extends Model
 {
     use HasFactory, HasUuids;
     protected $table = 'letters';
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
             'ref_no',
             'type_id',
@@ -32,5 +34,10 @@ class Letter extends Model
     public function members()
     {
         return $this->hasMany(LetterMember::class, 'letter_id');
-    }   
+    }  
+    
+    public function leader()
+    {
+        return $this->hasOne(LetterMember::class, 'letter_id')->where('position', 'Ketua');
+    }
 }

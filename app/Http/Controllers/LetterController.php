@@ -76,17 +76,35 @@ class LetterController extends Controller
                        ->pluck('total', 'status')
                        ->toArray();
         return [
-            'dtSrtDiproses' => $counts['diproses'] ?? 0,
-            'dtSrtDicetak' => $counts['dicetak'] ?? 0,
-            'dtSrtSelesai' => $counts['selesai'] ?? 0,
-            'dtSrtDitolak'  => $counts['ditolak'] ?? 0,
+            'dtPending'     => $counts['diproses'] ?? 0,
+            'dtApproved'    => $counts['dicetak'] ?? 0,
+            'dtDone'        => $counts['selesai'] ?? 0,
+            'dtRejected'    => $counts['ditolak'] ?? 0,
         ];
     }
 
     public function index(int $statusId, string $viewName): View
     {
-        $letters = Letter::where('status', $statusId)->get();
-        return view('admin.process.' . $viewName, compact('letters'));
+        $data = $this->getBaseData(request());
+        $letters = Letter::with(['leader.user'])->where('status', $statusId)->get();
+
+        $uniqueExternalIds = $letters->pluck('leader.user.external_id')->filter()->toArray();
+        // dd($uniqueExternalIds);
+        $nimCache = [];
+
+        foreach ($uniqueExternalIds as $ids) {
+            $studentData = StudentHelper::getDetail($data['token'], $ids);
+            $nimCache[$ids] = $studentData['nim'] ?? '-'; 
+        }
+
+        foreach ($letters as $l) {
+            if ($l->leader && $l->leader->user) {
+                $extId = $l->leader->user->external_id;
+                $l->leader_nim = $nimCache[$extId] ?? '-';
+            }
+        }
+
+        return view('admin.process.' . $viewName, compact('letters', 'data'));
     }
 
     public function track(Request $request)
@@ -113,6 +131,7 @@ class LetterController extends Controller
     public function create(Request $request)
     {
         $data = $this->getBaseData($request);
+        // dd($data);
 
         $authID     = $data['authID'];
         $type       = $data['type'];
@@ -137,10 +156,10 @@ class LetterController extends Controller
 
         $members = [];
         $members[Auth::user()->id] = 'Ketua';
-        $inputNims = is_array($request->members) ? $request->members : [$request->members];
+        $inputIDs = is_array($request->members) ? $request->members : [$request->members];
 
-        foreach ($inputNims as $nim) {
-            $studentData = StudentHelper::getStudents($data['token'], $nim);
+        foreach ($inputIDs as $ids) {
+            $studentData = StudentHelper::getStudents($data['token'], $ids);
             if ($studentData && isset($studentData['id'])) {
                 $localUser = User::where('external_id', $studentData['id'])->first();
                 if ($localUser && $localUser->id !== Auth::user()->id) {
@@ -148,7 +167,7 @@ class LetterController extends Controller
                 }
             }
         }
-        $members = array_unique($members);
+        // $members = array_unique($members);
 
         $letter = Letter::create([
             'ref_no'    => null,
@@ -185,7 +204,7 @@ class LetterController extends Controller
     public function show(string $id)
     {
         $letters = Letter::findOrFail($id);
-        $dosen = dosen::findOrFail($letters->id_dosen);
+        // $dosen = dosen::findOrFail($letters->id_dosen);
         return view('admin.surat.detail', compact(['surat','dosen']));
     }
 
@@ -216,7 +235,7 @@ class LetterController extends Controller
     public function print(string $id)
     {
         $letters = Letter::findOrFail($id);
-        $dosen = dosen::findOrFail($letters->id_dosen);
+        // $dosen = dosen::findOrFail($letters->id_dosen);
         if($letters->type == 'MK') {
             return view('template-surat.MK', compact(['surat','dosen']));
         } else if($letters->type == 'PK') {

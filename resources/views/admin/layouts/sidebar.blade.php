@@ -42,13 +42,16 @@
                 <ul class="nxl-submenu">
                     <!-- <li class="nxl-item"><a class="nxl-link" href="">Semua Surat</a></li> -->
                     <li class="nxl-item {{ request()->routeIs('pending') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('pending') }}">Diproses<span class="badge badge-warning right">{{ $letterCounts['dtSrtDiproses'] }}</span></a>
+                      <a class="nxl-link" href="{{ route('pending') }}">Diproses<span class="badge bg-warning text-dark">{{ $letterCounts['dtPending'] }}</span></a>
                     </li>
                     <li class="nxl-item {{ request()->routeIs('approved') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('approved') }}">Selesai<span class="badge badge-success right">{{ $letterCounts['dtSrtSelesai'] }}</span></a>
+                      <a class="nxl-link" href="{{ route('approved') }}">Dicetak<span class="badge bg-info">{{ $letterCounts['dtApproved'] }}</span></a>
+                    </li>
+                    <li class="nxl-item {{ request()->routeIs('done') ? 'active' : '' }}">
+                      <a class="nxl-link" href="{{ route('done') }}">Selesai<span class="badge bg-success">{{ $letterCounts['dtDone'] }}</span></a>
                     </li>
                     <li class="nxl-item {{ request()->routeIs('rejected') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('rejected') }}">Ditolak<span class="badge badge-danger right">{{ $letterCounts['dtSrtDitolak'] }}</span></a>
+                      <a class="nxl-link" href="{{ route('rejected') }}">Ditolak<span class="badge bg-danger">{{ $letterCounts['dtRejected'] }}</span></a>
                     </li>
                 </ul>
             </li>

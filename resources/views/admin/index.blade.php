@@ -19,17 +19,8 @@
                             <div class="col-xxl-3 col-lg-6 col-md-6">
                                 <div class="card stretch stretch-full border border-dashed border-gray-5">
                                     <div class="card-body rounded-3 text-center">
-                                        <i class="bi bi-envelope fs-3 text-primary"></i>
-                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ array_sum($letterCounts) }}</div>
-                                        <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Total Surat</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-lg-6 col-md-6">
-                                <div class="card stretch stretch-full border border-dashed border-gray-5">
-                                    <div class="card-body rounded-3 text-center">
-                                        <i class="bi bi-envelope-heart fs-3 text-teal"></i>
-                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtSrtDiproses'] }}</div>
+                                        <i class="bi bi-envelope-plus fs-3 text-warning"></i>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtPending'] }}</div>
                                         <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Masuk</p>
                                     </div>
                                 </div>
@@ -37,8 +28,17 @@
                             <div class="col-xxl-3 col-lg-6 col-md-6">
                                 <div class="card stretch stretch-full border border-dashed border-gray-5">
                                     <div class="card-body rounded-3 text-center">
+                                        <i class="bi bi-envelope-heart fs-3 text-teal"></i>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtApproved'] }}</div>
+                                        <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Dicetak</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-lg-6 col-md-6">
+                                <div class="card stretch stretch-full border border-dashed border-gray-5">
+                                    <div class="card-body rounded-3 text-center">
                                         <i class="bi bi-envelope-check fs-3 text-success"></i>
-                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtSrtSelesai'] }}</div>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtDone'] }}</div>
                                         <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Selesai</p>
                                     </div>
                                 </div>
@@ -47,12 +47,21 @@
                                 <div class="card stretch stretch-full border border-dashed border-gray-5">
                                     <div class="card-body rounded-3 text-center">
                                         <i class="bi bi-envelope-slash fs-3 text-danger"></i>
-                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtSrtDitolak'] }}</div>
+                                        <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ $letterCounts['dtRejected'] }}</div>
                                         <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Surat Ditolak</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="col-xxl-12 col-lg-12 col-md-12">
+                            <div class="card stretch stretch-full border border-dashed border-gray-5">
+                                <div class="card-body rounded-3 text-center">
+                                    <i class="bi bi-envelope fs-3 text-primary"></i>
+                                    <div class="fs-4 fw-bolder text-dark mt-3 mb-1">{{ array_sum($letterCounts) }}</div>
+                                    <p class="fs-14 fw-bold text-muted text-spacing-1 mb-0 text-truncate-1-line">Total Surat</p>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
