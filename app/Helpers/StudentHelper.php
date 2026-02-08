@@ -33,6 +33,7 @@ class StudentHelper
 
     public static function getDetail(string $token, string $id): ?array
     {
+        // dd($id);
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->withQueryParameters([
@@ -41,13 +42,15 @@ class StudentHelper
         ->get(config('app.super_app_url_internal') . '/students');
 
         if ($response->successful()) {
-            $student = $response->json()['data'] ?? $response->json(); // Cek jika 'data' ada atau langsung objek
+            // dd( $response->json());
+            $student = $response->json()['data'] ?? $response->json();
 
             if (!empty($student)) {
                 return [
                     'nim'  => $student['student_detail']['nim'] ?? '-',
                     'name' => $student['name'] ?? '-',
                 ];
+                // dd($student);
             }
         }
 

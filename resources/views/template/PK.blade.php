@@ -15,8 +15,8 @@
             width: 21cm;
         }
         body{
-            margin-top: 4.5cm;
-            margin-bottom: 2cm;
+            margin-top: 5cm;
+            margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
             font-size: 12pt;
@@ -36,9 +36,8 @@
     <table>
         <tr height="25">
             <td>Nomor </td>
-            <td>: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; / 
-                {{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}</td>
+            <!-- untuk eskternal, print dulu baru ngisi no surat, setelah dicetak isi nomer surat dan upload file scan -->
+            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . $letter->ref_no !!}</td>
         </tr>
         <tr height="25">
             <td>Lampiran </td>
@@ -56,19 +55,22 @@
         <tr>
             <td>Yth.</td>
         </tr>
-        @if (!is_null($surat->kepada))
+        @if (!is_null($letter->to))
         <tr>
-            <td>{{ $surat->kepada }}</td>
+            <td>{{ $letter->to }}</td>
         </tr>
         @endif
         <tr>
-            <td>{{ $surat->mitra }}</td>
+            <td>{{ $letter->company }}</td>
         </tr>
         <tr>
-            <td>{{ $surat->alamat }}, {{ $surat->kecamatan }}, {{ $surat->kabupaten }}</td>
+            <td>{{ $letter->address }}</td>
         </tr>
         <tr>
-            <td>{{ $surat->provinsi }}</td>
+            <td>{{ $letter->subdistrict }}, {{ $letter->regency }}</td>
+        </tr>
+        <tr>
+            <td>{{ $letter->province }}</td>
         </tr>
         <tr>
             <td height="10"></td>
@@ -84,14 +86,15 @@
             <td style="padding-bottom: 5px">
                 Dalam rangka penyelenggaraan pendidikan vokasional di Politeknik Negeri Jember, 
                 maka mahasiswa wajib melaksanakan Magang/Praktek Kerja Lapangan (PKL) di perusahaan/industri/instansi/
-                <i>strategic business unit</i> selama 1(satu) semester sebagai salah satu syarat wajib kelulusan.
+                <i>strategic business unit</i> selama 1 (satu) semester sebagai salah satu syarat wajib kelulusan.
             </td>
         </tr>
         <tr>
             <td style="padding-bottom: 10px">
                 Sehubungan dengan hal tersebut mohon perkenan untuk mengizinkan mahasiswa kami dari Program Studi 
                 Sarjana Terapan Teknik Informatika guna melaksanakan Magang/PKL di perusahaan yang Bapak/Ibu pimpin
-                mulai dari tanggal 20 September 2025 s.d. 14 Januari 2026.
+                mulai dari tanggal {{ Carbon::parse($letter->start_date)->locale('id')->translatedFormat('d F Y') }} 
+                s.d. {{ Carbon::parse($letter->end_date)->locale('id')->translatedFormat('d F Y') }}.
             </td>
         </tr>
         <tr>
@@ -128,10 +131,9 @@
         <tr>
             <td style="padding-bottom: 5px">
                 Konfirmasi penerimaan kegiatan Magang/PKL dapat disampaikan pada 
-                {{ $surat->id_dosen == $dosen->KODE_DOSEN ? $dosen->NAMA_DOSEN : '-' }} 
-                selaku Koordinator Magang Program Studi Teknik Informatika Jurusan Teknologi 
-                Informasi melalui nomor telepon {{ $surat->id_dosen == $dosen->KODE_DOSEN ? $dosen->NO_HP : '-' }} 
-                {{ ($surat->id_dosen == $dosen->KODE_DOSEN && !is_null($dosen->EMAIL)) ? 'dan email '.$dosen->EMAIL : '' }}
+                {{ $letter->lecturer_name }} selaku Koordinator Magang Program Studi Teknik Informatika 
+                Jurusan Teknologi Informasi melalui nomor telepon {{ $letter->lecturer_phone }} 
+                {{ !is_null($letter->lecturer_email) ? 'dan email'.$letter->lecturer_email.'.' : '' }}
             </td>
         </tr>
         <tr>
@@ -140,20 +142,20 @@
             </td>
         </tr>
     </table>
-    @if ($surat->kebutuhan == 'Eksternal')
-    <table align="right">
+    @if ($letter->necessity == 'eksternal')
+    <table align="right" width="42%">
         <tr>
             <td>A.n Direktur</td>
         </tr>
         <tr>
-            <td>Wakil Direktur Bidang Akademik</td>
+            <!-- <td>Wakil Direktur Bidang Akademik<br>dan Perencanaan</td> -->
+            <td>Wadir Bid. Akademik dan Perencanaan</td>
         </tr>
-        
         <tr height="110">
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td>Surateno, S.Kom, M.Kom</td>
+            <td>Ir. Surateno, S.Kom, M.Kom</td>
         </tr>
         <tr>
             <td>NIP. 19790703 200312 1 001</td>
@@ -172,7 +174,7 @@
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td>Hendra Yufit Riskiawan, S.Kom, M.Cs</td>
+            <td>Ir. Hendra Yufit Riskiawan, S.Kom, M.Cs</td>
         </tr>
         <tr>
             <td>NIP. 19830203 200604 1 003</td>

@@ -203,29 +203,44 @@ class LetterController extends Controller
      */
     public function show(string $id)
     {
-        $letters = Letter::findOrFail($id);
-        // $dosen = dosen::findOrFail($letters->id_dosen);
-        return view('admin.surat.detail', compact(['surat','dosen']));
+        // $letter = Letter::findOrFail($id);
+        $data = $this->getBaseData(request());
+        $letter = Letter::with('members')->findOrFail($id); 
+        $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
+        $memberName = $letter->members->first()?->user?->name;
+        $totalMembers = $letter->members->count();
+        $token = $data['token'];
+
+        foreach ($letter->members as $member) {
+            $studentApi = StudentHelper::getDetail($token, $member->user_id);
+            if ($studentApi) {
+                $member->nim  = $studentApi['nim'];
+            }
+        }
+        return view('admin.process.detail', compact('letter', 'lecturer', 'data', 'memberName', 'totalMembers'));
     }
 
     public function update(Request $request, string $id) :RedirectResponse
     {      
         $letters = Letter::findOrFail($id);
+
         if($request->input('action') == 'confirm') {
-            $request->validate([
-                'no_surat'     => 'required',
-            ]);
+            if($letters->necessity == 'internal') {
+                $request->validate([
+                    'ref_no'     => 'required',
+                ]);
+            }
             $letters->update([
-                'no_surat'     => $request->no_surat.' / '.($letters->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y'),
-                'status'       => 2,
+                'ref_no'     => $request->ref_no. "/ ".($letters->necessity == 'eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y') ?? null,
+                'status'       => 'dicetak',
             ]);
         } else {
             $request->validate([
-                'alasan'     => 'required|min:2',
+                'excuses'     => 'required|min:2',
             ]);
             $letters->update([
-                'alasan'     => $request->alasan,
-                'status'     => 3,
+                'excuses'     => $request->alasan,
+                'status'     => 'ditolak',
             ]);
         }
         
@@ -234,15 +249,13 @@ class LetterController extends Controller
 
     public function print(string $id)
     {
-        $letters = Letter::findOrFail($id);
-        // $dosen = dosen::findOrFail($letters->id_dosen);
-        if($letters->type == 'MK') {
-            return view('template-surat.MK', compact(['surat','dosen']));
-        } else if($letters->type == 'PK') {
-            return view('template-surat.PK', compact(['surat','dosen']));
-        } else if($letters->type == 'TA') {
-            return view('template-surat.TA', compact(['surat','dosen']));
-        }
+        $data = $this->getBaseData(request());
+        $letter = Letter::with('members')->findOrFail($id);
+        // $letters = Letter::findOrFail($id);
+        $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
+        $type = $data['type']->firstWhere('id', $letter->type_id)?->abbr;
+
+        return view('template.'. $type, compact(['letter','lecturer']));
     }
 
 

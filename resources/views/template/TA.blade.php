@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dokumen Pengajuan Surat PKL</title>
+    <title>Dokumen Pengajuan letter PKL</title>
     <link rel="stylesheet" href="">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -15,8 +15,8 @@
             width: 21cm;
         }
         body{
-            margin-top: 4.5cm;
-            margin-bottom: 2cm;
+            margin-top: 5cm;
+            margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
             font-size: 12pt;
@@ -36,9 +36,7 @@
     <table>
         <tr height="25">
             <td>Nomor </td>
-            <td>: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; / 
-                {{ $surat->kebutuhan == 'Eksternal' ? 'PL17' : 'PL17.3.5'}} / PP / {{ date('Y') }}</td>
+            <td>: {{ $letter->ref_no }}</td>
         </tr>
         <tr height="25">
             <td>Lampiran </td>
@@ -56,19 +54,22 @@
         <tr>
             <td>Yth.</td>
         </tr>
-        @if (!is_null($surat->kepada))
+        @if (!is_null($letter->to))
         <tr>
-            <td>{{ $surat->kepada }}</td>
+            <td>{{ $letter->to }}</td>
         </tr>
         @endif
         <tr>
-            <td>{{ $surat->mitra }}</td>
+            <td>{{ $letter->company }}</td>
         </tr>
         <tr>
-            <td>{{ $surat->alamat }}, {{ $surat->kecamatan }}, {{ $surat->kabupaten }}</td>
+            <td>{{ $letter->address }}</td>
         </tr>
         <tr>
-            <td>{{ $surat->provinsi }}</td>
+            <td>{{ $letter->subdistrict }}, {{ $letter->regency }}</td>
+        </tr>
+        <tr>
+            <td>{{ $letter->province }}</td>
         </tr>
         <tr>
             <td height="10"></td>
@@ -118,10 +119,9 @@
         <tr>
             <td style="padding-bottom: 5px">
                 Konfirmasi kesediaan Bapak/Ibu untuk menerima izin survei mahasiswa kami dapat disampaikan 
-                pada {{ $surat->id_dosen == $dosen->KODE_DOSEN ? $dosen->NAMA_DOSEN : '-' }} selaku 
-                Koordinator Bidang Bidang Tugas Akhir Program Studi Teknik Informatika Jurusan Teknologi 
-                Informasi melalui nomor telepon {{ $surat->id_dosen == $dosen->KODE_DOSEN ? $dosen->NO_HP : '-' }} 
-                {{ ($surat->id_dosen == $dosen->KODE_DOSEN && !is_null($dosen->EMAIL)) ? 'dan email '.$dosen->EMAIL : '' }}
+                pada {{ $letter->lecturer_name }} selaku Koordinator Bidang Tugas Akhir Program Studi Teknik Informatika 
+                Jurusan Teknologi Informasi melalui nomor telepon {{ $letter->lecturer_phone }} 
+                {{ !is_null($letter->lecturer_email) ? 'dan email'.$letter->lecturer_email.'.' : '' }}
             </td>
         </tr>
         <tr>
@@ -131,20 +131,20 @@
             </td>
         </tr>
     </table>
-    @if ($surat->kebutuhan == 'Eksternal')
+    @if ($letter->kebutuhan == 'Eksternal')
     <table align="right">
         <tr>
             <td>A.n Direktur</td>
         </tr>
         <tr>
-            <td>Wakil Direktur Bidang Akademik</td>
+            <td>Wakil Direktur Bidang Akademik dan Perencanaan</td>
         </tr>
         
         <tr height="110">
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td>Surateno, S.Kom, M.Kom</td>
+            <td>Ir. Surateno, S.Kom, M.Kom</td>
         </tr>
         <tr>
             <td>NIP. 19790703 200312 1 001</td>
@@ -163,7 +163,7 @@
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td>Hendra Yufit Riskiawan, S.Kom, M.Cs</td>
+            <td>Ir. Hendra Yufit Riskiawan, S.Kom, M.Cs</td>
         </tr>
         <tr>
             <td>NIP. 19830203 200604 1 003</td>

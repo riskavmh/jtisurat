@@ -42,16 +42,28 @@
                 <ul class="nxl-submenu">
                     <!-- <li class="nxl-item"><a class="nxl-link" href="">Semua Surat</a></li> -->
                     <li class="nxl-item {{ request()->routeIs('pending') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('pending') }}">Diproses<span class="badge bg-warning text-dark">{{ $letterCounts['dtPending'] }}</span></a>
+                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('pending') }}">
+                            <span class="d-flex align-items-center">Diproses</span>
+                            <span class="badge bg-warning">{{ $letterCounts['dtPending'] }}</span>
+                        </a>
                     </li>
                     <li class="nxl-item {{ request()->routeIs('approved') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('approved') }}">Dicetak<span class="badge bg-info">{{ $letterCounts['dtApproved'] }}</span></a>
+                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('approved') }}">
+                            <span class="d-flex align-items-center">Dicetak</span>
+                            <span class="badge bg-teal">{{ $letterCounts['dtApproved'] }}</span>
+                        </a>
                     </li>
                     <li class="nxl-item {{ request()->routeIs('done') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('done') }}">Selesai<span class="badge bg-success">{{ $letterCounts['dtDone'] }}</span></a>
+                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('done') }}">
+                            <span class="d-flex align-items-center">Selesai</span>
+                            <span class="badge bg-success">{{ $letterCounts['dtDone'] }}</span>
+                        </a>
                     </li>
                     <li class="nxl-item {{ request()->routeIs('rejected') ? 'active' : '' }}">
-                      <a class="nxl-link" href="{{ route('rejected') }}">Ditolak<span class="badge bg-danger">{{ $letterCounts['dtRejected'] }}</span></a>
+                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('rejected') }}">
+                            <span class="d-flex align-items-center">Ditolak</span>
+                            <span class="badge bg-danger">{{ $letterCounts['dtRejected'] }}</span>
+                        </a>
                     </li>
                 </ul>
             </li>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('letters', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('ref_no')->nullable();
+            $table->string('ref_no')->nullable();
             $table->uuid('type_id');
             $table->string('lecturer_id')->nullable();
             $table->string('course')->nullable();

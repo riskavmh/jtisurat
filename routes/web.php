@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/form', [LetterController::class, 'create'])->name('form');
     Route::get('/track', [LetterController::class, 'track'])->name('track');
     Route::post('/form/store', [LetterController::class, 'store'])->name('form.store');
-    Route::get('/print/{id}', [LetterController::class, 'show'])->name('print');
+    Route::get('/print/{id}', [LetterController::class, 'print'])->name('print');
 
     
     Route::prefix('admin')->group(function () {

@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title', 'Data Surat Masuk')
+@section('title', 'Data Surat Diterima')
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/dataTables.bs5.min.css') }}">
@@ -41,7 +41,7 @@
                                 <tbody>
                                     @php $no = 1; @endphp
                                     @foreach($letters as $l)
-                                    @if($l->status == 'diproses')
+                                    @if($l->status == 'dicetak')
                                     <tr class="single-item">
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $l->leader_nim }}</td>
@@ -58,6 +58,9 @@
                                                 </a> -->
                                                 <a href="{{ route('detail', $l->id) }}" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-placement="top" title="detail">
                                                     <i class="feather feather-info"></i>
+                                                </a>
+                                                <a href="{{ route('print', $l->id) }}" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+                                                    <i class="feather feather-printer"></i>
                                                 </a>
                                             </div>
                                         </td>

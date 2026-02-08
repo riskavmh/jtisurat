@@ -62,6 +62,11 @@
       display: none;
     }
 
+    .form-check-input {
+      /* background-color: #ff0000; */
+      border-color: #470808;
+    }
+
     .form-floating > .form-control {
       height: calc(3.5rem + 2px);
       line-height: 1.25;
@@ -229,17 +234,10 @@
                   </div>
                 </div>
 
-                <!-- <div class="row gy-4 mb-5 align-items-center">
-                  <label class="col-2 col-form-label">Keterangan</label>
-                  <div class="col-10">
-                    <textarea class="form-control" name="note" placeholder="Keterangan untuk admin, tidak ditampilkan pada surat (kosongi jika tidak perlu)" rows="3" maxlength="255"></textarea>
-                  </div>
-                </div> -->
-
-                  <h6 class="mb-3"><strong>Data Anggota Kelompok</strong></h6>
+                  <h6 class="mb-3 mt-5 border-top pt-4"><strong>Data Anggota Kelompok</strong></h6>
 
                   <div id="member-container">
-                      <div class="anggota-item mb-5">
+                      <div class="anggota-item mb-5 mt-3">
                           <div class="row gy-4 mb-3 d-flex align-items-center">
                               <label class="col-2 col-form-label">NIM</label>
                               <div class="col-10">
@@ -278,6 +276,16 @@
                     <button type="button" id="btn-removelast" class="btn-del-anggota d-none">
                         <i class="bi bi-x-circle"></i>&nbsp;Hapus Anggota
                     </button>
+                  </div>
+
+                  <div class="form-check mt-5 col-12 border-top pt-3">
+                    <input class="form-check-input" type="checkbox" required>
+                    <label class="form-check-label col-12" for="flexCheckDefault">
+                      Saya yakin data surat yang saya masukkan sudah benar.
+                    </label>
+                    <label>
+                    Jika belum yakin silahkan cek <a href="">Manual Book JTI Surat</a>.
+                    </label>
                   </div>
 
                   <div class="col-12 text-center mt-5 mb-0">
@@ -396,25 +404,25 @@
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label text-danger fw-bold">NIM Anggota</label>
                     <div class="col-10">
-                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM Mahasiswa">
+                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM Mahasiswa. Tekan Tab.">
                     </div>
                 </div>
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">Nama Lengkap</label>
                     <div class="col-10">
-                        <input type="text" class="form-control member-name" readonly placeholder="Otomatis...">
+                        <input type="text" class="form-control member-name" readonly placeholder="">
                     </div>
                 </div>
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label">Program Studi</label>
                     <div class="col-10">
-                        <input type="text" class="form-control member-studyprogram" readonly placeholder="Otomatis...">
+                        <input type="text" class="form-control member-studyprogram" readonly placeholder="">
                     </div>
                 </div>
                 <div class="row gy-4 mb-5 d-flex align-items-center">
                     <label class="col-2 col-form-label">No. Telp</label>
                     <div class="col-10">
-                        <input type="text" class="form-control member-phonenumber" readonly placeholder="Otomatis...">
+                        <input type="text" class="form-control member-phonenumber" readonly placeholder="">
                     </div>
                 </div>
             </div>`;
