@@ -86,22 +86,7 @@ class LetterController extends Controller
     {
         $data = $this->getBaseData(request());
         $letters = Letter::with(['leader.user'])->where('status', $statusId)->get();
-
-        $uniqueExternalIds = $letters->pluck('leader.user.external_id')->filter()->toArray();
-        // dd($uniqueExternalIds);
-        $nimCache = [];
-
-        foreach ($uniqueExternalIds as $ids) {
-            $studentData = StudentHelper::getDetail($data['token'], $ids);
-            $nimCache[$ids] = $studentData['nim'] ?? '-'; 
-        }
-
-        foreach ($letters as $l) {
-            if ($l->leader && $l->leader->user) {
-                $extId = $l->leader->user->external_id;
-                $l->leader_nim = $nimCache[$extId] ?? '-';
-            }
-        }
+        // dd($letters);
 
         return view('admin.process.' . $viewName, compact('letters', 'data'));
     }
@@ -183,7 +168,6 @@ class LetterController extends Controller
             'start_date'=> $request->start_date,
             'end_date'  => $request->end_date ?? null,
             'necessity' => $request->necessity,
-            'note'      => $request->note ?? null,
             'excuses'   => null,
         ]);
 
@@ -204,19 +188,12 @@ class LetterController extends Controller
     {
         // $letter = Letter::findOrFail($id);
         $data = $this->getBaseData(request());
-        $letter = Letter::with('members')->findOrFail($id); 
+        $dtLeader = Letter::with('leader.user')->findOrFail($id); 
+        $letter = Letter::with('members.user')->findOrFail($id); 
         $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
-        $memberName = $letter->members->first()?->user?->name;
         $totalMembers = $letter->members->count();
-        $token = $data['token'];
 
-        foreach ($letter->members as $member) {
-            $studentApi = StudentHelper::getDetail($token, $member->user_id);
-            if ($studentApi) {
-                $member->nim  = $studentApi['nim'];
-            }
-        }
-        return view('admin.process.detail', compact('letter', 'lecturer', 'data', 'memberName', 'totalMembers'));
+        return view('admin.process.detail', compact('letter', 'dtLeader', 'lecturer', 'data', 'totalMembers'));
     }
 
     public function update(Request $request, string $id) :RedirectResponse

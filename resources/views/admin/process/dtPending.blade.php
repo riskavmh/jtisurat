@@ -44,7 +44,7 @@
                                     @if($l->status == 'diproses')
                                     <tr class="single-item">
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $l->leader_nim }}</td>
+                                        <td>{{ $l->leader->user->identity_no }}</td>
                                         <td>{{ collect($data['type'])->firstWhere('id', $l->type_id)->abbr ?? null }}</td>
                                         <td>{{ $l->company }}</td>
                                         <td>{{ $l->created_at->locale('id')->translatedFormat('d F Y, H:i') }}</td>

@@ -28,7 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'identity_no',
-        'id_program_study',
+        'id_study_program',
         'study_program_name',
         'external_id',
         'token',

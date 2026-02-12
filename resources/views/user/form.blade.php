@@ -287,7 +287,7 @@
                       </div>
                   </div>
 
-                  <div class="mt-5 mb-0 d-flex gap-2">
+                  <div class="mt-5 mb-0 gap-2" id="add_members">
                     <button type="button" id="btn-add-members" class="btn-anggota">
                       <i class="bi bi-plus-circle"></i>&nbsp;Tambah Anggota
                     </button>
@@ -382,6 +382,7 @@
         $("#research_title").show();
         $("#course").show();
         $("#end_date").hide();
+        $("#add_members").show();
         $("#lecturer").text("Dosen");
         $("#start_date").text("Tanggal Pelaksanaan");
       }
@@ -389,6 +390,7 @@
         $("#research_title").hide();
         $("#course").hide();
         $("#end_date").show();
+        $("#add_members").show();
         $("#lecturer").text("Koordinator");
         $("#start_date").text("Tanggal Mulai");
       }
@@ -396,6 +398,7 @@
         $("#research_title").show();
         $("#course").hide();
         $("#end_date").hide();
+        $("#add_members").hide();
         $("#lecturer").text("Koordinator");
         $("#start_date").text("Tanggal Pelaksanaan");
       }

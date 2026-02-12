@@ -33,11 +33,6 @@ class OAuthController extends Controller
     }
 
     $data = $response->json();
-    // dd($data);
-
-    // $token  = $request->user()->token;
-    
-
 
     $dto = new UserLoginResponseDto(
       token: $data['data']['token'],
@@ -60,29 +55,25 @@ class OAuthController extends Controller
         'permissions' => $dto->user->permissions ? $dto->user->permissions : null,
       ]
     );
-    // dd($data);
     
     $auth   = collect(AuthHelper::getMe($dto->token)['data'])->toArray();
-    // dd($auth);
-    User::findOrFail($user->id)->update([
-      'identity_no' => isset($auth['student_detail']) ? $auth['student_detail']['nim'] : $auth['employee_detail']['nip'],
-      'id_study_program' => isset($auth['student_detail']) ? $auth['student_detail']['m_study_program_id'] : $auth['employee_detail']['m_study_program_id'],
-      'study_program_name' => isset($auth['student_detail']) ? $auth['student_detail']['study_program_name'] : $auth['employee_detail']['study_program_name'],
+    $user->update([
+      'identity_no' => !is_null($auth['student_detail']) ? $auth['student_detail']['nim'] : $auth['employee_detail']['nip'],
+      'id_study_program' => !is_null($auth['student_detail']) ? $auth['student_detail']['m_study_program_id'] : $auth['employee_detail']['m_study_program_id'],
+      'study_program_name' => !is_null($auth['student_detail']) ? $auth['student_detail']['study_program_name'] : $auth['employee_detail']['study_program_name'],
       'phone_number' => $auth['phone_number'] ?? null,
     ]);
-    
 
     Auth::login($user);
 
     $roles = collect($data['data']['user']['roles']);
     $targetRoles = ['student', 'lecturer', 'technician'];
-    // return redirect()->route('/');
 
     if($roles->intersect($targetRoles)->isNotEmpty()){
         return redirect('/');
     }
     
-    if ($roles->contains('admin', 'superadmin_jtisurat')) {
+    if ($roles->contains('admin')) {
         return redirect('admin');
     }
 

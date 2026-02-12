@@ -69,8 +69,8 @@
                                         <tr>
                                             <th colspan="4">Data Mahasiswa</th>
                                         </tr>
-                                        <tr>
-                                            <th width="10%">No</th>
+                                        <tr  class="text-center">
+                                            <th width="5%">No</th>
                                             <th>NIM</th>
                                             <th>Nama Lengkap</th>
                                             <th>No. Telp</th>
@@ -86,10 +86,12 @@
                                         @endphp
                                         @foreach($letter->members as $member) 
                                         <tr>
-                                            <td>{{ $no++ }}</td>
-                                            <td>{{ $member->nim }}</td>
-                                            <td>{{ $memberName }}</td>
-                                            <td rowspan="{{ $totalMembers }}"></td>
+                                            <td class="text-center">{{ $no++ }}</td>
+                                            <td class="text-center">{{ $member->user->identity_no }}</td>
+                                            <td>{{ $member->user->name }}</td>
+                                            @if($loop->first)
+                                            <td rowspan="{{ $totalMembers }}" class="text-center">{{ $dtLeader->leader->user->phone_number ?? null }}</td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>
