@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Dto\Auth\UserLoginInfoDto;
 use App\Dto\Auth\UserLoginResponseDto;
 use App\Http\Controllers\Controller;
+use App\Helpers\AuthHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -32,6 +33,11 @@ class OAuthController extends Controller
     }
 
     $data = $response->json();
+    // dd($data);
+
+    // $token  = $request->user()->token;
+    
+
 
     $dto = new UserLoginResponseDto(
       token: $data['data']['token'],
@@ -43,7 +49,7 @@ class OAuthController extends Controller
         permissions: $data['data']['user']['permissions'] ?? null,
       ),
     );
-
+    // dd($dto);
     $user = User::updateOrCreate(
       ['external_id' => $dto->user->id],
       [
@@ -54,6 +60,17 @@ class OAuthController extends Controller
         'permissions' => $dto->user->permissions ? $dto->user->permissions : null,
       ]
     );
+    // dd($data);
+    
+    $auth   = collect(AuthHelper::getMe($dto->token)['data'])->toArray();
+    // dd($auth);
+    User::findOrFail($user->id)->update([
+      'identity_no' => isset($auth['student_detail']) ? $auth['student_detail']['nim'] : $auth['employee_detail']['nip'],
+      'id_study_program' => isset($auth['student_detail']) ? $auth['student_detail']['m_study_program_id'] : $auth['employee_detail']['m_study_program_id'],
+      'study_program_name' => isset($auth['student_detail']) ? $auth['student_detail']['study_program_name'] : $auth['employee_detail']['study_program_name'],
+      'phone_number' => $auth['phone_number'] ?? null,
+    ]);
+    
 
     Auth::login($user);
 
@@ -65,7 +82,7 @@ class OAuthController extends Controller
         return redirect('/');
     }
     
-    if ($roles->contains('admin')) {
+    if ($roles->contains('admin', 'superadmin_jtisurat')) {
         return redirect('admin');
     }
 

@@ -63,18 +63,36 @@
     }
 
     .form-check-input {
-      /* background-color: #ff0000; */
       border-color: #470808;
     }
-
-    .form-floating > .form-control {
-      height: calc(3.5rem + 2px);
-      line-height: 1.25;
+    .form-check-input:checked {
+      background-color: #cc2929 !important;
+      border-color: #ff5733 !important;
+    }
+        .form-check-input:focus {
+        border-color: #ff5733 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 87, 51, 0.25) !important;
     }
 
-    .form-floating > label {
-      padding: 1rem 0.75rem;
-      color: rgba(0, 0, 0, 0.5);
+    .input-nim-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nim-input {
+      width: 100%;
+      /* Beri padding kanan agar teks yang diketik tidak menabrak tulisan 'Tekan Tab' */
+      padding-right: 100px !important; 
+    }
+
+    .tab-hint {
+      position: absolute;
+      right: 15px;
+      color: #a0aec0; /* Warna abu-abu seperti placeholder */
+      font-size: 0.9rem;
+      pointer-events: none; /* Agar user tetap bisa klik input meski terkena teks ini */
+      user-select: none;    /* Agar teks tidak bisa di-highlight */
     }
   </style>
 </head>
@@ -277,15 +295,15 @@
                         <i class="bi bi-x-circle"></i>&nbsp;Hapus Anggota
                     </button>
                   </div>
-
-                  <div class="form-check mt-5 col-12 border-top pt-3">
-                    <input class="form-check-input" type="checkbox" required>
-                    <label class="form-check-label col-12" for="flexCheckDefault">
-                      Saya yakin data surat yang saya masukkan sudah benar.
-                    </label>
-                    <label>
-                    Jika belum yakin silahkan cek <a href="">Manual Book JTI Surat</a>.
-                    </label>
+                  
+                  <div class="form-check mt-5 col-12 border-top pt-3 text-center">
+                    <div class="d-block">
+                        <input class="form-check-input d-inline-block" type="checkbox" style="float: none;" required> &nbsp;
+                        <label class="form-check-label" for="flexCheckDefault">Saya yakin data surat yang saya masukkan sudah benar.</label>
+                    </div>
+                    <div class="d-block">
+                        <label>Jika belum yakin silahkan cek : <a href="#">Manual Book JTI Surat</a></label>
+                    </div>
                   </div>
 
                   <div class="col-12 text-center mt-5 mb-0">
@@ -404,7 +422,7 @@
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label text-danger fw-bold">NIM Anggota</label>
                     <div class="col-10">
-                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM Mahasiswa. Tekan Tab.">
+                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM">
                     </div>
                 </div>
                 <div class="row gy-4 mb-3 d-flex align-items-center">

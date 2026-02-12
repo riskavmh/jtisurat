@@ -16,6 +16,10 @@ class UserLoginInfoDto
     public string $id,
     public string $name,
     public string $email,
+    public ?string $identity_no = null,
+    public ?string $id_program_study = null,
+    public ?string $study_program_name = null,
+    public ?string $phone_number = null,
     public ?array $roles = null,
     public ?array $permissions = null,
   ) {}

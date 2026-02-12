@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('letter_id');
             $table->uuid('user_id');
-            $table->string('nim');
             $table->string('position');
             $table->timestamps();
             
