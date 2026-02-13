@@ -15,7 +15,7 @@
             width: 21cm;
         }
         body{
-            margin-top: 5cm;
+            margin-top: 4.7cm;
             margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
@@ -36,7 +36,7 @@
     <table>
         <tr height="25">
             <td>Nomor </td>
-            <td>: {{ $letter->necessity == 'internal' ? $letter->ref_no : "\t".$letter->ref_no }}</td>
+            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . $letter->ref_no !!}</td>
         </tr>
         <tr height="25">
             <td>Lampiran </td>
@@ -50,7 +50,7 @@
             <td height="10"></td>
         </tr>
     </table>
-    <table width="55%">  
+    <table width="57%">  
         <tr>
             <td>Yth.</td>
         </tr>
@@ -63,10 +63,7 @@
             <td>{{ $letter->company }}</td>
         </tr>
         <tr>
-            <td>{{ $letter->address }}</td>
-        </tr>
-        <tr>
-            <td>{{ $letter->subdistrict }}, {{ $letter->regency }}</td>
+            <td>{{ $letter->address }}, {{ $letter->subdistrict }}, {{ $letter->regency }}</td>
         </tr>
         <tr>
             <td>{{ $letter->province }}</td>
@@ -102,39 +99,28 @@
                         <th width="29%"><strong>Jurusan/Program Studi</strong></th> 
                         <th width="17%"><strong>No. Telp</strong></th> 
                     </tr>
+                    @php $no = 1; @endphp
+                    @foreach($letter->members as $member)
                     <tr >                                
-                        <td align="center">1</td>                                
-                        <td align="left">&nbsp;Riska Virliana Maharanti H.</td>                                                               
-                        <td align="center">E31192024</td>                                
-                        <td align="center">Teknologi Informasi/MIF</td>                                
-                        <td align="center">082335344634</td>                                
+                        <td align="center">{{ $no++ }}</td>                                
+                        <td align="left">&nbsp;{{ $member->user->name }}</td>                                                               
+                        <td align="center">{{ $member->user->identity_no }}</td>                                
+                        <td align="center">Teknologi Informasi / {{ $member->user->study_program_name }}</td>                                
+                        <td align="center">{{ $member->user->phone_number }}</td>                                
                     </tr>
-                    <tr>                                
-                        <td align="center">2</td>                                
-                        <td align="left">&nbsp;Daniel Pugoh Wicaksono</td>                                                               
-                        <td align="center">E32161765</td>
-                        <td align="center">Teknologi Informasi/TKK</td>                                
-                        <td align="center">081332117820</td>                                
-                    </tr>
-                    <tr>                                
-                        <td align="center">3</td>                                
-                        <td align="left">&nbsp;Muhammad Beni Fajri</td>                                                               
-                        <td align="center">E41180839</td>
-                        <td align="center">Teknologi Informasi/TRPL</td>                                
-                        <td align="center">082335952153</td>                                
-                    </tr>
+                    @endforeach
                 </table>
             </td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td style="padding-bottom: 5px">
                 Konfirmasi izin survei mahasiswa kami dapat disampaikan pada 
-                {{ $letter->lecturer_name }}  
-                selaku Dosen Pengampu Mata Kuliah {{ $letter->mata_kuliah }} di Jurusan Teknologi Informasi melalui 
+                {{ $lecturer['label'] ?? null }}  
+                selaku Dosen Pengampu Mata Kuliah {{ $letter->course }} di Jurusan Teknologi Informasi melalui 
                 nomor telepon {{ $letter->lecturer_phone }} 
                 {{ !is_null($letter->lecturer_email) ? 'dan email '.$letter->lecturer_email.'.' : '' }}
             </td>
-        </tr>
+        </tr> -->
         <tr>
             <td style="padding-bottom: 25px">
                 Demikian atas kebijakan dan kerjasama yang baik dari Bapak/Ibu dalam turut serta menunjang

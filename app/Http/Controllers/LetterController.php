@@ -10,6 +10,7 @@ use App\Helpers\AuthHelper;
 use App\Helpers\LecturerHelper;
 use App\Helpers\StudentHelper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -85,8 +86,17 @@ class LetterController extends Controller
     public function index(int $statusId, string $viewName): View
     {
         $data = $this->getBaseData(request());
-        $letters = Letter::with(['leader.user'])->where('status', $statusId)->get();
-        // dd($letters);
+        $userStudyProgramId = auth()->user()->id_study_program;
+
+        $letters = Letter::with(['leader.user'])->where('status', $statusId);
+        
+        if (!auth()->user()->roles || !in_array('superadmin_jtisurat', auth()->user()->roles)) {
+            $letters->whereHas('leader.user', function ($query) use ($userStudyProgramId) {
+                $query->where('id_study_program', $userStudyProgramId);
+            });
+        }
+
+        $letters = $letters->get();
 
         return view('admin.process.' . $viewName, compact('letters', 'data'));
     }
@@ -186,19 +196,21 @@ class LetterController extends Controller
      */
     public function show(string $id)
     {
-        // $letter = Letter::findOrFail($id);
         $data = $this->getBaseData(request());
-        $dtLeader = Letter::with('leader.user')->findOrFail($id); 
-        $letter = Letter::with('members.user')->findOrFail($id); 
+
+        $letter = Letter::with(['leader.user', 'members.user'])->findOrFail($id); 
         $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
         $totalMembers = $letter->members->count();
 
-        return view('admin.process.detail', compact('letter', 'dtLeader', 'lecturer', 'data', 'totalMembers'));
+        $scanUrl = $letter->scanPath ? asset('storage/' . $letter->scanPath) : null;
+
+        return view('admin.process.detail', compact('letter', 'lecturer', 'data', 'totalMembers', 'scanUrl'));
     }
 
     public function update(Request $request, string $id) :RedirectResponse
     {      
         $letters = Letter::findOrFail($id);
+        // dd($request->all());
 
         if($request->input('action') == 'confirm') {
             if($letters->necessity == 'internal') {
@@ -207,16 +219,33 @@ class LetterController extends Controller
                 ]);
             }
             $letters->update([
-                'ref_no'     => $request->ref_no. "/ ".($letters->necessity == 'eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y') ?? null,
+                'ref_no'     => $request->ref_no. " / ".($letters->necessity == 'eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y') ?? null,
                 'status'       => 'dicetak',
             ]);
-        } else {
+        } 
+        
+        if($request->input('action') == 'reject') {
             $request->validate([
                 'excuses'     => 'required|min:2',
             ]);
             $letters->update([
-                'excuses'     => $request->alasan,
+                'excuses'     => $request->excuses,
                 'status'     => 'ditolak',
+            ]);
+        } 
+        
+        if($request->input('action') == 'done') {
+            $request->validate([
+                'scanPath'     => 'required|mimes:pdf|max:2048',
+            ]);
+            
+            $file = $request->file('scanPath');
+            $fileName = 'surat_' . $id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('letters', $fileName, 'public');
+
+            $letters->update([
+                'scanPath' => $path,
+                'status'   => 'selesai',
             ]);
         }
         
@@ -226,7 +255,7 @@ class LetterController extends Controller
     public function print(string $id)
     {
         $data = $this->getBaseData(request());
-        $letter = Letter::with('members')->findOrFail($id);
+        $letter = Letter::with('members.user')->findOrFail($id);
         // $letters = Letter::findOrFail($id);
         $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
         $type = $data['type']->firstWhere('id', $letter->type_id)?->abbr;

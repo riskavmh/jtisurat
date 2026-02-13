@@ -1,7 +1,5 @@
 <div class="header-wrapper">
-    <!--! [Start] Header Left !-->
     <div class="header-left d-flex align-items-center gap-4">
-        <!--! [Start] nxl-head-mobile-toggler !-->
         <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse">
             <div class="hamburger hamburger--arrowturn">
                 <div class="hamburger-box">
@@ -9,8 +7,6 @@
                 </div>
             </div>
         </a>
-        <!--! [Start] nxl-head-mobile-toggler !-->
-        <!--! [Start] nxl-navigation-toggle !-->
         <div class="nxl-navigation-toggle">
             <a href="javascript:void(0);" id="menu-mini-button">
                 <i class="feather-align-left"></i>
@@ -19,17 +15,12 @@
                 <i class="feather-arrow-right"></i>
             </a>
         </div>
-        <!--! [End] nxl-navigation-toggle !-->
-        <!--! [Start] nxl-lavel-mega-menu-toggle !-->
         <div class="nxl-lavel-mega-menu-toggle d-flex d-lg-none">
             <a href="javascript:void(0);" id="nxl-lavel-mega-menu-open">
                 <i class="feather-align-left"></i>
             </a>
         </div>
-        <!--! [End] nxl-lavel-mega-menu-toggle !-->
     </div>
-    <!--! [End] Header Left !-->
-    <!--! [Start] Header Right !-->
     <div class="header-right ms-auto">
         <div class="d-flex align-items-center">
             <div class="nxl-h-item d-none d-sm-flex">
@@ -123,7 +114,7 @@
                             <img src="{{ asset('assets/dashboard/images/avatar/user.svg') }}" alt="user-image" class="img-fluid user-avtar">
                             <div>
                                 <h6 class="text-dark mb-0">{{ Auth::user()->name }}</h6>
-                                <span class="fs-12 fw-medium text-muted">Manajemen Informatika</span>
+                                <span class="fs-12 fw-medium text-muted">{{ Auth::user()->role == 'admin' ? Auth::user()->study_program_name : 'SUPER ADMIN' }}</span>
                             </div>
                         </div>
                     </div>
@@ -139,5 +130,4 @@
             </div>
         </div>
     </div>
-    <!--! [End] Header Right !-->
 </div>

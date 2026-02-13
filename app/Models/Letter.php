@@ -29,6 +29,7 @@ class Letter extends Model
             'necessity',
             'excuses',
             'status',
+            'scanPath',
     ];
 
     public function members()

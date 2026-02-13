@@ -29,6 +29,7 @@ return new class extends Migration
             $table->enum('necessity', ['eksternal', 'internal']);
             $table->string('excuses')->nullable();
             $table->enum('status', ['diproses', 'dicetak', 'selesai', 'ditolak'])->default('diproses');
+            $table->string('scanPath')->nullable();
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('letter_type')->onDelete('cascade');

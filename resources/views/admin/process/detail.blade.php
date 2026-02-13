@@ -51,8 +51,8 @@
                                     <i class="feather feather-send"></i>
                                 </div>
                             </a>
-                            <a href="javascript:void(0)" class="d-flex me-1 printBTN">
-                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Print"><i class="feather feather-printer"></i></div>
+                            <a href="{{ route('print',$letter->id) }}" class="d-flex me-1 printBTN">
+                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Print" target="blank"><i class="feather feather-printer"></i></div>
                             </a>
                             <a href="javascript:void(0)" class="d-flex me-1 file-download">
                                 <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Download"><i class="feather feather-download"></i></div>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <form action="{{ route('update', $letter->id) }}" method="POST">
+                        <form action="{{ route('update', $letter->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                             <div class="table-responsive">
@@ -127,13 +127,22 @@
                                                     <input type="text" name="ref_no" class="form-control pb-1 pt-1" placeholder="Nomor Surat" autocomplete="off">
                                                 </div>
                                                 <div class="col-9 pb-1 pt-1">
-                                                    <label>PL17.3.5 / PP / {{ date('Y') }}</label>
+                                                    <label> / PL17.3.5 / PP / {{ date('Y') }}</label>
                                                 </div>
                                             </div>
                                             @elseif(($s == 'diproses') && ($letter->necessity == 'eksternal'))
                                             <div class="row">
                                                 <div class="col-12 pb-1 pt-1">
                                                     <label><span class="d-inline-block" style="width: 150px;"></span> / PL17 / PP / {{ date('Y') }}</label>
+                                                </div>
+                                            </div>
+                                            @elseif(($s == 'dicetak') && ($letter->necessity == 'eksternal'))
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <input type="text" name="ref_no" class="form-control pb-1 pt-1" placeholder="Nomor Surat" autocomplete="off">
+                                                </div>
+                                                <div class="col-9 pb-1 pt-1">
+                                                    <label> / PL17 / PP / {{ date('Y') }}</label>
                                                 </div>
                                             </div>
                                             @else($s == 'dicetak' || $s == 'selesai')
@@ -181,18 +190,18 @@
                                         @endif
                                         <tr>
                                             <td>Kebutuhan</td>
-                                            <td>{{ $letter->necessity }}</td>
+                                            <td>{{ Str::title($letter->necessity) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Status Surat</td>
                                             <td>
-                                                <span class="badge {{ ($s == 'diproses' ? 'bg-warning' : ($s == 'dicetak' ? 'bg-teal' : ($s == 'selesai' ? 'bg-success' : 'bg-danger'))) }} text-light rounded">
+                                                <span class="badge {{ ($s == 'diproses' ? 'bg-warning' : ($s == 'dicetak' ? 'bg-teal' : ($s == 'selesai' ? 'bg-success' : 'bg-danger'))) }} text-white rounded">
                                                     <strong>{{ ($s == 'diproses' ? "Surat Diproses" : ($s == 'dicetak' ? "Surat Dapat Dicetak" : ($s == 'selesai' ? "Surat Selesai" : "Surat Ditolak"))) }}</strong>
                                                 </span>
                                             </td>
                                         </tr>
                                         @if($s == 'ditolak')
-                                        <tr class="bg-danger">
+                                        <tr>
                                             <td>Alasan Surat Ditolak</td>
                                             <td>{{ $letter->excuses }}</td>
                                         </tr>
@@ -205,7 +214,8 @@
                                                     </div>
                                                     <div class="col-6 d-flex justify-content-end gap-2">
                                                         @if($s == 'dicetak')
-                                                        <a href="{{ route('print',$letter->id) }}" class="btn btn-success" style="padding-left: 2rem; padding-right: 2rem;">Print</a>
+                                                        <a href="{{ route('print',$letter->id) }}" class="btn btn-info" style="padding-left: 2rem; padding-right: 2rem;" target="blank">Print</a>
+                                                        <!-- <button type="submit" name="action" value="confirm" class="btn btn-success">Selesai</button> -->
                                                         @endif
                                                         @if($s == "diproses")
                                                         <button type="submit" name="action" value="confirm" class="btn btn-success">Konfirmasi</button>
@@ -233,6 +243,43 @@
                                 <div class="input-group mb-4">
                                     <input type="text" name="excuses" class="form-control" placeholder="Alasan ditolak" maxlength="250" data-bs-toggle="tooltip" data-bs-placement="top" title="Tuliskan alasan ditolak dengan detail" autocomplete="off">
                                     <button type="submit" name="action" value="reject" class="input-group-text bg-danger text-light" onclick="return confirm('Apakah Anda yakin ingin MENOLAK surat ini?');">Tolak</button>
+                                </div>
+                            </div>
+                            @endif
+                            @if($s == "dicetak")
+                            <hr class="border-dashed mt-0">
+                            <div class="px-4">
+                                <div class="alert alert-dismissible p-4 mt-3 alert-soft-warning-message" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <p class="mb-0">
+                                        <strong>NOTES:</strong> Format file yang diperboleh adalah <img src="{{ asset('assets/dashboard/images/file-icons/pdf.png') }}" class="img-fluid me-0" style="width: 30px;"> <strong>.pdf</strong><br>
+                                        Upload scan surat yang telah bernomor surat dan/atau ditandangani oleh pihak yang berwajib.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="px-4 pt-4 align-items-center justify-content-between">
+                                <div class="row input-group mb-4">
+                                    <div class="col-md-11 mr-0">
+                                        <label for="choose-file" class="custom-file-upload" id="choose-file-label" title="Upload Scan Surat">Upload Scan Surat</label>
+                                        <input name="scanPath" type="file" id="choose-file" style="display: none">
+                                    </div>
+                                    <button type="submit" name="action" value="done" class="col-1 ml-0 text-center input-group-text bg-success text-light">Selesai</button>
+                                </div>
+                            </div>
+                            @endif
+
+                            @if($s == "selesai")
+                            <hr class="border-dashed mt-0">
+                            <div class="px-4">
+                                <div class="mt-4">
+                                    <h5>Dokumen Scan Surat:</h5>
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="{{ $scanUrl }}" width="100%" height="600px" style="border: none;">
+                                            <p>Browser Anda tidak mendukung iframe. 
+                                            <a href="{{ $scanUrl }}">Klik di sini untuk mengunduh PDF.</a>
+                                            </p>
+                                        </iframe>
+                                    </div>
                                 </div>
                             </div>
                             @endif

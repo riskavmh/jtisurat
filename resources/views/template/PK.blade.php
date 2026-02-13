@@ -15,7 +15,7 @@
             width: 21cm;
         }
         body{
-            margin-top: 5cm;
+            margin-top: 4.7cm;
             margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
@@ -51,7 +51,7 @@
             <td height="10"></td>
         </tr>
     </table>
-    <table width="55%">  
+    <table width="57%">  
         <tr>
             <td>Yth.</td>
         </tr>
