@@ -15,7 +15,7 @@
             width: 21cm;
         }
         body{
-            margin-top: 4.7cm;
+            margin-top: 4.5cm;
             margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
@@ -34,16 +34,15 @@
 <body>
     @php use Illuminate\Support\Carbon; @endphp
     <table>
-        <tr height="25">
+        <tr>
             <td>Nomor </td>
-            <!-- untuk eskternal, print dulu baru ngisi no surat, setelah dicetak isi nomer surat dan upload file scan -->
-            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . $letter->ref_no !!}</td>
+            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . ' / PL17.3.5 / PP / '.date('Y') !!}</td>
         </tr>
-        <tr height="25">
+        <tr>
             <td>Lampiran </td>
             <td>: -</td>
         </tr>
-        <tr height="25">
+        <tr>
             <td>Perihal </td>
             <td>: Permohonan Izin Magang</td>
         </tr>
@@ -86,12 +85,17 @@
                 <i>strategic business unit</i> selama 1 (satu) semester sebagai salah satu syarat wajib kelulusan.
             </td>
         </tr>
+        @php
+        $start_date = Carbon::parse($letter->start_date)->locale('id');
+        $end_date = Carbon::parse($letter->end_date)->locale('id');
+        @endphp
         <tr>
             <td style="padding-bottom: 10px">
                 Sehubungan dengan hal tersebut mohon perkenan untuk mengizinkan mahasiswa kami dari Program Studi 
-                Sarjana Terapan Teknik Informatika guna melaksanakan Magang/PKL di perusahaan yang Bapak/Ibu pimpin
-                mulai dari tanggal {{ Carbon::parse($letter->start_date)->locale('id')->translatedFormat('d F Y') }} 
-                s.d. {{ Carbon::parse($letter->end_date)->locale('id')->translatedFormat('d F Y') }}.
+                {{ $letter->members->first()->user->study_program_name }} guna melaksanakan Magang/PKL di perusahaan yang Bapak/Ibu pimpin
+                mulai dari tanggal {{ $start_date->format('Y') == $end_date->format('Y') ? 
+                $start_date->translatedFormat('d F') : $start_date->translatedFormat('d F Y') }} 
+                s.d. {{ $end_date->translatedFormat('d F Y') }}.
             </td>
         </tr>
         <tr>
@@ -107,28 +111,21 @@
                         <th><strong>Nama Mahasiswa</strong></th>
                         <th width="25%"><strong>NIM</strong></th>                                  
                     </tr>
+                    @php $no = 1; @endphp
+                    @foreach($letter->members as $member)
                     <tr >                                
-                        <td align="center">1</td>                                
-                        <td align="left">&nbsp;Riska Virliana Maharanti H.</td>                                                               
-                        <td align="center">E31192024</td>                                
+                        <td align="center">{{ $no++ }}</td>                                
+                        <td align="left">&nbsp;{{ $member->user->name }}</td>                                                               
+                        <td align="center">{{ $member->user->identity_no }}</td>                                
                     </tr>
-                    <tr>                                
-                        <td align="center">2</td>                                
-                        <td align="left">&nbsp;Daniel Pugoh Wicaksono</td>                                                               
-                        <td align="center">E32161765</td>                                
-                    </tr>
-                    <tr>                                
-                        <td align="center">3</td>                                
-                        <td align="left">&nbsp;Muhammad Beni Fajri</td>                                                               
-                        <td align="center">E41180839</td>                                
-                    </tr>
+                    @endforeach
                 </table>
             </td>
         </tr>
         <tr>
             <td style="padding-bottom: 5px">
                 Konfirmasi penerimaan kegiatan Magang/PKL dapat disampaikan pada 
-                {{ $letter->lecturer_name }} selaku Koordinator Magang Program Studi Teknik Informatika 
+                {{ $lecturer['label'] }} selaku Koordinator Magang Program Studi {{ $letter->members->first()->user->study_program_name }}
                 Jurusan Teknologi Informasi melalui nomor telepon {{ $letter->lecturer_phone }} 
                 {{ !is_null($letter->lecturer_email) ? 'dan email'.$letter->lecturer_email.'.' : '' }}
             </td>
@@ -148,7 +145,7 @@
             <!-- <td>Wakil Direktur Bidang Akademik<br>dan Perencanaan</td> -->
             <td>Wadir Bid. Akademik dan Perencanaan</td>
         </tr>
-        <tr height="110">
+        <tr height="100">
             <td>&nbsp;</td>
         </tr>
         <tr>
@@ -167,7 +164,7 @@
             <td>Ketua Jurusan Teknologi Informasi</td>
         </tr>
         
-        <tr height="110">
+        <tr height="100">
             <td>&nbsp;</td>
         </tr>
         <tr>

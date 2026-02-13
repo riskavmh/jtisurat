@@ -15,7 +15,7 @@
             width: 21cm;
         }
         body{
-            margin-top: 4.7cm;
+            margin-top: 4.5cm;
             margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
@@ -34,15 +34,15 @@
 <body>
     @php use Illuminate\Support\Carbon; @endphp
     <table>
-        <tr height="25">
+        <tr>
             <td>Nomor </td>
-            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . $letter->ref_no !!}</td>
+            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . ' / PL17.3.5 / PP / '.date('Y') !!}</td>
         </tr>
-        <tr height="25">
+        <tr>
             <td>Lampiran </td>
             <td>: -</td>
         </tr>
-        <tr height="25">
+        <tr>
             <td>Perihal </td>
             <td>: Permohonan Izin Survey dan Pengambilan Data</td>
         </tr>
@@ -88,8 +88,8 @@
         <tr>
             <td style="padding-bottom: 10px">
                 Sehubungan dengan hal tersebut mohon perkenan untuk mengizinkan mahasiswa kami dari Program Studi 
-                Sarjana Terapan Teknik Informatika melakukan survei guna mendapatkan data dan informasi yang kompeten
-                sesuai dengan bidang kajiannya di perusahaan yang Bapak/Ibu pimpin.
+                {{ $letter->members->first()->user->study_program_name }} melakukan survei guna mendapatkan data dan informasi yang kompeten
+                sesuai dengan bidang kajiannya di perusahaan Bapak/Ibu.
             </td>
         </tr>
         <tr>
@@ -99,16 +99,16 @@
         </tr>
         <tr>
             <td style="padding-bottom: 15px">
-                <table border="1 solid" cellspacing="0" class="center" width="65%">
-                    <tr align="center" id="header">
-                        <th width="5%"><strong>No.</strong></th>
-                        <th><strong>Nama Mahasiswa</strong></th>
-                        <th width="25%"><strong>NIM</strong></th>                                  
+                <table border="1 solid" cellspacing="0" class="center" width="100%">
+                    <tr align="center" id="header" class="text-bold">
+                        <th width="35%">Nama Mahasiswa</th>
+                        <th width="14%">NIM</th>                                  
+                        <th>Judul Skripsi</th>                                  
                     </tr>
-                    <tr >                                
-                        <td align="center">1</td>                                
-                        <td align="left">&nbsp;Riska Virliana Maharanti H.</td>                                                               
-                        <td align="center">E31192024</td>                                
+                    <tr align="center">                                                               
+                        <td>{{ $letter->members->first()->user->name }}</td>                                                               
+                        <td>{{ $letter->members->first()->user->identity_no }}</td>                                
+                        <td>{{ $letter->research_title }}</td>                                
                     </tr>
                 </table>
             </td>
@@ -116,7 +116,8 @@
         <tr>
             <td style="padding-bottom: 5px">
                 Konfirmasi kesediaan Bapak/Ibu untuk menerima izin survei mahasiswa kami dapat disampaikan 
-                pada {{ $letter->lecturer_name }} selaku Koordinator Bidang Tugas Akhir Program Studi Teknik Informatika 
+                pada {{ $lecturer['label'] }} selaku Koordinator Tugas Akhir Program Studi 
+                {{ $letter->members->first()->user->study_program_name }} 
                 Jurusan Teknologi Informasi melalui nomor telepon {{ $letter->lecturer_phone }} 
                 {{ !is_null($letter->lecturer_email) ? 'dan email'.$letter->lecturer_email.'.' : '' }}
             </td>
@@ -137,7 +138,7 @@
             <td>Wakil Direktur Bidang Akademik dan Perencanaan</td>
         </tr>
         
-        <tr height="110">
+        <tr height="100">
             <td>&nbsp;</td>
         </tr>
         <tr>
@@ -156,7 +157,7 @@
             <td>Ketua Jurusan Teknologi Informasi</td>
         </tr>
         
-        <tr height="110">
+        <tr height="100">
             <td>&nbsp;</td>
         </tr>
         <tr>

@@ -15,7 +15,7 @@
             width: 21cm;
         }
         body{
-            margin-top: 4.7cm;
+            margin-top: 4.5cm;
             margin-bottom: 0.5cm;
             margin-left: 2cm;
             margin-right: 2cm;
@@ -34,15 +34,15 @@
 <body>
     @php use Illuminate\Support\Carbon; @endphp
     <table>
-        <tr height="25">
+        <tr>
             <td>Nomor </td>
-            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . $letter->ref_no !!}</td>
+            <td>: {!! $letter->necessity == 'internal' ? $letter->ref_no : str_repeat('&nbsp;', 27) . ' / PL17.3.5 / PP / '.date('Y') !!}</td>
         </tr>
-        <tr height="25">
+        <tr>
             <td>Lampiran </td>
             <td>: -</td>
         </tr>
-        <tr height="25">
+        <tr>
             <td>Perihal </td>
             <td>: Permohonan Izin Survei</td>
         </tr>
@@ -74,14 +74,9 @@
     </table>
     <table>
         <tr>
-            <td style="padding-bottom: 5px">
-                Dengan hormat,
-            </td>
-        </tr>
-        <tr>
             <td style="padding-bottom: 10px">
-                Sehubungan dengan adanya tugas mata kuliah maka bersama ini kami menugaskan mahasiswa Jurusan Teknologi 
-                Informasi untuk melakukan survei pada perusahaan/instansi yang Bapak/Ibu pimpin.
+                Sehubungan dengan adanya tugas mata kuliah maka bersama ini menugaskan mahasiswa kami dari 
+                Jurusan Teknologi Informasi untuk melakukan survei di perusahaan/instansi Bapak/Ibu.
             </td>
         </tr>
         <tr>
@@ -97,13 +92,13 @@
                         <th><strong>Nama Mahasiswa</strong></th>
                         <th width="13%"><strong>NIM</strong></th> 
                         <th width="29%"><strong>Jurusan/Program Studi</strong></th> 
-                        <th width="17%"><strong>No. Telp</strong></th> 
+                        <th width="19%"><strong>No. Telp</strong></th> 
                     </tr>
                     @php $no = 1; @endphp
                     @foreach($letter->members as $member)
                     <tr >                                
                         <td align="center">{{ $no++ }}</td>                                
-                        <td align="left">&nbsp;{{ $member->user->name }}</td>                                                               
+                        <td align="left">{{ $member->user->name }}</td>                                                               
                         <td align="center">{{ $member->user->identity_no }}</td>                                
                         <td align="center">Teknologi Informasi / {{ $member->user->study_program_name }}</td>                                
                         <td align="center">{{ $member->user->phone_number }}</td>                                
@@ -122,7 +117,14 @@
             </td>
         </tr> -->
         <tr>
-            <td style="padding-bottom: 25px">
+            <td style="padding-bottom: 5px">
+                Konfirmasi izin survei mahasiswa kami dapat disampaikan pada salah satu mahasiswa yang bersangkutan atau pada
+                {{ $lecturer['label'] ?? null }} selaku Dosen Pengampu Mata Kuliah {{ $letter->course }}  
+                nomor telepon {{ $letter->lecturer_phone }} {{ !is_null($letter->lecturer_email) ? 'dan email '.$letter->lecturer_email.'.' : '' }}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-bottom: 5px">
                 Demikian atas kebijakan dan kerjasama yang baik dari Bapak/Ibu dalam turut serta menunjang
                 peningkatan keterampilan anak didik kami, diucapkan terima kasih.
             </td>
@@ -137,7 +139,7 @@
             <td>Wakil Direktur Bidang Akademik dan Perencanaan</td>
         </tr>
         
-        <tr height="110">
+        <tr height="100">
             <td>&nbsp;</td>
         </tr>
         <tr>
@@ -156,7 +158,7 @@
             <td>Ketua Jurusan Teknologi Informasi</td>
         </tr>
         
-        <tr height="110">
+        <tr height="100">
             <td>&nbsp;</td>
         </tr>
         <tr>

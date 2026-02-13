@@ -50,7 +50,6 @@ class LetterController extends Controller
         ];
     }
 
-
     public function getStudentData($nim)
     {
         $token = Auth::user()->token;
@@ -69,17 +68,27 @@ class LetterController extends Controller
         ], 404);
     }
 
-    public static function getStatusCounts()
+    public static function getStatusCounts($studyProgramId = null, $isSuperAdmin = false)
     {
-        $counts = Letter::select('status', DB::raw('count(*) as total'))
-                       ->groupBy('status')
-                       ->pluck('total', 'status')
-                       ->toArray();
+        $query = Letter::query();
+        if (!$isSuperAdmin) {
+            $query->join('letter_members', 'letters.id', '=', 'letter_members.letter_id')
+                ->where('letter_members.position', 'Ketua')
+                ->join('users', 'letter_members.user_id', '=', 'users.id');
+
+            if ($studyProgramId) {
+                $query->where('users.id_study_program', $studyProgramId);
+            }
+        }
+        $counts = $query->select('letters.status', DB::raw('count(distinct letters.id) as total'))
+                        ->groupBy('letters.status')
+                        ->pluck('total', 'status')
+                        ->toArray();
         return [
-            'dtPending'     => $counts['diproses'] ?? 0,
-            'dtApproved'    => $counts['dicetak'] ?? 0,
-            'dtDone'        => $counts['selesai'] ?? 0,
-            'dtRejected'    => $counts['ditolak'] ?? 0,
+            'dtPending'  => $counts['diproses'] ?? 0,
+            'dtApproved' => $counts['dicetak'] ?? 0,
+            'dtDone'     => $counts['selesai'] ?? 0,
+            'dtRejected' => $counts['ditolak'] ?? 0,
         ];
     }
 
@@ -217,11 +226,15 @@ class LetterController extends Controller
                 $request->validate([
                     'ref_no'     => 'required',
                 ]);
+                $letters->update([
+                    'ref_no'     => $request->ref_no." / PL17.3.5 / PP / ".date('Y'),
+                    'status'       => 'dicetak',
+                ]);
+            } else {
+                $letters->update([
+                    'status'       => 'dicetak',
+                ]);
             }
-            $letters->update([
-                'ref_no'     => $request->ref_no. " / ".($letters->necessity == 'eksternal' ? 'PL17' : 'PL17.3.5').' / PP / '.date('Y') ?? null,
-                'status'       => 'dicetak',
-            ]);
         } 
         
         if($request->input('action') == 'reject') {
@@ -235,18 +248,32 @@ class LetterController extends Controller
         } 
         
         if($request->input('action') == 'done') {
-            $request->validate([
-                'scanPath'     => 'required|mimes:pdf|max:2048',
-            ]);
-            
+
             $file = $request->file('scanPath');
             $fileName = 'surat_' . $id . '_' . time() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('letters', $fileName, 'public');
 
-            $letters->update([
-                'scanPath' => $path,
-                'status'   => 'selesai',
-            ]);
+            if($letters->necessity == 'eksternal') {
+                $request->validate([
+                    'ref_no'     => 'required',
+                    'scanPath'   => 'required|mimes:pdf|max:2048',
+                ]);
+                
+                $letters->update([
+                    'ref_no'   => $request->ref_no." / PL17 / PP / ".date('Y'),
+                    'scanPath' => $path,
+                    'status'   => 'selesai',
+                ]);
+            } else {
+                $request->validate([
+                    'scanPath'   => 'required|mimes:pdf|max:2048',
+                ]);
+                
+                $letters->update([
+                    'scanPath' => $path,
+                    'status'   => 'selesai',
+                ]);
+            }
         }
         
         return redirect()->back();
