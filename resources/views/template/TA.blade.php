@@ -63,10 +63,7 @@
             <td>{{ $letter->company }}</td>
         </tr>
         <tr>
-            <td>{{ $letter->address }}</td>
-        </tr>
-        <tr>
-            <td>{{ $letter->subdistrict }}, {{ $letter->regency }}</td>
+            <td>{{ $letter->address }}, {{ $letter->subdistrict }}, {{ $letter->regency }}</td>
         </tr>
         <tr>
             <td>{{ $letter->province }}</td>
