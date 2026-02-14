@@ -182,48 +182,48 @@
                 <div id="course" class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Mata Kuliah</label>
                   <div class="col-10">
-                    <input type="text" name="course" class="form-control" placeholder="cth: Workshop Pengembangan Aplikasi">
+                    <input type="text" name="course" class="form-control" placeholder="cth: Workshop Pengembangan Aplikasi" autocomplete="off">
                   </div>
                 </div>
 
                 <div id="research_title" class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Judul Penelitian</label>
                   <div class="col-10">
-                    <input type="text" name="research_title" class="form-control" placeholder="Judul Penelitian" maxlength="150" title="Maksimal 150 karakter">
+                    <input type="text" name="research_title" class="form-control" placeholder="Judul Penelitian" maxlength="150" title="Maksimal 150 karakter" autocomplete="off">
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label for="to" class="col-2 col-form-label">Kepada</label>
                   <div class="col-10">
-                    <input type="text" name="to" class="form-control" placeholder="Cth: Bpk. Mohammad Hatta (kosongi jika tidak perlu)" maxlength="50" title="Maksimal 50 karakter">
+                    <input type="text" name="to" class="form-control" placeholder="Cth: Bpk. Mohammad Hatta (kosongi jika tidak perlu)" maxlength="50" title="Maksimal 50 karakter" autocomplete="off">
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Nama Mitra</label>
                   <div class="col-10">
-                    <input type="text" name="company" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="50" title="Maksimal 50 karakter" required>
+                    <input type="text" name="company" class="form-control" placeholder="Cth: Pimpinan PT Hasanah Raya Cipta (sesuaikan dengan jabatan mitra yang dituju)" maxlength="50" title="Maksimal 50 karakter" autocomplete="off" required>
                   </div>
                 </div>
 
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label">Alamat</label>
                   <div class="col-10">
-                    <input type="text" name="address" class="form-control" placeholder="Alamat Instansi" maxlength="75" required>
+                    <input type="text" name="address" class="form-control" placeholder="Alamat Instansi" maxlength="50" autocomplete="off" required>
                   </div>
                 </div>
                 <div class="row gy-4 mb-3 align-items-center">
                   <label class="col-2 col-form-label"></label>
                   <div class="row gy-2 col-10">
                     <div class="col-4">
-                      <input type="text" name="subdistrict" class="form-control" placeholder="Kecamatan" maxlength="25" required>
+                      <input type="text" name="subdistrict" class="form-control" placeholder="Kecamatan" maxlength="25" autocomplete="off" required>
                     </div>
                     <div class="col-4">
-                      <input type="text" name="regency" class="form-control" placeholder="Kabupaten" maxlength="25" required>
+                      <input type="text" name="regency" class="form-control" placeholder="Kabupaten" maxlength="25" autocomplete="off" required>
                     </div>
                     <div class="col-4">
-                      <input type="text" name="province" class="form-control" placeholder="Provinsi" maxlength="25" required>
+                      <input type="text" name="province" class="form-control" placeholder="Provinsi" maxlength="25" autocomplete="off" required>
                     </div>
                   </div>
                 </div>
@@ -425,7 +425,7 @@
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label text-danger fw-bold">NIM Anggota</label>
                     <div class="col-10">
-                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM">
+                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM" autocomplete="off">
                     </div>
                 </div>
                 <div class="row gy-4 mb-3 d-flex align-items-center">
@@ -471,7 +471,6 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        // Update field dengan data dari Helper
                         $parent.find('.member-name').val(response.data.name);
                         $parent.find('.member-studyprogram').val(response.data.studyprogram);
                         $parent.find('.member-phonenumber').val(response.data.phonenumber);

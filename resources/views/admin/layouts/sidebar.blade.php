@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li class="nxl-item nxl-hasmenu {{ request()->routeIs('admin') ? 'active' : '' }}">
-                <a href="javascript:void(0);" class="nxl-link">
+                <a href="{{ route('admin') }}" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
                     <span class="nxl-mtext">Dashboard</span></span>
                 </a>

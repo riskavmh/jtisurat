@@ -90,6 +90,5 @@ class LetterTypeController extends Controller
     {
         LetterType::findOrFail($id)->delete();
         return redirect()->route('type.index')->with(['success' => 'Data Berhasil Dihapus']);
-        // dd(LetterType::findOrFail($id));
     }
 }
