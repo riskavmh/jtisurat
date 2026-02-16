@@ -27,7 +27,7 @@ $(function () {
                "<'row'<'col-sm-12 col-md-4'l>" + 
                "<'col-sm-12 col-md-8 d-flex align-items-center justify-content-end gap-4'i p>>",
         "initComplete": function (settings, json) {
-            $("#btn-place").html('<a href="{{ route("type.create") }}" class="btn btn-primary btn-block">Ajukan Jenis Surat</a>');
+            $("#btn-place").html('<a href="{{ route("type.create") }}" class="btn btn-primary btn-block">Tambah Data</a>');
             $('.dataTables_length select').addClass('form-select form-select-sm');
         }
     });

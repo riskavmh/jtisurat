@@ -17,15 +17,16 @@
                             </h5>
                         </div>
                         <hr class="mb-5">
-                        <form action="{{ route('type.store') }}" method="POST">
+                        <form action="{{ route('type.update', $type->id) }}" method="POST">
                             @csrf
+                            @method('PUT')
                         <div class="row mb-4 align-items-center">
                             <div class="col-lg-2">
                                 <label for="abbr" class="fw-semibold">Singkatan: </label>
                             </div>
                             <div class="col-lg-10">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="abbr" id="abbr" placeholder="Singkatan" minlength="2" maxlength="10" required>
+                                    <input type="text" class="form-control" name="abbr" id="abbr" placeholder="Singkatan" value="{{ old('abbr', $type->abbr) }}" minlength="2" maxlength="10" required>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +36,7 @@
                             </div>
                             <div class="col-lg-10">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="expan" id="expan" placeholder="Keterangan" minlength="5" maxlength="50" required>
+                                    <input type="text" class="form-control" name="expan" id="expan" placeholder="Keterangan" value="{{ old('expan', $type->expan) }}" minlength="5" maxlength="50" required>
                                 </div>
                             </div>
                         </div>
@@ -45,8 +46,8 @@
                             </div>
                             <div class="col-lg-10">
                                 <select class="form-control" data-select2-selector="status" name="status">
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                    <option value="active" {{ old('status', $type->status) == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="inactive" {{ old('status', $type->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                 </select>
                             </div>
                         </div>

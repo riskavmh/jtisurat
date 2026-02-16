@@ -57,10 +57,11 @@ class OAuthController extends Controller
     );
     
     $detail   = collect(AuthHelper::getMe($dto->token)['data'])->toArray();
+    session(['user_api_data' => $detail]);
     $user->update([
-      'identity_no' => !is_null($detail['student_detail']) ? $detail['student_detail']['nim'] : $detail['employee_detail']['nip'],
-      'id_study_program' => !is_null($detail['student_detail']) ? $detail['student_detail']['m_study_program_id'] : $detail['employee_detail']['m_study_program_id'],
-      'study_program_name' => !is_null($detail['student_detail']) ? $detail['student_detail']['study_program_name'] : $detail['employee_detail']['study_program_name'],
+      'identity_no' => ($detail['student_detail']['nim'] ?? null) ?: ($detail['employee_detail']['nip'] ?? null),
+      'id_study_program' => ($detail['student_detail']['m_study_program_id'] ?? null) ?: ($detail['employee_detail']['m_study_program_id'] ?? null),
+      'study_program_name' => ($detail['student_detail']['study_program_name'] ?? null) ?: ($detail['employee_detail']['study_program_name'] ?? null),
       'phone_number' => $detail['phone_number'] ?? null,
     ]);
 
@@ -68,7 +69,7 @@ class OAuthController extends Controller
 
     $roles = collect($data['data']['user']['roles']);
     $targetUser = ['student', 'lecturer', 'technician'];
-    $targetAdmin = ['admin', 'superadmin_jtisurat'];
+    $targetAdmin = ['admin_jtisurat', 'superadmin_jtisurat'];
 
     if($roles->intersect($targetUser)->isNotEmpty()){
         return redirect('/');

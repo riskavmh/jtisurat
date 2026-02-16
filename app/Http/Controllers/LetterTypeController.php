@@ -39,7 +39,8 @@ class LetterTypeController extends Controller
         ]);
         LetterType::create([
             'abbr'     => Str::upper($request->abbr),
-            'expan'       => Str::title($request->expan)
+            'expan'       => Str::title($request->expan),
+            'status'       => $request->status ?? 'active',
         ]);
         return redirect()->route('type.index')->with(['success' => 'Data Berhasil Ditambahkan!']);
         // var_dump(Str::upper($request->type),Str::title($request->ket));
@@ -77,7 +78,8 @@ class LetterTypeController extends Controller
         // dd(Str::upper($request->abbr),Str::title($request->expan));
         $type->update([
             'abbr'     => Str::upper($request->abbr),
-            'expan'       => Str::title($request->expan)
+            'expan'       => Str::title($request->expan),
+            'status'       => $request->status ?? $type->status,
         ]);
         return redirect()->route('type.index')->with('Data Berhasil Diubah!');
 

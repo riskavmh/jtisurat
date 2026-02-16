@@ -3,6 +3,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/vendors.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/css/theme.min.css') }}">
 
-    <!-- <style>
+    <style>
         html {zoom: 105%;}
-    </style> -->
+    </style>

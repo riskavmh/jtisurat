@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title', 'Data Surat Selesai')
+@section('title', 'Data Surat ' . $statusLabel)
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/dataTables.bs5.min.css') }}">
@@ -39,31 +39,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $no = 1; @endphp
                                     @foreach($letters as $l)
-                                    @if($l->status == 'selesai')
-                                    <tr class="single-item">
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $l->leader->user->identity_no }}</td>
-                                        <td>{{ collect($data['type'])->firstWhere('id', $l->type_id)->abbr ?? null }}</td>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $l->leader->user->identity_no ?? '-' }}</td>
+                                        <td>{{ collect($data['type'])->firstWhere('id', $l->type_id)->abbr ?? '-' }}</td>
                                         <td>{{ $l->company }}</td>
                                         <td>{{ $l->created_at->locale('id')->translatedFormat('d F Y, H:i') }}</td>
-                                        <!-- <td>
-                                            <a class="btn btn-info btn-sm" href="{{ route('detail', $l->id) }}">Detail</a>
-                                        </td> -->
                                         <td>
                                             <div class="hstack gap-2 justify-content-end">
-                                                <!-- <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-placement="top" title="kirim">
-                                                    <i class="feather feather-send"></i>
-                                                </a> -->
-                                                <a href="{{ route('detail', $l->id) }}" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-placement="top" title="detail">
+                                                <a href="{{ route('detail', $l->id) }}" class="avatar-text avatar-md" title="detail">
                                                     <i class="feather feather-info"></i>
                                                 </a>
+                                                @if($status == 'approved')
+                                                <a href="{{ route('print', $l->id) }}" class="avatar-text avatar-md" title="print" target="_blank">
+                                                    <i class="feather feather-printer"></i>
+                                                </a>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
-                                    @endif
-                                @endforeach
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

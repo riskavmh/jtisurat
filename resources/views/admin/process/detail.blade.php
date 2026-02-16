@@ -45,19 +45,21 @@
                         <div>
                             <h2 class="fs-16 fw-700 text-truncate-1-line mb-0 mb-sm-1">Detail Surat</h2>
                         </div>
+                        @if($letter->status == 'dicetak' || $letter->status == 'selesai')
                         <div class="d-flex align-items-center justify-content-center">
                             <a href="javascript:void(0)" class="d-flex me-1" data-alert-target="invoicSendMessage">
                                 <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Send">
                                     <i class="feather feather-send"></i>
                                 </div>
                             </a>
-                            <a href="{{ route('print',$letter->id) }}" class="d-flex me-1 printBTN">
-                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Print" target="blank"><i class="feather feather-printer"></i></div>
+                            <a href="{{ route('print',$letter->id) }}" class="d-flex me-1 printBTN" target="blank">
+                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Print"><i class="feather feather-printer"></i></div>
                             </a>
                             <a href="javascript:void(0)" class="d-flex me-1 file-download">
                                 <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Download"><i class="feather feather-download"></i></div>
                             </a>
                         </div>
+                        @endif
                     </div>
                     <div class="card-body p-0">
                         <form action="{{ route('update', $letter->id) }}" method="POST" enctype="multipart/form-data">
@@ -215,7 +217,6 @@
                                                     <div class="col-6 d-flex justify-content-end gap-2">
                                                         @if($s == 'dicetak')
                                                         <a href="{{ route('print',$letter->id) }}" class="btn btn-info" style="padding-left: 2rem; padding-right: 2rem;" target="blank">Print</a>
-                                                        <!-- <button type="submit" name="action" value="confirm" class="btn btn-success">Selesai</button> -->
                                                         @endif
                                                         @if($s == "diproses")
                                                         <button type="submit" name="action" value="confirm" class="btn btn-success">Konfirmasi</button>
@@ -229,16 +230,6 @@
                             </div>
                             @if($s == "diproses")
                             <hr class="border-dashed mt-0">
-                            <!-- <div class="px-4">
-                                <div class="alert alert-dismissible p-4 mt-3 alert-soft-warning-message" role="alert">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <p class="mb-0">
-                                        <strong>NOTES:</strong> All accounts are to be paid within 7 days from receipt of invoice. <br>
-                                        To be paid by cheque or credit card or direct payment online. <br>
-                                        If account is not paid within 7 days the credits details supplied as confirmation of work undertaken will be charged the agreed quoted fee noted above.
-                                    </p>
-                                </div>
-                            </div> -->
                             <div class="px-4 pt-4 d-sm-flex align-items-center justify-content-between">
                                 <div class="input-group mb-4">
                                     <input type="text" name="excuses" class="form-control" placeholder="Alasan ditolak" maxlength="250" data-bs-toggle="tooltip" data-bs-placement="top" title="Tuliskan alasan ditolak dengan detail" autocomplete="off">
@@ -253,7 +244,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     <p class="mb-0">
                                         <strong>NOTES:</strong> Format file yang diperboleh adalah <img src="{{ asset('assets/dashboard/images/file-icons/pdf.png') }}" class="img-fluid me-0" style="width: 30px;"> <strong>.pdf</strong><br>
-                                        Upload scan surat yang telah bernomor surat dan/atau ditandangani oleh pihak yang berwajib.
+                                        Upload scan surat yang telah dibubuhi nomor surat dan/atau ditandangani oleh pihak yang berwajib.
                                     </p>
                                 </div>
                             </div>

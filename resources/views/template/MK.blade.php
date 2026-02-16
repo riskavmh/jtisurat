@@ -91,7 +91,7 @@
                         <th width="5%"><strong>No.</strong></th>
                         <th><strong>Nama Mahasiswa</strong></th>
                         <th width="13%"><strong>NIM</strong></th> 
-                        <th width="29%"><strong>Jurusan/Program Studi</strong></th> 
+                        <th width="29%"><strong>Program Studi</strong></th> 
                         <th width="19%"><strong>No. Telp</strong></th> 
                     </tr>
                     @php $no = 1; @endphp
@@ -100,7 +100,7 @@
                         <td align="center">{{ $no++ }}</td>                                
                         <td align="left">{{ $member->user->name }}</td>                                                               
                         <td align="center">{{ $member->user->identity_no }}</td>                                
-                        <td align="center">Teknologi Informasi / {{ $member->user->study_program_name }}</td>                                
+                        <td align="center">{{ $member->user->study_program_name }}</td>                                
                         <td align="center">{{ $member->user->phone_number }}</td>                                
                     </tr>
                     @endforeach
@@ -130,13 +130,13 @@
             </td>
         </tr>
     </table>
-    @if ($letter->kebutuhan == 'eksternal')
-    <table align="right">
+    @if ($letter->necessity == 'eksternal')
+    <table align="right" width="42%">
         <tr>
             <td>A.n Direktur</td>
         </tr>
         <tr>
-            <td>Wakil Direktur Bidang Akademik dan Perencanaan</td>
+            <td>Wakil Direktur Bidang Akademik<br>dan Perencanaan</td>
         </tr>
         
         <tr height="100">
@@ -173,5 +173,5 @@
 
 </html>
 <script>
-		window.print();
-	</script>
+    window.print();
+</script>

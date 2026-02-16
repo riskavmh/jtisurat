@@ -129,13 +129,14 @@
             </td>
         </tr>
     </table>
-    @if ($letter->kebutuhan == 'Eksternal')
+    @if ($letter->necessity == 'Eksternal')
     <table align="right">
         <tr>
             <td>A.n Direktur</td>
         </tr>
         <tr>
-            <td>Wakil Direktur Bidang Akademik dan Perencanaan</td>
+            <!-- <td>Wakil Direktur Bidang Akademik<br>dan Perencanaan</td> -->
+            <td>Wadir Bid. Akademik dan Perencanaan</td>
         </tr>
         
         <tr height="100">

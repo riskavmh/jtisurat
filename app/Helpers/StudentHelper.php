@@ -31,29 +31,4 @@ class StudentHelper
         return null;
     }
 
-    public static function getDetail(string $token, string $id): ?array
-    {
-        // dd($id);
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->withQueryParameters([
-            'search' => $id,
-        ])
-        ->get(config('app.super_app_url_internal') . '/students');
-
-        if ($response->successful()) {
-            // dd( $response->json());
-            $student = $response->json()['data'] ?? $response->json();
-
-            if (!empty($student)) {
-                return [
-                    'nim'  => $student['student_detail']['nim'] ?? '-',
-                    'name' => $student['name'] ?? '-',
-                ];
-                // dd($student);
-            }
-        }
-
-        return null;
-    }
 }

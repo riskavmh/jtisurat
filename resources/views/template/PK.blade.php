@@ -179,5 +179,5 @@
 
 </html>
 <script>
-		window.print();
-	</script>
+    window.print();
+</script>

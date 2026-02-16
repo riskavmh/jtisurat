@@ -103,7 +103,6 @@
                 </div>
             </div>
 
-            @auth
             <div class="dropdown nxl-h-item">
                 <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
                     <img src="{{ asset('assets/dashboard/images/avatar/user.svg') }}" alt="user-image" class="img-fluid user-avtar me-0">
@@ -114,7 +113,7 @@
                             <img src="{{ asset('assets/dashboard/images/avatar/user.svg') }}" alt="user-image" class="img-fluid user-avtar">
                             <div>
                                 <h6 class="text-dark mb-0">{{ Auth::user()->name }}</h6>
-                                <span class="fs-12 fw-medium text-muted">{{ Auth::user()->role == 'admin' ? Auth::user()->study_program_name : 'SUPER ADMIN' }}</span>
+                                <span class="fs-12 fw-medium text-muted">{{ in_array('admin_jtisurat', Auth::user()->roles) ? Auth::user()->study_program_name : 'SUPER ADMIN' }}</span>
                             </div>
                         </div>
                     </div>
@@ -126,7 +125,6 @@
                         <span>Logout</span>
                     </a>
                 </div>
-                @endauth
             </div>
         </div>
     </div>

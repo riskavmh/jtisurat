@@ -23,7 +23,8 @@
                     <span class="nxl-mtext">Dashboard</span></span>
                 </a>
             </li>
-            <li class="nxl-item nxl-hasmenu">
+            @if(in_array('superadmin_jtisurat', Auth::user()->roles))
+            <li class="nxl-item nxl-hasmenu nxl-trigger">
                 <a href="javascript:void(0);" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-server"></i></span>
                     <span class="nxl-mtext">Data Master</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
@@ -34,37 +35,21 @@
                     <li class="nxl-item"><a class="nxl-link" href="">Program Studi</a></li>
                 </ul>
             </li>
+            @endif
             <li class="nxl-item nxl-hasmenu nxl-trigger">
                 <a href="javascript:void(0);" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-book-open"></i></span>
                     <span class="nxl-mtext">Pengajuan Surat</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                 </a>
                 <ul class="nxl-submenu">
-                    <!-- <li class="nxl-item"><a class="nxl-link" href="">Semua Surat</a></li> -->
-                    <li class="nxl-item {{ request()->routeIs('pending') ? 'active' : '' }}">
-                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('pending') }}">
-                            <span class="d-flex align-items-center">Diproses</span>
-                            <span class="badge bg-warning">{{ $letterCounts['dtPending'] }}</span>
+                    @foreach(['pending' => ['Diproses', 'bg-warning'], 'approved' => ['Dicetak', 'bg-teal'], 'done' => ['Selesai', 'bg-success'], 'rejected' => ['Ditolak', 'bg-danger']] as $key => $val)
+                    <li class="nxl-item {{ request()->is('admin/'.$key) ? 'active' : '' }}">
+                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('admin.status', ['status' => $key]) }}">
+                            <span class="d-flex align-items-center">{{ $val[0] }}</span>
+                            <span class="badge {{ $val[1] }}">{{ $letterCounts['dt'.ucfirst($key)] }}</span>
                         </a>
                     </li>
-                    <li class="nxl-item {{ request()->routeIs('approved') ? 'active' : '' }}">
-                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('approved') }}">
-                            <span class="d-flex align-items-center">Dicetak</span>
-                            <span class="badge bg-teal">{{ $letterCounts['dtApproved'] }}</span>
-                        </a>
-                    </li>
-                    <li class="nxl-item {{ request()->routeIs('done') ? 'active' : '' }}">
-                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('done') }}">
-                            <span class="d-flex align-items-center">Selesai</span>
-                            <span class="badge bg-success">{{ $letterCounts['dtDone'] }}</span>
-                        </a>
-                    </li>
-                    <li class="nxl-item {{ request()->routeIs('rejected') ? 'active' : '' }}">
-                        <a class="nxl-link d-flex align-items-center justify-content-between" href="{{ route('rejected') }}">
-                            <span class="d-flex align-items-center">Ditolak</span>
-                            <span class="badge bg-danger">{{ $letterCounts['dtRejected'] }}</span>
-                        </a>
-                    </li>
+                    @endforeach
                 </ul>
             </li>
         </ul>

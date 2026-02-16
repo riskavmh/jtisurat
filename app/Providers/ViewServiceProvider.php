@@ -20,20 +20,28 @@ class ViewServiceProvider extends ServiceProvider
      * Bootstrap services.
      */
     public function boot(): void
-    {
-        View::composer(['admin.layouts.sidebar', 'admin.index'], function ($view) {
-            if (auth()->check()) {
-                $user = auth()->user();
-                
-                // Cek apakah user adalah superadmin
-                $isSuperAdmin = ($user->role === 'superadmin'); 
-                $studyProgramId = $user->id_study_program;
+{
+    View::composer(['admin.layouts.sidebar', 'admin.index'], function ($view) {
+        if (auth()->check()) {
+            // 1. Ambil data dari Session (Hasil AuthHelper saat login)
+            $userData = session('user_api_data');
 
-                // Panggil fungsi dengan parameter tambahan isSuperAdmin
-                $counts = LetterController::getStatusCounts($studyProgramId, $isSuperAdmin);
+            // 2. Cek apakah user adalah Super Admin (Roles adalah Array)
+            $userRoles = auth()->user()->roles ?? [];
+            $isSuperAdmin = in_array('superadmin_jtisurat', $userRoles); 
 
-                $view->with('letterCounts', $counts);
-            }
-        });
-    }
+            // 3. Tarik array ID prodi dengan aman (Null Coalescing)
+            $studyProgramIds = collect($userData['employee_detail']['position_assignments'] ?? [])
+                ->pluck('study_program_id_parent')
+                ->filter()
+                ->unique()
+                ->toArray();
+
+            // 4. Hitung status surat
+            $counts = LetterController::getStatusCounts($studyProgramIds, $isSuperAdmin);
+
+            $view->with('letterCounts', $counts);
+        }
+    });
+}
 }

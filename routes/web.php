@@ -29,25 +29,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/track', [LetterController::class, 'track'])->name('track');
     Route::post('/form/store', [LetterController::class, 'store'])->name('form.store');
     Route::get('/print/{id}', [LetterController::class, 'print'])->name('print');
-
     
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
             return view('admin.index');
         })->name('admin');
     
-        Route::get('/pending', function () {
-            return (new LetterController())->index(1, 'dtPending');
-        })->name('pending');
-        Route::get('/approved', function () {
-            return (new LetterController())->index(2, 'dtApproved');
-        })->name('approved');
-        Route::get('/done', function () {
-            return (new LetterController())->index(3, 'dtDone');
-        })->name('done');
-        Route::get('/rejected', function () {
-            return (new LetterController())->index(4, 'dtRejected');
-        })->name('rejected');
+        Route::get('/admin/{status}', [LetterController::class, 'index'])->name('admin.status');
+
         Route::get('/detail/{id}', [LetterController::class, 'show'])->name('detail');
         Route::patch('/update/{id}', [LetterController::class, 'update'])->name('update');
     
