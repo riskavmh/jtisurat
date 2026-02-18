@@ -152,13 +152,13 @@
                                             @endif
                                             </td>
                                         </tr>
-                                        @if($t == $mk || $t == $ta)
+                                        @if($letter->type->abbr === 'TA' || $letter->type->abbr === 'MK')
                                         <tr>
                                             <td>Judul Penelitian</td>
                                             <td>{{ $letter->judul }}</td>
                                         </tr>
                                         @endif
-                                        @if($t == $mk)
+                                        @if($letter->type->abbr === 'MK')
                                         <tr>
                                             <td>Mata Kuliah</td>
                                             <td>{{ $letter->course }}</td>

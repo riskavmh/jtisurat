@@ -115,7 +115,7 @@ class LetterController extends Controller
     $letters = Letter::with(['leader.user', 'members.user'])
         ->where('status', $dbStatus);
     
-    if (!in_array('superadmin_jtisurat', auth()->user()->roles ?? [])) {
+    if (!in_array('superadmin_jtisurat', Auth::user()->roles ?? [])) {
         $letters->whereHas('leader.user', function ($query) use ($userStudyProgramIds) {
             $query->whereIn('id_study_program', (array)$userStudyProgramIds);
         });
@@ -224,7 +224,7 @@ class LetterController extends Controller
     {
         $data = $this->getBaseData(request());
 
-        $letter = Letter::with(['leader.user', 'members.user'])->findOrFail($id); 
+        $letter = Letter::with(['leader.user', 'members.user', 'type'])->findOrFail($id); 
         $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
         $totalMembers = $letter->members->count();
 

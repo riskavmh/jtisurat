@@ -41,4 +41,9 @@ class Letter extends Model
     {
         return $this->hasOne(LetterMember::class, 'letter_id')->where('position', 'Ketua');
     }
+
+    public function type()
+    {
+        return $this->belongsTo(LetterType::class, 'type_id');
+    }
 }

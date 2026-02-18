@@ -63,7 +63,7 @@
             <td>{{ $letter->company }}</td>
         </tr>
         <tr>
-            <td>{{ $letter->address }}, {{ $letter->subdistrict }}, {{ $letter->regency }}</td>
+            <td>{{ $letter->address }}, {!! str_replace(' ', '&nbsp;', $letter->subdistrict) !!}s <span style="white-space: nowrap;">{{ $letter->regency }}</span></td>
         </tr>
         <tr>
             <td>{{ $letter->province }}</td>
