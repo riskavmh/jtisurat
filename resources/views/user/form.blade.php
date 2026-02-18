@@ -82,18 +82,20 @@
 
     .nim-input {
       width: 100%;
-      /* Beri padding kanan agar teks yang diketik tidak menabrak tulisan 'Tekan Tab' */
       padding-right: 100px !important; 
     }
 
-    .tab-hint {
-      position: absolute;
-      right: 15px;
-      color: #a0aec0; /* Warna abu-abu seperti placeholder */
-      font-size: 0.9rem;
-      pointer-events: none; /* Agar user tetap bisa klik input meski terkena teks ini */
-      user-select: none;    /* Agar teks tidak bisa di-highlight */
-    }
+  </style>
+
+  <style>
+      /* Tambahkan CSS ini agar font di dalam Toast juga ikut kecil */
+      .small-font {
+          font-size: 12px !important;
+          font-weight: 500;
+      }
+      .swal2-html-container {
+          margin: 0.5em 1em !important;
+      }
   </style>
 </head>
 
@@ -161,6 +163,7 @@
                     <select class="form-select select2bs4" id="type" name="type" onchange="showInput()" required>
                       <option value="">-</option>
                       @foreach ($type as $t)
+                      @continue($t->status != 'active')
                       <option value="{{ $t->abbr }}">{{ $t->expan }}</option>
                       @endforeach
                     </select>
@@ -348,10 +351,7 @@
 
   <script>
     $(function () {
-      //Initialize Select2 Elements
       $('.select2').select2()
-      
-      //Initialize Select2 Elements
       $('.select2bs4').select2({
         theme: 'bootstrap4'
       })
@@ -407,7 +407,6 @@
 
   <script>
     $(document).ready(function() {
-    // Memastikan kontainer pembungkus tersedia
     const $container = $('#member-container');
 
     function checkMemberCount() {
@@ -425,7 +424,12 @@
                 <div class="row gy-4 mb-3 d-flex align-items-center">
                     <label class="col-2 col-form-label text-danger fw-bold">NIM Anggota</label>
                     <div class="col-10">
-                        <input type="text" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM" autocomplete="off">
+                      <div class="position-relative d-flex align-items-center">
+                        <input type="text" id="input-nim" name="members[]" class="form-control input-nim" placeholder="Masukkan NIM" autocomplete="off">
+                        <span id="label-tab" class="badge position-absolute end-0 me-2 py-2 px-3" style="z-index: 5; border-radius: 5px; pointer-events: none; background-color: color-mix(in srgb, gray, var(--contrast-color) 60%);">
+                            Tab
+                        </span>
+                      </div>
                     </div>
                 </div>
                 <div class="row gy-4 mb-3 d-flex align-items-center">
@@ -462,10 +466,9 @@
 
         if (nim.length >= 8) {
             $.ajax({
-                url: '/get-student/' + nim, // Sesuai dengan route yang Anda buat
+                url: '/get-student/' + nim,
                 method: 'GET',
                 dataType: 'json',
-                // add csrf token
                 headers: {
                   'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
@@ -485,6 +488,43 @@
     });
 });
   </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(function() {
+    // Ambil pesan dari session Laravel ke variabel JS
+    var successMsg = {!! json_encode(session('success')) !!};
+    var errorMsg = {!! json_encode(session('error')) !!};
+
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-center',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        width: '320px',
+    });
+
+    // Cek jika variabel berisi pesan, baru jalankan Toast
+    if (successMsg) {
+        Toast.fire({
+            icon: 'success',
+            title: '<span class="small-font">' + successMsg + '</span>'
+        });
+    }
+
+    if (errorMsg) {
+        Toast.fire({
+            icon: 'error',
+            title: '<span class="small-font">' + errorMsg + '</span>'
+        });
+    }
+});
+</script>
+
+
+
 </body>
 
 </html>

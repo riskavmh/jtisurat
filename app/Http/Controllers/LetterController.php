@@ -95,38 +95,38 @@ class LetterController extends Controller
 }
 
     public function index(string $status)
-{
-    $data = $this->getBaseData(request());
-    
-    $statusMap = [
-        'pending'  => 'diproses',
-        'approved' => 'dicetak',
-        'done'     => 'selesai',
-        'rejected' => 'ditolak'
-    ];
+    {
+        $data = $this->getBaseData(request());
+        
+        $statusMap = [
+            'pending'  => 'diproses',
+            'approved' => 'dicetak',
+            'done'     => 'selesai',
+            'rejected' => 'ditolak'
+        ];
 
-    if (!array_key_exists($status, $statusMap)) { abort(404); }
-    
-    $dbStatus = $statusMap[$status];
+        if (!array_key_exists($status, $statusMap)) { abort(404); }
+        
+        $dbStatus = $statusMap[$status];
 
-    $userStudyProgramIds = collect($data['get_me']['data']['employee_detail']['position_assignments'] ?? [])
-        ->pluck('study_program_id_parent')->filter()->unique()->toArray();
+        $userStudyProgramIds = collect($data['get_me']['data']['employee_detail']['position_assignments'] ?? [])
+            ->pluck('study_program_id_parent')->filter()->unique()->toArray();
 
-    $letters = Letter::with(['leader.user', 'members.user'])
-        ->where('status', $dbStatus);
-    
-    if (!in_array('superadmin_jtisurat', auth()->user()->roles ?? [])) {
-        $letters->whereHas('leader.user', function ($query) use ($userStudyProgramIds) {
-            $query->whereIn('id_study_program', (array)$userStudyProgramIds);
-        });
+        $letters = Letter::with(['leader.user', 'members.user'])
+            ->where('status', $dbStatus);
+        
+        if (!in_array('superadmin_jtisurat', auth()->user()->roles ?? [])) {
+            $letters->whereHas('leader.user', function ($query) use ($userStudyProgramIds) {
+                $query->whereIn('id_study_program', (array)$userStudyProgramIds);
+            });
+        }
+
+        $letters = $letters->orderBy('created_at', 'DESC')->get();
+
+        $statusLabel = ucfirst($dbStatus); 
+
+        return view('admin.process.index', compact('letters', 'data', 'statusLabel', 'status'));
     }
-
-    $letters = $letters->orderBy('created_at', 'DESC')->get();
-
-    $statusLabel = ucfirst($dbStatus); 
-
-    return view('admin.process.index', compact('letters', 'data', 'statusLabel', 'status'));
-}
 
     public function track(Request $request)
     {
@@ -183,16 +183,28 @@ class LetterController extends Controller
             $studentData = StudentHelper::getStudents($data['token'], $ids);
             if ($studentData && isset($studentData['id'])) {
                 $localUser = User::where('external_id', $studentData['id'])->first();
+                if (!$localUser) {
+                    $localUser = User::create([
+                        'external_id' => $studentData['id'],
+                        'name' => $studentData['name'],
+                        'phone_number' => $studentData['phonenumber'] ?? null,
+                        'study_program_name' => $studentData['studyprogram'] ?? null,
+                        'roles' => ['student'],
+                    ]);
+                }
+    
                 if ($localUser && $localUser->id !== Auth::user()->id) {
                     $members[$localUser->id] = 'Anggota';
                 }
             }
         }
 
+        // die();
+
         $letter = Letter::create([
             'ref_no'    => null,
             'type_id'   => $data['type']->firstWhere('abbr', $request->type)?->id,
-            'lecturer_id'  => $request->lecturer,
+            'lecturer_id'  => $request->lecturer ?? null,
             'research_title'=> $request->research_title ?? null,
             'to'        => $request->to ?? null,
             'course'    => Str::title($request->course) ?? null,
@@ -292,7 +304,7 @@ class LetterController extends Controller
             }
         }
         
-        return redirect()->back();
+        return redirect()->back()->with(['success' => 'Surat Berhasil Di-update!']);
     }
 
     public function print(string $id)

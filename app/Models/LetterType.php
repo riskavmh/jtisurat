@@ -11,6 +11,6 @@ class LetterType extends Model
     use HasFactory, HasUuids;
     protected $table = 'letter_type';
     protected $fillable = [
-        'abbr', 'expan',
+        'abbr', 'expan', 'status',
     ];
 }

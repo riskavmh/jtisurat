@@ -22,7 +22,7 @@ $(function () {
     $("#letterType").DataTable({
         "responsive": true,
         "autoWidth": false,
-        "dom": "<'row'<'col-sm-12 col-md-2'<'#btn-place'>><'col-sm-12 col-md-10'f>>" +
+        "dom": "<'row'<'col-sm-12 col-md-1'<'#btn-place'>><'col-sm-12 col-md-11'f>>" +
                "<'row'<'col-sm-12'tr>>" +
                "<'row'<'col-sm-12 col-md-4'l>" + 
                "<'col-sm-12 col-md-8 d-flex align-items-center justify-content-end gap-4'i p>>",
@@ -47,7 +47,7 @@ $(function () {
 @endsection
 
 @section('content')
-<div class="nxl-content nxl-content d-flex flex-column min-vh-100">
+<div class="nxl-content d-flex flex-column min-vh-100">
     <div class="main-content">
         <div class="row">
             <div class="col-lg-12">
@@ -60,6 +60,7 @@ $(function () {
                                         <th>No</th>
                                         <th>Jenis Surat</th>
                                         <th>Keterangan</th>
+                                        <th>Status</th>
                                         <th class="text-end">Aksi</th>
                                     </tr>
                                 </thead>
@@ -70,6 +71,7 @@ $(function () {
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $t->abbr }}</td>
                                         <td>{{ $t->expan }}</td>
+                                        <td><span class="badge {{ $t->status == 'active' ? 'bg-soft-success text-success' : 'bg-gray-200 text-secondary' }}">{{ $t->status }}<span class="badge bg-soft-success text-success"></td>
                                         <td>
                                             <div class="hstack gap-2 justify-content-end">
                                                 <a href="{{ route('type.edit', $t->id) }}" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-placement="top" title="edit">

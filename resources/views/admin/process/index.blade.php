@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-<div class="nxl-content nxl-content d-flex flex-column min-vh-100">
+<div class="nxl-content d-flex flex-column min-vh-100">
     <div class="main-content">
         <div class="row">
             <div class="col-lg-12">
