@@ -1,6 +1,16 @@
 @extends('admin.layouts.layout')
 @section('title', 'Detail Surat')
 
+@section('css')
+<style>
+    .alert-button {
+    font-size: 14px !important; /* Ukuran font lebih kecil */
+    padding: 7px 15px !important;
+    font-weight: bold;
+}
+</style>
+@endsection
+
 @section('script')
 <script>
   $(document).ready(function() {
@@ -29,9 +39,94 @@
 
       $dosenElement.html(lecturerText);
       $startDateElement.html(startDateText);
-      
-      
   }); 
+</script>
+
+<script>
+    $(function() {
+        $('.form-konfirmasi').on('submit', function(e) {
+            e.preventDefault();
+            
+            var form = this;
+            var action = $(document.activeElement).val();
+            var necessity = $(this).data('necessity'); 
+            var refNo = $(form).find('.input-ref-no').val();
+            var fileScan = $(form).find('.input-file-scan').val();
+            var config = {};
+
+            if (action === 'done') {
+                if (!fileScan) {
+                    showError('File scan surat wajib diunggah sebelum menyelesaikan!');
+                    return;
+                }
+                if (necessity === 'eksternal' && !refNo) {
+                    showError('Nomor surat eksternal wajib diisi!');
+                    return;
+                }
+                config = {
+                    text: "Selesaikan surat ini?",
+                    icon: 'question',
+                    confirmButtonColor: '#28a745',
+                    confirmButtonText: 'Ya, Selesai!'
+                };
+            } 
+            
+            else if (action === 'confirm') {
+                if (necessity === 'internal' && !refNo) {
+                    showError('Nomor surat internal wajib diisi!');
+                    return;
+                }
+                config = {
+                    text: "Konfirmasi surat ini?",
+                    icon: 'warning',
+                    confirmButtonColor: '#28a745',
+                    confirmButtonText: 'Ya, Konfirmasi!'
+                };
+            }
+
+            else if (action === 'reject') {
+                var excuses = $(form).find('.input-excuses').val();
+                if (!excuses) {
+                    showError('Alasan ditolak wajib diisi!');
+                    return;
+                }
+                config = {
+                    text: "Tolak surat ini?",
+                    icon: 'error',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Tolak!'
+                };
+            }
+
+            Swal.fire({
+                ...config,
+                width: '350px',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                customClass: {
+                    htmlContainer:'fs-16', 
+                    confirmButton: 'mx-1 alert-button',
+                    cancelButton: 'mx-1 alert-button'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('<input>').attr({ type: 'hidden', name: 'action', value: action }).appendTo(form);
+                    form.submit();
+                }
+            });
+
+            function showError(message) {
+                Swal.fire({
+                    icon: 'error',
+                    text: message,
+                    width: '350px',
+                    confirmButtonText: 'Oke',
+                    confirmButtonColor: '#d33',
+                    customClass: { htmlContainer:'fs-16', confirmButton: 'alert-button' }
+                });
+            }
+        });
+    });
 </script>
 @endsection
 
@@ -62,7 +157,7 @@
                         @endif
                     </div>
                     <div class="card-body p-0">
-                        <form action="{{ route('update', $letter->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('update', $letter->id) }}" method="POST" class="form-konfirmasi" enctype="multipart/form-data" data-necessity="{{ $letter->necessity }}">
                         @csrf
                         @method('PATCH')
                             <div class="table-responsive">
@@ -219,7 +314,7 @@
                                                         <a href="{{ route('print',$letter->id) }}" class="btn btn-info" style="padding-left: 2rem; padding-right: 2rem;" target="blank">Print</a>
                                                         @endif
                                                         @if($s == "diproses")
-                                                        <button type="submit" name="action" value="confirm" class="btn btn-success">Konfirmasi</button>
+                                                        <button type="submit" name="action" value="confirm" class="btn btn-success btn-approve">Konfirmasi</button>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -232,8 +327,8 @@
                             <hr class="border-dashed mt-0">
                             <div class="px-4 pt-4 d-sm-flex align-items-center justify-content-between">
                                 <div class="input-group mb-4">
-                                    <input type="text" name="excuses" class="form-control" placeholder="Alasan ditolak" maxlength="250" data-bs-toggle="tooltip" data-bs-placement="top" title="Tuliskan alasan ditolak dengan detail" autocomplete="off">
-                                    <button type="submit" name="action" value="reject" class="input-group-text bg-danger text-light" onclick="return confirm('Apakah Anda yakin ingin MENOLAK surat ini?');">Tolak</button>
+                                    <input type="text" name="excuses" class="form-control input-excuses" placeholder="Alasan ditolak" maxlength="250" data-bs-toggle="tooltip" data-bs-placement="top" title="Tuliskan alasan ditolak dengan detail" autocomplete="off">
+                                    <button type="submit" name="action" value="reject" class="input-group-text bg-danger text-light btn-reject" >Tolak</button>
                                 </div>
                             </div>
                             @endif
@@ -252,7 +347,7 @@
                                 <div class="row input-group mb-4">
                                     <div class="col-md-11 mr-0">
                                         <label for="choose-file" class="custom-file-upload" id="choose-file-label" title="Upload Scan Surat">Upload Scan Surat</label>
-                                        <input name="scanPath" type="file" id="choose-file" style="display: none">
+                                        <input name="scanPath" class="input-file-scan" type="file" id="choose-file" style="display: none">
                                     </div>
                                     <button type="submit" name="action" value="done" class="col-1 ml-0 text-center input-group-text bg-success text-light">Selesai</button>
                                 </div>
