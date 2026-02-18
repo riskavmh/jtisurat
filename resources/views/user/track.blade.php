@@ -475,7 +475,7 @@
                         </tr>
                         <tr>
                           <td style="color:red;">Alasan Ditolak</td>
-                          <td style="color:red;">{{ $l->alasan }}</td>
+                          <td style="color:red;">{{ $l->excuses }}</td>
                         </tr>
                       </table>
                       <div class="row d-flex align-items-center me-auto me-xl-0 mt-2">

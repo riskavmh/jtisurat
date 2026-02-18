@@ -50,7 +50,7 @@
             <td height="10"></td>
         </tr>
     </table>
-    <table width="57%">  
+    <table width="60%">  
         <tr>
             <td>Yth.</td>
         </tr>

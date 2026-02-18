@@ -60,7 +60,7 @@
                     return;
                 }
                 if (necessity === 'eksternal' && !refNo) {
-                    showError('Nomor surat eksternal wajib diisi!');
+                    showError('Nomor surat wajib diisi!');
                     return;
                 }
                 config = {
@@ -73,7 +73,7 @@
             
             else if (action === 'confirm') {
                 if (necessity === 'internal' && !refNo) {
-                    showError('Nomor surat internal wajib diisi!');
+                    showError('Nomor surat wajib diisi!');
                     return;
                 }
                 config = {
@@ -176,9 +176,6 @@
                                     <tbody>
                                         @php
                                             $no = 1;
-                                            $mk = '53a29d29-6ed5-4c96-9266-3703b0c8d3c9';
-                                            $ta = '2b1f4b1c-a840-4c72-bf75-e88336edcd13';
-                                            $pk = '109cd964-a1e5-47cd-821d-5edf3023f534';
                                             $t  = $letter->type_id; $s = $letter->status;
                                         @endphp
                                         @foreach($letter->members as $member) 
@@ -221,7 +218,7 @@
                                             @if(($s == 'diproses') && ($letter->necessity == 'internal'))
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <input type="text" name="ref_no" class="form-control pb-1 pt-1" placeholder="Nomor Surat" autocomplete="off">
+                                                    <input type="text" name="ref_no" class="form-control pb-1 pt-1 input-ref-no" placeholder="Nomor Surat" autocomplete="off">
                                                 </div>
                                                 <div class="col-9 pb-1 pt-1">
                                                     <label> / PL17.3.5 / PP / {{ date('Y') }}</label>
@@ -236,7 +233,7 @@
                                             @elseif(($s == 'dicetak') && ($letter->necessity == 'eksternal'))
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <input type="text" name="ref_no" class="form-control pb-1 pt-1" placeholder="Nomor Surat" autocomplete="off">
+                                                    <input type="text" name="ref_no" class="form-control pb-1 pt-1 input-ref-no" placeholder="Nomor Surat" autocomplete="off">
                                                 </div>
                                                 <div class="col-9 pb-1 pt-1">
                                                     <label> / PL17 / PP / {{ date('Y') }}</label>
@@ -250,7 +247,7 @@
                                         @if($letter->type->abbr === 'TA' || $letter->type->abbr === 'MK')
                                         <tr>
                                             <td>Judul Penelitian</td>
-                                            <td>{{ $letter->judul }}</td>
+                                            <td>{{ $letter->research_title }}</td>
                                         </tr>
                                         @endif
                                         @if($letter->type->abbr === 'MK')
@@ -279,7 +276,7 @@
                                             <td class="start_date">Tanggal Mulai</td>
                                             <td>{{ \Carbon\Carbon::parse($letter->start_date)->locale('id')->translatedFormat('d F Y') }}</td>
                                         </tr>
-                                        @if($t == $pk)
+                                        @if($letter->type->abbr === 'PK')
                                         <tr>
                                             <td>Tanggal Selesai</td>
                                             <td>{{ \Carbon\Carbon::parse($letter->end_date)->locale('id')->translatedFormat('d F Y') }}</td>
@@ -339,7 +336,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     <p class="mb-0">
                                         <strong>NOTES:</strong> Format file yang diperboleh adalah <img src="{{ asset('assets/dashboard/images/file-icons/pdf.png') }}" class="img-fluid me-0" style="width: 30px;"> <strong>.pdf</strong><br>
-                                        Upload scan surat yang telah dibubuhi nomor surat dan/atau ditandangani oleh pihak yang berwajib.
+                                        Upload scan surat yang telah dibubuhi nomor surat dan ditandangani oleh pihak yang berwajib.
                                     </p>
                                 </div>
                             </div>

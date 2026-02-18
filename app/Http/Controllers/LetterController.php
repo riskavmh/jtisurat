@@ -42,8 +42,8 @@ class LetterController extends Controller
             'token'     => $token,
             'authID'    => $authID,
             'users'     => User::get()->toArray(),
-            'type'      => LetterType::get(),
-            'letters'   => $letters,
+            'type'      => LetterType::get()->sortByDesc('created_at'),
+            'letters'   => $letters->sortByDesc('created_at'),
             'lecturers' => $lecturers,
             'get_me'    => AuthHelper::getMe($token) ?? [],
         ];
