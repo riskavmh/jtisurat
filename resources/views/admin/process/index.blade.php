@@ -48,11 +48,11 @@
                                         <td>{{ $l->created_at->locale('id')->translatedFormat('d F Y, H:i') }}</td>
                                         <td>
                                             <div class="hstack gap-2 justify-content-end">
-                                                <a href="{{ route('detail', $l->id) }}" class="avatar-text avatar-md" title="detail">
+                                                <a href="{{ route('detail', $l->id) }}" class="avatar-text avatar-md" title="detail" data-bs-toggle="tooltip" data-bs-placement="top" >
                                                     <i class="feather feather-info"></i>
                                                 </a>
                                                 @if($status == 'approved')
-                                                <a href="{{ route('print', $l->id) }}" class="avatar-text avatar-md" title="print" target="_blank">
+                                                <a href="{{ route('print', $l->id) }}" class="avatar-text avatar-md" title="print" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" >
                                                     <i class="feather feather-printer"></i>
                                                 </a>
                                                 @endif

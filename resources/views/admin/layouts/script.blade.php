@@ -189,16 +189,18 @@ $(function() {
         toast: true,
         position: 'top',
         showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
+        timer: 2000,
         width: '320px',
         color: '#ffffff',
+        customClass: {
+            popup: 'my-compact-toast' 
+        },
     });
 
     if (successMsg) {
         Toast.fire({
             iconColor: '#fff',
-            background: '#28a745',
+            background: '#37ad52',
             icon: 'success',
             title: '<span class="swal-font">' + successMsg + '</span>'
         });
@@ -213,5 +215,7 @@ $(function() {
         });
     }
 });
+
 </script>
+
 

@@ -489,42 +489,6 @@
 });
   </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-$(function() {
-    // Ambil pesan dari session Laravel ke variabel JS
-    var successMsg = {!! json_encode(session('success')) !!};
-    var errorMsg = {!! json_encode(session('error')) !!};
-
-    var Toast = Swal.mixin({
-        toast: true,
-        position: 'top-center',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        width: '320px',
-    });
-
-    // Cek jika variabel berisi pesan, baru jalankan Toast
-    if (successMsg) {
-        Toast.fire({
-            icon: 'success',
-            title: '<span class="small-font">' + successMsg + '</span>'
-        });
-    }
-
-    if (errorMsg) {
-        Toast.fire({
-            icon: 'error',
-            title: '<span class="small-font">' + errorMsg + '</span>'
-        });
-    }
-});
-</script>
-
-
-
 </body>
 
 </html>

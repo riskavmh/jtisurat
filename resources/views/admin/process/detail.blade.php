@@ -67,7 +67,8 @@
                     text: "Selesaikan surat ini?",
                     icon: 'question',
                     confirmButtonColor: '#28a745',
-                    confirmButtonText: 'Ya, Selesai!'
+                    confirmButtonText: 'Ya, Selesai!',
+                    reverseButtons: true
                 };
             } 
             
@@ -80,7 +81,8 @@
                     text: "Konfirmasi surat ini?",
                     icon: 'warning',
                     confirmButtonColor: '#28a745',
-                    confirmButtonText: 'Ya, Konfirmasi!'
+                    confirmButtonText: 'Ya, Konfirmasi!',
+                    reverseButtons: true
                 };
             }
 
