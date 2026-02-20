@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 @section('title', 'Data Jenis Surat')
 
-@section('css')
+@push('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/dataTables.bs5.min.css') }}">
 
 <style>
@@ -11,9 +11,9 @@
     align-items: center;
 }
 </style>
-@endsection
+@endpush
 
-@section('script')
+@push('scripts')
 <script src="{{ asset('assets/dashboard/vendors/js/dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/dashboard/vendors/js/dataTables.bs5.min.js') }}"></script>
 
@@ -44,7 +44,7 @@ $(function () {
         form.attr('action', action);
     });
 </script>
-@endsection
+@endpush
 
 @section('content')
 <div class="nxl-content d-flex flex-column min-vh-100">

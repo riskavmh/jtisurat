@@ -84,18 +84,6 @@
       width: 100%;
       padding-right: 100px !important; 
     }
-
-  </style>
-
-  <style>
-      /* Tambahkan CSS ini agar font di dalam Toast juga ikut kecil */
-      .small-font {
-          font-size: 12px !important;
-          font-weight: 500;
-      }
-      .swal2-html-container {
-          margin: 0.5em 1em !important;
-      }
   </style>
 </head>
 

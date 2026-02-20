@@ -10,9 +10,7 @@ use App\Helpers\AuthHelper;
 use App\Helpers\LecturerHelper;
 use App\Helpers\StudentHelper;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -68,35 +66,37 @@ class LetterController extends Controller
     }
 
     public static function getStatusCounts($studyProgramId = null, $isSuperAdmin = false)
-{
-    $query = Letter::query();
+    {
+        $query = Letter::query();
 
-    if (!$isSuperAdmin) {
-        $query->join('letter_members', 'letters.id', '=', 'letter_members.letter_id')
-              ->where('letter_members.position', 'Ketua')
-              ->join('users', 'letter_members.user_id', '=', 'users.id');
+        if (!$isSuperAdmin) {
+            $query->join('letter_members', 'letters.id', '=', 'letter_members.letter_id')
+                ->where('letter_members.position', 'Ketua')
+                ->join('users', 'letter_members.user_id', '=', 'users.id');
 
-        if ($studyProgramId) {
-            $query->whereIn('users.id_study_program', (array)$studyProgramId); 
+            if ($studyProgramId) {
+                $query->whereIn('users.id_study_program', (array)$studyProgramId); 
+            }
         }
+
+        $counts = $query->select('letters.status', DB::raw('count(distinct letters.id) as total'))
+                        ->groupBy('letters.status')
+                        ->pluck('total', 'status')
+                        ->toArray();
+
+        return [
+            'dtPending'  => $counts['diproses'] ?? 0,
+            'dtApproved' => $counts['dicetak'] ?? 0,
+            'dtDone'     => $counts['selesai'] ?? 0,
+            'dtRejected' => $counts['ditolak'] ?? 0,
+        ];
     }
-
-    $counts = $query->select('letters.status', DB::raw('count(distinct letters.id) as total'))
-                    ->groupBy('letters.status')
-                    ->pluck('total', 'status')
-                    ->toArray();
-
-    return [
-        'dtPending'  => $counts['diproses'] ?? 0,
-        'dtApproved' => $counts['dicetak'] ?? 0,
-        'dtDone'     => $counts['selesai'] ?? 0,
-        'dtRejected' => $counts['ditolak'] ?? 0,
-    ];
-}
 
     public function index(string $status)
     {
-        $data = $this->getBaseData(request());
+        /** @var \Illuminate\Http\Request $req */
+        $req = request();
+        $data = $this->getBaseData($req);
         
         $statusMap = [
             'pending'  => 'diproses',
@@ -234,7 +234,9 @@ class LetterController extends Controller
      */
     public function show(string $id)
     {
-        $data = $this->getBaseData(request());
+        /** @var \Illuminate\Http\Request $req */
+        $req = request();
+        $data = $this->getBaseData($req);
 
         $letter = Letter::with(['leader.user', 'members.user', 'type'])->findOrFail($id); 
         $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
@@ -309,10 +311,11 @@ class LetterController extends Controller
 
     public function print(string $id)
     {
-        $data = $this->getBaseData(request());
+        /** @var \Illuminate\Http\Request $req */
+        $req = request();
+        $data = $this->getBaseData($req);
         $letter = Letter::with('members.user')->findOrFail($id);
         $lecturer = $data['lecturers']->firstWhere('value', $letter->lecturer_id);
-        // dd(LecturerHelper::getDetail(request()->user()->token, 'DOSEN', '019a4723-1d2f-733b-b9ff-25c2e27440c2'));
         $type = $data['type']->firstWhere('id', $letter->type_id)?->abbr;
 
         return view('template.'. $type, compact(['letter','lecturer']));

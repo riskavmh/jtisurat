@@ -1,11 +1,11 @@
 @extends('admin.layouts.layout')
 @section('title', 'Data Surat ' . $statusLabel)
 
-@section('css')
+@push('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/vendors/css/dataTables.bs5.min.css') }}">
-@endsection
+@endpush
 
-@section('script')
+@push('scripts')
 <script src="{{ asset('assets/dashboard/vendors/js/dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/dashboard/vendors/js/dataTables.bs5.min.js') }}"></script>
 
@@ -17,7 +17,7 @@
     });
   });
 </script>
-@endsection
+@endpush
 
 @section('content')
 <div class="nxl-content d-flex flex-column min-vh-100">
@@ -49,7 +49,7 @@
                                         <td>
                                             <div class="hstack gap-2 justify-content-end">
                                                 <a href="{{ route('detail', $l->id) }}" class="avatar-text avatar-md" title="detail" data-bs-toggle="tooltip" data-bs-placement="top" >
-                                                    <i class="feather feather-info"></i>
+                                                    <i class="feather feather-file-text"></i>
                                                 </a>
                                                 @if($status == 'approved')
                                                 <a href="{{ route('print', $l->id) }}" class="avatar-text avatar-md" title="print" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" >

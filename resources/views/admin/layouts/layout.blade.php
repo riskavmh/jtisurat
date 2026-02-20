@@ -10,8 +10,8 @@
     <meta name="author" content="theme_ocean">
 
     <title>JTI Surat - @yield('title')</title>
-    @include('admin.layouts.css')
-    @yield('css')
+    @include('admin.layouts.styles')
+    @stack('styles')
 </head>
 
 <body>
@@ -36,8 +36,8 @@
         </footer>
     </main>
 
-    @include('admin.layouts.script')
-    @yield('script')
+    @include('admin.layouts.scripts')
+    @stack('scripts')
 </body>
 
 </html>

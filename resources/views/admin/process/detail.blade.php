@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 @section('title', 'Detail Surat')
 
-@section('css')
+@push('styles')
 <style>
     .alert-button {
     font-size: 14px !important; /* Ukuran font lebih kecil */
@@ -9,9 +9,9 @@
     font-weight: bold;
 }
 </style>
-@endsection
+@endpush
 
-@section('script')
+@push('scripts')
 <script>
   $(document).ready(function() {
 
@@ -130,7 +130,7 @@
         });
     });
 </script>
-@endsection
+@endpush
 
 @section('content')
 <div class="nxl-content">
