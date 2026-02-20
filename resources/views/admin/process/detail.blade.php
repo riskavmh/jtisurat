@@ -2,6 +2,7 @@
 @section('title', 'Detail Surat')
 
 @push('styles')
+
 <style>
     .alert-button {
     font-size: 14px !important; /* Ukuran font lebih kecil */
@@ -12,6 +13,20 @@
 @endpush
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $("#choose-file").change(function() {
+            var input = $(this)[0];
+            if (input.files && input.files[0]) {
+                var fileName = input.files[0].name;
+                $("#choose-file-label").text(fileName);
+            } else {
+                $("#choose-file-label").text("Upload Scan Surat");
+            }
+        });
+    });
+</script>
+
 <script>
   $(document).ready(function() {
 
@@ -343,12 +358,14 @@
                                 </div>
                             </div>
                             <div class="px-4 pt-4 align-items-center justify-content-between">
-                                <div class="row input-group mb-4">
-                                    <div class="col-md-11 mr-0">
-                                        <label for="choose-file" class="custom-file-upload" id="choose-file-label" title="Upload Scan Surat">Upload Scan Surat</label>
-                                        <input name="scanPath" class="input-file-scan" type="file" id="choose-file" style="display: none">
-                                    </div>
-                                    <button type="submit" name="action" value="done" class="col-1 ml-0 text-center input-group-text bg-success text-light">Selesai</button>
+                                <div class="input-group mb-4">
+                                    <label for="choose-file" class="form-control d-flex align-items-center m-0 px-3" id="choose-file-label" style="background-color: #f8f9fa; border: 2px dashed #e4e6ef; cursor: pointer; color: #7e8299; box-shadow: none; min-height: 70px;">
+                                        Upload Scan Surat
+                                    </label>
+                                    <input name="scanPath" class="input-file-scan" type="file" id="choose-file" accept="application/pdf" style="display: none">
+                                    <button type="submit" name="action" value="done" class="btn btn-success d-flex align-items-center justify-content-center px-4">
+                                        Selesai
+                                    </button>
                                 </div>
                             </div>
                             @endif
@@ -359,7 +376,7 @@
                                 <div class="mt-4">
                                     <h5>Dokumen Scan Surat:</h5>
                                     <div class="ratio ratio-16x9">
-                                        <iframe src="{{ $scanUrl }}" width="100%" height="600px" style="border: none;">
+                                        <iframe src="{{ $scanUrl }}#pagemode=none&view=FitW" width="100%" height="600px" style="border: none;">
                                             <p>Browser Anda tidak mendukung iframe. 
                                             <a href="{{ $scanUrl }}">Klik di sini untuk mengunduh PDF.</a>
                                             </p>

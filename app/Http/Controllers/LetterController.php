@@ -8,6 +8,7 @@ use App\Models\LetterType;
 use App\Models\LetterMember;
 use App\Helpers\AuthHelper;
 use App\Helpers\LecturerHelper;
+use App\Helpers\PositionHelper;
 use App\Helpers\StudentHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -94,6 +95,7 @@ class LetterController extends Controller
 
     public function index(string $status)
     {
+        // PositionHelper::getPositions(Auth::user()->token, '210411100001');
         /** @var \Illuminate\Http\Request $req */
         $req = request();
         $data = $this->getBaseData($req);
